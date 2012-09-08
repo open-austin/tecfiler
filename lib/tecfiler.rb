@@ -9,14 +9,14 @@ DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/tecfiler.db")
 
 DataMapper::Model.raise_on_save_failure = true
 
-DataMapper::Validations::FormatValidator::FORMATS.merge!(
-  :telno => [
-    /(^$)|(^(\d\d\d-)?\d\d\d-\d\d\d\d(x\d+)?$)/i,
-    lambda { |field, value|
-      '%s is not a valid phone number (e.g. 512-555-1234x200)'.t(value)
-    }
-  ]
-)
+DataMapper::Validations::FormatValidator::FORMATS.merge!({
+  :telno => [/(^$)|(^(\d\d\d-)?\d\d\d-\d\d\d\d(x\d+)?$)/,
+    lambda {|field, value| '%s is not a valid phone number (e.g. "512-555-1234x200")'.t(value)}],
+  :state_code =>[/(^$)|(^[A-Z][A-Z]$)/,
+    lambda {|field, value| '%s is not a valid two-letter state code'.t(value)}],
+  :zip_code => [/(^$)|(^\d\d\d\d\d(-\d\d\d\d)?$)/,
+    lambda {|field, value| '%s is not a valid zip code (e.g. "99999" or "99999-9999")'.t(value)}],
+})
 
 require "tecfiler/model/report_coh"
 require "tecfiler/model/coh_contribution"
