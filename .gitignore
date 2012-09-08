@@ -1,3 +1,8 @@
 .buildpath
 .project
 doc
+.idea
+coverage/
+
+# removed Gemfile.lock for early development, it will be added back in for production
+Gemfile.lock
