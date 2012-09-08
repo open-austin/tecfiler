@@ -17,9 +17,8 @@ DataMapper::Validations::FormatValidator::FORMATS.merge!(
   ]
 )
 
-
-
 require "tecfiler/model/report_coh"
+require "tecfiler/model/coh_contribution"
 
 DataMapper.finalize
 

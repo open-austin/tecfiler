@@ -28,6 +28,7 @@ class TestModelReportCOH < MiniTest::Unit::TestCase
     assert @a.valid?, "precondition failed: #{@a.errors.to_h}"
   end
   
+  # Validation should fail if these fields are nil or empty.
   REQUIRED_FIELDS = [
     :coh_name_first,
     :coh_name_last,
@@ -47,7 +48,8 @@ class TestModelReportCOH < MiniTest::Unit::TestCase
     :period_end,
   ] 
   
-  PHONE_FIELDS = [:coh_phone, :treasurer_phone]
+  # These fields should be validated as phone numbers.
+  TELNO_FIELDS = [:coh_phone, :treasurer_phone]
   
   
   def validate_required_field(obj, field, empty_value = "") 
@@ -60,13 +62,15 @@ class TestModelReportCOH < MiniTest::Unit::TestCase
     obj[field] = saved_value
     assert obj.valid?, "postcondition failed: #{obj.errors.to_h}"  
   end
-  
-  PHONE_VALUES_VALID = ["512-555-1212", "512-555-1212x3309", "555-1212"]
-  
-  PHONE_VALUES_INVALID = ["5551212", "512-555-1212x"]
-  
-  def validate_phone_field(obj, field) 
-    PHONE_VALUES_VALID.each do |value|
+
+  # These are valid telno values.
+  TELNO_VALUES_VALID = ["512-555-1212", "512-555-1212x3309", "555-1212"]
+
+  # These are invalid telno values.
+  TELNO_VALUES_INVALID = ["5551212", "512-555-1212x"]
+
+  def validate_telno_field(obj, field) 
+    TELNO_VALUES_VALID.each do |value|
       assert obj.valid?, "precondition failed: #{obj.errors.to_h}"  
       saved_value = obj[field]
       obj[field] = value
@@ -75,7 +79,7 @@ class TestModelReportCOH < MiniTest::Unit::TestCase
       assert obj.valid?, "postcondition failed: #{obj.errors.to_h}"  
     end
 
-    PHONE_VALUES_INVALID.each do |value|
+    TELNO_VALUES_INVALID.each do |value|
       assert obj.valid?, "precondition failed: #{obj.errors.to_h}"  
       saved_value = obj[field]
       obj[field] = value
@@ -90,8 +94,8 @@ class TestModelReportCOH < MiniTest::Unit::TestCase
   end
   
   
-  def test_phone_fields
-    PHONE_FIELDS.each {|field| validate_phone_field(@a, field)}
+  def test_telno_fields
+    TELNO_FIELDS.each {|field| validate_telno_field(@a, field)}
   end  
 
   

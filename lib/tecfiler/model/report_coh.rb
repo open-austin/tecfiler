@@ -10,7 +10,7 @@ module TECFiler
     # For more information see: http://www.ethics.state.tx.us/filinginfo/localcohfrm.htm
     #
     class ReportCOH_20110928
-
+      
       include DataMapper::Resource
 
       property :id, Serial
@@ -76,50 +76,34 @@ module TECFiler
       property :office_held, String
       property :office_sought, String
 
-      # XXX - need to add "C/OH page 2" fields
+      # TODO - need to add "C/OH page 2" fields
+
+      # Schedule A: Political Contributions other than Pledges or Loans
       
-      # Report CO/H schedules and schedule line items
+      has n, :contributions, "COH_Contribution_20110928"
+        
+      # Schedule B: Pledged Contributions (TODO)
       
-      has n, :contributions, "COH_SchedA_Contributions_20110928"
+      # Schedule E: Loans (TODO)
+      
+      # Schedule F: Political Expenditures (TODO)
+      
+      # Schedule G: Political Expenditures Made from Personal Funds (TODO)
+      
+      # Schedule H: Payment from Political Contributions to a Business of C/OH (TODO)
+      
+      # Schedule I: Non-Political Expenditures made from Political Contributions
+      
+      # Schedule K: Interest Earned, Other Credits/Gains/Refunds, and Purchase of Investments (TODO)
+      
+      # Schedule T: In-Kind Contribution or Political Expenditure for Travel Outside of Texas (TODO)
+      
 
     end # class ReportCOH_20110928
     
     # The current version of the ReportCOH model.
     ReportCOH = ReportCOH_20110928
 
-    
-    # TODO: comment
-    class COH_SchedA_Contributions_20110928
-
-      include DataMapper::Resource
-      
-      belongs_to :report_coh, "ReportCOH_20110928"
-      
-      property :id, Serial
-      property :version, String, :required => true, :default => "20110928"
-      
-      property :date, Date, :required => true
-      property :name, String, :required => true
-      property :is_out_of_state_pac, Boolean, :default => false
-      property :pac_id, String
-
-      # XXX - can/should this information be aggregated into an "Address" property type?
-      property :address, String, :required => true
-      property :city, String, :required => true
-      property :state, String, :required => true
-      property :zip, String, :required => true
-      
-      property :amount, Decimal, :required => true # XXX - check this property
-      property :in_kind_description, String
-      
-      property :occupation, String, :required => true
-      property :employer, String, :required => true
-      
-    end # class COH_SchedA_Contributions_20110928
-    
-    # The current version of the COH_SchedA_Contributions model.
-    COH_SchedA_Contributions = COH_SchedA_Contributions_20110928
-    
   end # module Model
 end # module TECFiler
 
