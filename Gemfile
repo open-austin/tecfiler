@@ -10,6 +10,7 @@ group :development do
   gem 'rdoc'
   gem 'redcarpet'
   gem 'pygments.rb'
+  gem 'pry'
 end
 
 group :test do
