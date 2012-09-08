@@ -3,7 +3,7 @@ module TECFiler
 
     # Represents a "Candidate/Office Holder Campaign Finance Report" (Form C/OH)
     #
-    # This model is versioned, and matched the 28-Sept-2011 form.
+    # This model is versioned, and matches the 28-Sept-2011 form.
     #
     # The source for this form is: http://www.ethics.state.tx.us/forms/coh.pdf
     #

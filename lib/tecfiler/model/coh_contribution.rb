@@ -4,7 +4,7 @@ module TECFiler
     # Represents a single entry from Form C/OH Schedule A
     # (Political Contributions Other than Pledges or Loans)
     #
-    # This model is versioned, and matched the 28-Sept-2011 form.
+    # This model is versioned, and matches the 28-Sept-2011 form.
     #
     class COH_Contribution_20110928
 
