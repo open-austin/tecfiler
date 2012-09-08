@@ -4,7 +4,8 @@ require "data_mapper"
 DataMapper::Logger.new($stderr, :debug)
 
 # An in-memory Sqlite3 connection:
-DataMapper.setup(:default, 'sqlite::memory:')
+#DataMapper.setup(:default, 'sqlite::memory:')
+DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/tecfiler.db")
 
 DataMapper::Model.raise_on_save_failure = true
 
@@ -21,5 +22,20 @@ require "tecfiler/model/report_coh"
 require "tecfiler/model/coh_contribution"
 
 DataMapper.finalize
+
+
+# DataMapper.auto_migrate!
+
+# This will issue the necessary CREATE statements (DROPing the table first, if it exists) to define each storage
+# according to their properties. After auto_migrate! has been run, the database should be in a pristine state.
+# All the tables will be empty and match the model definitions.
+
+# This wipes out existing data, so you could also do:
+
+DataMapper.auto_upgrade!
+
+# This tries to make the schema match the model. It will CREATE new tables, and add columns to existing tables.
+# It won't change any existing columns though (say, to add a NOT NULL constraint) and it doesn't drop any columns.
+# Both these commands also can be used on an individual model (e.g. Post.auto_migrate!)
 
 # vi:et:ai:ts=2:sw=2
