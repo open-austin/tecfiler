@@ -39,6 +39,8 @@ DataMapper.auto_upgrade!
 # Both these commands also can be used on an individual model (e.g. Post.auto_migrate!)
 
 require 'singleton'
+require 'csv'
+require 'pry'
 
 # require all the ruby files in the tecfiler subdirectory
 Dir["#{File.dirname(__FILE__)}/**/*.rb"].each {|fn| require_relative fn}
