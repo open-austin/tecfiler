@@ -77,10 +77,10 @@ module TECFiler
       property :office_sought, String
 
       # TODO - need to add "C/OH page 2" fields
+      
+      ### has n, :contributions, "Contribution_20110928"
 
       # Schedule A: Political Contributions other than Pledges or Loans
-      
-      has n, :contributions, "COH_Contribution_20110928"
         
       # Schedule B: Pledged Contributions (TODO)
       
