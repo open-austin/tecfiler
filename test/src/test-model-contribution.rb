@@ -1,10 +1,29 @@
-$:.insert(0, "#{File.dirname($0)}/../../lib")
+$:.insert(0, "#{File.dirname(__FILE__)}/../../lib")
 require "minitest/autorun"
 require "tecfiler"
 
 require "pp"
     
 class TestModelContribution < MiniTest::Unit::TestCase
+
+  PARAMS_COH = {
+    :coh_name_first => "Moe",
+    :coh_name_last => "Howard",
+    :coh_address_street => "100 Congress Ave",
+    :coh_address_city => "Austin",
+    :coh_address_state => "TX",
+    :coh_address_zip  => "78701",
+    :coh_phone  => "512-555-0000",
+    :treasurer_name_first => "Larry",
+    :treasurer_name_last => "Fine",
+    :treasurer_address_street => "100 E 1st St",
+    :treasurer_address_city => "Austin",
+    :treasurer_address_state => "TX",
+    :treasurer_address_zip  => "78701",
+    :treasurer_phone  => "512-867-5309",
+    :period_begin => "2012-01-01",
+    :period_end => "2012-03-31",
+  }
   
   PARAMS_CONTRIBUTION = {
     :rec_type => :RECEIPT,
@@ -22,8 +41,13 @@ class TestModelContribution < MiniTest::Unit::TestCase
     :occupation => "stooge",
   }
   
+  def setup
+    @coh = TECFiler::Model::COH.create(PARAMS_COH)
+  end
+  
   def test_new
     c = TECFiler::Model::Contribution.new(PARAMS_CONTRIBUTION)
+    c.coh = @coh
     assert c.valid?, "validation failed: #{c.errors.to_h}"      
   end
     
@@ -37,6 +61,7 @@ class TestModelContribution < MiniTest::Unit::TestCase
     csv.each do |row|
       c = TECFiler::Model::Contribution.from_import_row(row, :skip_empty => true)  
       next if c.nil?
+      c.coh = @coh
       assert c.valid?, "file=#{filename}, line=#{csv.lineno}, validation failed: #{c.errors.to_h}"      
       c.save if options[:save]
     end 

@@ -1,30 +1,33 @@
-$:.insert(0, "#{File.dirname($0)}/../lib")
+$:.insert(0, "#{File.dirname(__FILE__)}/../../lib")
 require "minitest/autorun"
 require "tecfiler"
 
 require "pp"
     
-class TestModelReportCOH < MiniTest::Unit::TestCase
+class TestModelCOH < MiniTest::Unit::TestCase
+
+  PARAMS_COH = {
+    :coh_name_first => "Moe",
+    :coh_name_last => "Howard",
+    :coh_address_street => "100 Congress Ave",
+    :coh_address_city => "Austin",
+    :coh_address_state => "TX",
+    :coh_address_zip  => "78701",
+    :coh_phone  => "512-555-0000",
+    :treasurer_name_first => "Larry",
+    :treasurer_name_last => "Fine",
+    :treasurer_address_street => "100 E 1st St",
+    :treasurer_address_city => "Austin",
+    :treasurer_address_state => "TX",
+    :treasurer_address_zip  => "78701",
+    :treasurer_phone  => "512-867-5309",
+    :period_begin => "2012-01-01",
+    :period_end => "2012-03-31",
+  }
+    
   
   def setup
-    @a = TECFiler::Model::ReportCOH.new(
-      :coh_name_first => "Moe",
-      :coh_name_last => "Howard",
-      :coh_address_street => "100 Congress Ave",
-      :coh_address_city => "Austin",
-      :coh_address_state => "TX",
-      :coh_address_zip  => "78701",
-      :coh_phone  => "512-555-0000",
-      :treasurer_name_first => "Larry",
-      :treasurer_name_last => "Fine",
-      :treasurer_address_street => "100 E 1st St",
-      :treasurer_address_city => "Austin",
-      :treasurer_address_state => "TX",
-      :treasurer_address_zip  => "78701",
-      :treasurer_phone  => "512-867-5309",
-      :period_begin => "2012-01-01",
-      :period_end => "2012-03-31"
-    )
+    @a = TECFiler::Model::COH.new(PARAMS_COH)
     assert @a.valid?, "precondition failed: #{@a.errors.to_h}"
   end
   

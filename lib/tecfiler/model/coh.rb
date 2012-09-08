@@ -9,7 +9,7 @@ module TECFiler
     #
     # For more information see: http://www.ethics.state.tx.us/filinginfo/localcohfrm.htm
     #
-    class ReportCOH_20110928
+    class COH_20110928
       
       include DataMapper::Resource
 
@@ -99,10 +99,10 @@ module TECFiler
       # Schedule T: In-Kind Contribution or Political Expenditure for Travel Outside of Texas (TODO)
       
 
-    end # class ReportCOH_20110928
+    end # class COH_20110928
     
-    # The current version of the ReportCOH model.
-    ReportCOH = ReportCOH_20110928
+    # The current version of the COH model.
+    COH = COH_20110928
 
   end # module Model
 end # module TECFiler

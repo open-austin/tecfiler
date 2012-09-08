@@ -20,7 +20,7 @@ module TECFiler
       include DataMapper::Resource
       
       # FIXME - this can belong to different report entitites, not just C/OH
-      #belongs_to :report_coh, "ReportCOH_20110928"
+      belongs_to :coh, "COH_20110928"
       
       property :id, Serial
       property :version, String, :required => true, :default => "20110928"

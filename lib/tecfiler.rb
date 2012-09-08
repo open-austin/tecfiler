@@ -18,7 +18,7 @@ DataMapper::Validations::FormatValidator::FORMATS.merge!({
     lambda {|field, value| '%s is not a valid zip code (e.g. "99999" or "99999-9999")'.t(value)}],
 })
 
-require "tecfiler/model/report_coh"
+require "tecfiler/model/coh"
 require "tecfiler/model/contribution"
 
 DataMapper.finalize
