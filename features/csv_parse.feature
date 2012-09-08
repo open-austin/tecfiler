@@ -37,11 +37,28 @@ Feature: Parse csv input file
     | foo.cvs        | filing is rejected because the filename's extension is not ".csv" |
     | foo            | filing is rejected because the filename's extension is not ".csv" |
 
-  Scenario: Double quotes may not be embedded in the data
+  Scenario Outline: double quote handling
+    Double quotes may not be embedded in the data
+    Commas may be embedded if surrounded by double quotes (",")
+    Double quotes may not surround the first two fields
+    Given a single line filing: <line>
+    And the number of required fields: <n_fields>
+    When passed to the line validator
+    Then the output should be: <result>
 
-  Scenario: Commas may be embedded if surrounded by double quotes (",")
-
-  Scenario: Double quotes may not surround the first two fields
+  Scenarios:
+    | line                                                                                                                            | n_fields | result |
+    | RCPT,A1,,IND,Doe,John,Mr.,Jr.,210 Main. St. Apt. 110,,Corpus Christi,TX,78401,,,20050625,50,,First Community Bank,Banker,,,,    | 24       | valid |
+    | RCPT,A1,,IND,Doe,John,Mr.,Jr.,210 Main. St. Apt. 110,,Corpus Christi,TX,78401,,,20050625,50,,"First Community Bank",Banker,,,,  | 24       | valid |
+    | RCPT,A1,,IND,Doe,J"oh"n,Mr.,Jr.,210 Main. St. Apt. 110,,Corpus Christi,TX,78401,,,20050625,50,,First Community Bank,Banker,,,,  | 24       | invalid |
+    | RCPT,A1,,IND,Doe,John,Mr.,Jr.,210 Main. St. Apt. 110,,Corpus Christi,TX,78401,,,20050625,50,,First "Community" Bank,Banker,,,,  | 24       | invalid |
+    | RCPT,A1,,IND,Doe,John,Mr.,Jr.,210 Main. St. Apt. 110,,Corpus Christi,TX,78401,,,20050625,50,,First "Community Bank,Banker,,,,   | 24       | invalid |
+    | RCPT,A1,,IND,Doe,John,Mr.,Jr.,210 Main. St. Apt. 110,,Corpus Christi,TX,78401,,,20050625,50,,"First, Community Bank",Banker,,,, | 24       | valid |
+    | "RCPT",A1,,IND,Doe,John,Mr.,Jr.,210 Main. St. Apt. 110,,Corpus Christi,TX,78401,,,20050625,50,,First Community Bank,Banker,,,,  | 24       | invalid |
+    | RCPT,"A1",,IND,Doe,John,Mr.,Jr.,210 Main. St. Apt. 110,,Corpus Christi,TX,78401,,,20050625,50,,First Community Bank,Banker,,,,  | 24       | invalid |
+    | RCPT,A1,,IND,Doe,John,Mr.,Jr.,"210 Main. St. Apt. 110",,Corpus Christi,TX,78401,,,20050625,50,,First Community Bank,Banker,,,,  | 24       | valid |
+    | RCPT,A1,,IND,Doe,John,Mr.,Jr.,210 Main. St. Apt. 110,,Corpus Christi,TX,78401,,,20050625,50,,First Community Bank,Banker,,,     | 24       | invalid |
+    | RCPT,A1,,IND,Doe,John,Mr.,Jr.,210 Main. St. Apt. 110,,Corpus Christi,TX,78401,,,20050625,50,,First Community Bank,Banker,,,,,   | 24       | invalid |
 
   Scenario: If the file has field names, they must be the first line and start with a '#' character
 
