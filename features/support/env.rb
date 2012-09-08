@@ -17,3 +17,4 @@ require "bundler/setup"
 require "rspec"
 require 'json'
 
+raise "can not require tecfiler" unless require_relative('../../lib/tecfiler')

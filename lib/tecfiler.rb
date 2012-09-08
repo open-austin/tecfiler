@@ -38,4 +38,9 @@ DataMapper.auto_upgrade!
 # It won't change any existing columns though (say, to add a NOT NULL constraint) and it doesn't drop any columns.
 # Both these commands also can be used on an individual model (e.g. Post.auto_migrate!)
 
+require 'singleton'
+
+# require all the ruby files in the tecfiler subdirectory
+Dir["#{File.dirname(__FILE__)}/**/*.rb"].each {|fn| require_relative fn}
+
 # vi:et:ai:ts=2:sw=2
