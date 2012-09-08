@@ -1,0 +1,5 @@
+You need to install the following on your development system:
+
+* pygment
+  linux: sudo apt-get install pygment
+  mac: sudo easy_install Pygments
