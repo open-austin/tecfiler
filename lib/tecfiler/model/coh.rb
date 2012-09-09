@@ -3,13 +3,11 @@ module TECFiler
 
     # Represents a "Candidate/Office Holder Campaign Finance Report" (Form C/OH)
     #
-    # This model is versioned, and matches the 28-Sept-2011 form.
-    #
     # The source for this form is: http://www.ethics.state.tx.us/forms/coh.pdf
     #
     # For more information see: http://www.ethics.state.tx.us/filinginfo/localcohfrm.htm
     #
-    class COH_20110928
+    class COH
       
       include DataMapper::Resource
 
@@ -52,58 +50,27 @@ module TECFiler
 
       property :treasurer_phone, String, :required => true, :format => :telno
 
-      # XXX - should these be Boolean or Enum?
-      property :report_type_jan15, Boolean, :default => false
-      property :report_type_jul15, Boolean, :default => false
-      property :report_type_30_day, Boolean, :default => false
-      property :report_type_8_day, Boolean, :default => false
-      property :report_type_runoff, Boolean, :default => false
-      property :report_type_exceed_500, Boolean, :default => false
-      property :report_type_treasurer_appt, Boolean, :default => false
-      property :report_type_final, Boolean, :default => false
-
+      property :report_type, Enum[:JAN15, :JUL15, :ELECTION_30DAY, :ELECTION_8DAY, :RUNNOFF, :EXCEED_500, :TREASURER_APPT, :FINAL], :required => true
+      
       property :period_begin, Date, :required => true
       property :period_end, Date, :required => true
 
       property :election_date, Date
-
-      # XXX - Should these (except "runoff") be an enum?
-      property :election_type_primary, Boolean, :default => false
-      property :election_type_runoff, Boolean, :default => false
-      property :election_type_general, Boolean, :default => false
-      property :election_type_special, Boolean, :default => false
+      
+      # XXX - Should :RUNOFF be an election type or a modifier to the election type?
+      property :election_type, Enum[:PRIMARY, :RUNOFF, :GENERAL, :SPECIAL]
+        validates_presence_of :election_type, :if => lambda{|t| ! t.office_sought.empty?}
 
       property :office_held, String
       property :office_sought, String
+        validates_presence_of :office_saight, :if => lambda{|t| ! t.election_type.nil?}
 
       # TODO - need to add "C/OH page 2" fields
       
-      ### has n, :contributions, "Contribution_20110928"
+      has n, :contributions
+      has n, :expenditures
 
-      # Schedule A: Political Contributions other than Pledges or Loans
-        
-      # Schedule B: Pledged Contributions (TODO)
-      
-      # Schedule E: Loans (TODO)
-      
-      # Schedule F: Political Expenditures (TODO)
-      
-      # Schedule G: Political Expenditures Made from Personal Funds (TODO)
-      
-      # Schedule H: Payment from Political Contributions to a Business of C/OH (TODO)
-      
-      # Schedule I: Non-Political Expenditures made from Political Contributions
-      
-      # Schedule K: Interest Earned, Other Credits/Gains/Refunds, and Purchase of Investments (TODO)
-      
-      # Schedule T: In-Kind Contribution or Political Expenditure for Travel Outside of Texas (TODO)
-      
-
-    end # class COH_20110928
-    
-    # The current version of the COH model.
-    COH = COH_20110928
-
+    end # class COH    
   end # module Model
 end # module TECFiler
 

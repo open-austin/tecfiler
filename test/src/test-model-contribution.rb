@@ -1,8 +1,6 @@
 $:.insert(0, "#{File.dirname(__FILE__)}/../../lib")
 require "minitest/autorun"
 require "tecfiler"
-
-require "pp"
     
 class TestModelContribution < MiniTest::Unit::TestCase
 
@@ -23,12 +21,13 @@ class TestModelContribution < MiniTest::Unit::TestCase
     :treasurer_phone  => "512-867-5309",
     :period_begin => "2012-01-01",
     :period_end => "2012-03-31",
+    :report_type => :ELECTION_8DAY,
   }
   
   PARAMS_CONTRIBUTION = {
     :rec_type => :RECEIPT,
     :form_type => :A1,
-    :entity_code => :INDIVIDUAL,
+    :contributor_type => :INDIVIDUAL,
     :name_first => "Moe",
     :name_last => "Howard",
     :address => "100 Congress Ave",
@@ -41,43 +40,34 @@ class TestModelContribution < MiniTest::Unit::TestCase
     :occupation => "stooge",
   }
   
-  def setup
-    @coh = TECFiler::Model::COH.create(PARAMS_COH)
-  end
-  
-  def test_new
+  def test01_new
     c = TECFiler::Model::Contribution.new(PARAMS_CONTRIBUTION)
-    c.coh = @coh
-    assert c.valid?, "validation failed: #{c.errors.to_h}"      
+    assert c.valid?(:unassociated), "validation failed: #{c.errors.to_h}"      
   end
     
+  PATH_SAMPLE_DATA_CONTRIBUTIONS = "#{File.dirname($0)}/../data/Schedule_A.csv"
   
-  def path_datafile(name)
-    "#{File.dirname($0)}/../data/#{name}" 
-  end
-  
-  def do_import_test(filename, options = {})
-    csv = CSV.open(filename, :headers => TECFiler::Model::Contribution::IMPORT_COLS, :skip_blanks => true)
+  def test02_from_import_row_validate
+    csv = TECFiler::ImportFile.open(PATH_SAMPLE_DATA_CONTRIBUTIONS, :import_type => :contributions)
     csv.each do |row|
-      c = TECFiler::Model::Contribution.from_import_row(row, :skip_empty => true)  
-      next if c.nil?
-      c.coh = @coh
-      assert c.valid?, "file=#{filename}, line=#{csv.lineno}, validation failed: #{c.errors.to_h}"      
-      c.save if options[:save]
-    end 
-  end   
-  
-  def test_from_import_row_1
-    do_import_test(path_datafile("sample_contribs.csv"))
+      c = TECFiler::Model::Contribution.from_import_row(row)
+      assert c.valid?(:unassociated), "record=#{csv.lineno}, validation failed: #{c.errors.to_h}"  
+    end
   end
   
-  def test_from_import_row_2
-    do_import_test(path_datafile("Schedule_A.csv"))
+  def test02_from_import_row_save
+    coh = TECFiler::Model::COH.new(PARAMS_COH)
+    assert coh.valid?, "validation failed: #{coh.errors.to_h}"
+      coh.save
+      
+    csv = TECFiler::ImportFile.open(PATH_SAMPLE_DATA_CONTRIBUTIONS, :import_type => :contributions)
+    csv.each do |row|
+      c = TECFiler::Model::Contribution.from_import_row(row, coh)
+      assert c.valid?, "record=#{csv.lineno}, validation failed: #{c.errors.to_h}"
+      c.save  
+    end
   end
-  
-  def test_from_import_row_3
-    do_import_test(path_datafile("Schedule_A.csv"), :save => true)
-  end
+
   
 end
 

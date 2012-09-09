@@ -20,6 +20,7 @@ DataMapper::Validations::FormatValidator::FORMATS.merge!({
 
 require "tecfiler/model/coh"
 require "tecfiler/model/contribution"
+require "tecfiler/model/expenditure"
 
 DataMapper.finalize
 
@@ -39,8 +40,14 @@ DataMapper.auto_upgrade!
 # Both these commands also can be used on an individual model (e.g. Post.auto_migrate!)
 
 require 'singleton'
-require 'csv'
 require 'pry'
+
+class NilClass
+  # So obj.empty? works when obj is expected by hold a String value, but is currently unset.
+  def empty?
+    true
+  end
+end
 
 # require all the ruby files in the tecfiler subdirectory
 Dir["#{File.dirname(__FILE__)}/**/*.rb"].each {|fn| require_relative fn}

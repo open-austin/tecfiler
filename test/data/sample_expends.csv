@@ -1,0 +1,8 @@
+Rec_type, Form_type, Item_ID, Entity_CD, Payee_NamL, Payee_NamF, Payee_NamT, Payee_NamS, Payee_Adr1, Payee_Adr2, Payee_City, Payee_StCd, Payee_Zip4, Expn_Date, Expn_Amt, Expn_Descr, ExpCntr_YN, Reimbur_CB, Cand_NamL, Cand_NamF, Cand_NamT, Cand_NamS, OffHldCd, OffHldNam, OffHldNum, OffSeekCd, OffseekNam, OffseekNum, BakRef_ID, ExpnCorp_YN, Trvl_CB, Trvl_NamL, Trvl_NamF, Trvl_NamT, Trvl_NamS, Tran_Type, Dpt_City, Dpt_Date, Arv_City, Arv_Date, Trvl_Purp, Trvl_BakRef, Expn_CatgOth, Expn_Catg
+EXPN,F,22,ENT,AAA Billboards,,,,2001 Wagon Trail,,Austin,TX,78723,20100401,5000.00,billboard ad for John Candidate and Jane Candidate without their knowledge or consent.,,,Candidate,Jane,Ms.,,OTH,Mayor of Smallville,,REP,,151,,,,,,,,,,,,,,,,1
+EXPN,F,22-DCE1,,,,,,,,,,,,,,,,Candidate,John,Mr.,Jr.,REP,,151,GOV,,,22,,,,,,,,,,,,,,,
+EXPN,F,27,IND,Candidate,Susan M.,Ms.,,P.O. Box 222,,Round Rock,TX,78803,20100301,500.00,"campaign contribution supporting Susan Candidate for State Representative, District 251.",,,,,,,,,,,,,,,,,,,,,,,,,,,,18
+EXPN,F,25,ENT,OfficeMart,,,,204 E. Ben White Blvd.,,Austin,TX,78704,20100604,17.51,"Campaign office supplies:  1 box copy paper, 2 boxes staples, 1 box paper clips.",,,,,,,,,,,,,,,,,,,,,,,,,,,,15
+EXPN,F,21,ENT,Texas Airlines,,,,123 Main St.,,Dallas,TX,75201,20100501,595.99,(See travel info),,,,,,,,,,,,,,,X,Jones,Jerry,,,Commercial Airline,"Austin TX",20100509,"Boston, MA",20100509,Boston Conference on Redistricting,,,14
+EXPN,F,21-TRVL1,,,,,,,,,,,,,,,,,,,,,,,,,,,,X,Smith,John,Mr.,,Commercial Airline,"Dallas, TX",20100509,"Boston MA",20100509,attend Boston Conference on Redistricting,21,,
+EXPN,I,24,ENT,American Heart Association,,,,P.O. Box 54211,,Washington,DC,20102,20100630,100.00,charitable contribution,,,,,,,,,,,,,,,,,,,,,,,,,,,,18
