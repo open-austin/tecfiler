@@ -121,43 +121,49 @@ module TECFiler
         :EXPNCORP_YN,
       ]
       
-      def self.from_import_row(row, options = {})
-        row_empty = true
-        row.each do |key, value|
-          if value
-            value = value.gsub(/\s+/, " ").strip
-            row[key] = value
-            row_empty = false unless value.empty?
-          end
-        end
-        if row[0] =~ /^#/ || row_empty
-          return nil if options[:skip_empty]
-          raise "row is empty"
-        end     
-        
-        new({
-          :rec_type => row[:REC_TYPE],
-          :form_type => row[:FORM_TYPE],
-          :recipient_type => row[:ENTITY_CD],
-          :name_title => row[:CTRIB_NAMT],
-          :name_first => row[:CTRIB_NAMF],
-          :name_last => row[:CTRIB_NAML],
-          :name_suffix => row[:CTRIB_NAMS],    
-          :address => row[:CTRIB_ADR1],
-          :address2 => row[:CTRIB_ADR2],
-          :city => row[:CTRIB_CITY],
-          :state => row[:CTRIB_STCD],
-          :zip => row[:CTRIB_ZIP4],
-          :is_out_of_state_pac => row[:OS_PAC_CB],
-          :pac_id => row[:OS_PAC_FEC],      
-          :date => row[:CTRIB_DATE],
-          :amount => row[:CTRIB_AMT],
-          :in_kind_description => row[:CTRIB_DSCR],
-          :employer => row[:EMPLOYER],
-          :occupation => row[:OCCUP],         
-        })
-      end
-      
+    
+    # Construct a hash of parameters to create a new Expenditure instance
+    # from an import table row.
+    def self.params_from_import_row(row, owner = nil)
+      {
+        :rec_type => row[:REC_TYPE],
+        :form_type => row[:FORM_TYPE],
+        :recipient_type => row[:ENTITY_CD],
+        :name_title => row[:CTRIB_NAMT],
+        :name_first => row[:CTRIB_NAMF],
+        :name_last => row[:CTRIB_NAML],
+        :name_suffix => row[:CTRIB_NAMS],
+        :address => row[:CTRIB_ADR1],
+        :address2 => row[:CTRIB_ADR2],
+        :city => row[:CTRIB_CITY],
+        :state => row[:CTRIB_STCD],
+        :zip => row[:CTRIB_ZIP4],
+        :is_out_of_state_pac => row[:OS_PAC_CB],
+        :pac_id => row[:OS_PAC_FEC],
+        :date => row[:CTRIB_DATE],
+        :amount => row[:CTRIB_AMT],
+        :in_kind_description => row[:CTRIB_DSCR],
+        :employer => row[:EMPLOYER],
+        :occupation => row[:OCCUP],
+        :coh => owner,
+      }
+    end
+    
+    # Validate a Expenditure import table row.
+    # Returns nil if row validates without problem.
+    # If validation problems were encountered, returns a DataMapper::Validations::ValidationErrors.
+    def self.validate_import_row(row, scope = :default)
+      expenditure = new(params_from_import_row(row))
+      expenditure.valid?(:scope) ? nil : expenditure.errors
+    end
+    
+    # Create a new Expenditure database record from an import table row.
+    # Follows the semantics of create(): Always returns a Expenditure instance,
+    # you'll need to check saved?() to verify whether save was successful.
+    def self.create_from_import_row(row, coh)
+      expenditure = create(params_from_import_row(row, coh))
+    end
+    
     end # class Expenditure    
   end # module Model
 end # module TECFiler

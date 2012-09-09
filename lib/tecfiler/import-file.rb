@@ -8,10 +8,10 @@ module TECFiler
   #   
   #    coh =  TECFiler::Model::COH.create( ... )
   #    TECFiler::ImportFile.each(file_contribs, :import_type => :contributions) do |row|
-  #      TECFiler::Model::Contribution.from_import_row(row, coh).save
+  #      TECFiler::Model::Contribution.create_from_import_row(row, coh)
   #    end
   #    TECFiler::ImportFile.each(file_expends, :import_type => :expenditures) do |row|
-  #      TECFiler::Model::Expenditure.from_import_row(row, coh).save
+  #      TECFiler::Model::Expenditure.create_from_import_row(row, coh)
   #    end
   #
   class ImportFile < CSV
@@ -19,9 +19,12 @@ module TECFiler
     # Acts like CSV.new, with the following options added:
     #
     # * :import_type => Symbol -- Supported values are :contributions and :expenditures.
+    #   This option is a shortcut to set appropriate option for the indicated import,
+    #   including setting :headers for the field names.
     # * :skip_empty => Boolean -- Skips records where all fields are empty.
     # * :skip_comments => Boolean -- Skip records that begin with "#".
-    # * :cleanup_whitespace => Boolean -- Cleanup values by stripping leading/trailing whitespace, collapsing internal whitespace.
+    # * :cleanup_whitespace => Boolean -- Cleanup values by stripping leading/trailing
+    #   whitespace, collapsing internal whitespace.
     #
     def initialize(data, options = {})
       
@@ -96,7 +99,7 @@ module TECFiler
             row.each {|k, v| all_empty = false unless v.empty?}
           end
           next if all_empty
-        end            
+        end 
         
         return row
         

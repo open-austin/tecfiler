@@ -99,6 +99,7 @@ module TECFiler
       # * parent1
       # * parent2
   
+      # Import file columns defined by the TEC, in order.
       IMPORT_COLS = [
         :REC_TYPE,
         :FORM_TYPE,
@@ -126,8 +127,11 @@ module TECFiler
         :PARENT2,      
       ]
       
-      def self.from_import_row(row, coh = nil)        
-        new({
+      
+      # Construct a hash of parameters to create a new Contribution instance
+      # from an import table row.
+      def self.params_from_import_row(row, owner = nil)        
+        {
           :rec_type => row[:REC_TYPE],
           :form_type => row[:FORM_TYPE],
           :contributor_type => row[:ENTITY_CD],
@@ -147,8 +151,23 @@ module TECFiler
           :in_kind_description => row[:CTRIB_DSCR],
           :employer => row[:EMPLOYER],
           :occupation => row[:OCCUP],
-          :coh => coh,
-        })
+          :coh => owner,
+        }
+      end
+      
+      # Validate a Contribution import table row.
+      # Returns nil if row validates without problem.
+      # If validation problems were encountered, returns a DataMapper::Validations::ValidationErrors.
+      def self.validate_import_row(row, scope = :default)
+        contribution = new(params_from_import_row(row))
+        contribution.valid?(:scope) ? nil : contribution.errors
+      end
+      
+      # Create a new Contribution database record from an import table row.
+      # Follows the semantics of create(): Always returns a Contribution instance,
+      # you'll need to check saved?() to verify whether save was successful.
+      def self.create_from_import_row(row, coh)
+        contribution = create(params_from_import_row(row, coh))
       end
       
     end # class Contribution    

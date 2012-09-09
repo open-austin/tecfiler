@@ -1,13 +1,10 @@
 .buildpath
 .project
 .idea
-doc
+rdoc
 coverage
 coverage/.resultset.json
 *.db
-
-# file will be created when running tests/utilities
-tecfiler.db
 
 # removed Gemfile.lock for early development, it will be added back in for production
 Gemfile.lock
