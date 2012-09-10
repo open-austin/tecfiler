@@ -154,14 +154,14 @@ module TECFiler
     # If validation problems were encountered, returns a DataMapper::Validations::ValidationErrors.
     def self.validate_import_row(row, scope = :default)
       expenditure = new(params_from_import_row(row))
-      expenditure.valid?(:scope) ? nil : expenditure.errors
+      expenditure.valid?(scope) ? nil : expenditure.errors
     end
     
     # Create a new Expenditure database record from an import table row.
     # Follows the semantics of create(): Always returns a Expenditure instance,
     # you'll need to check saved?() to verify whether save was successful.
     def self.create_from_import_row(row, coh)
-      expenditure = create(params_from_import_row(row, coh))
+      create(params_from_import_row(row, coh))
     end
     
     end # class Expenditure    

@@ -160,14 +160,14 @@ module TECFiler
       # If validation problems were encountered, returns a DataMapper::Validations::ValidationErrors.
       def self.validate_import_row(row, scope = :default)
         contribution = new(params_from_import_row(row))
-        contribution.valid?(:scope) ? nil : contribution.errors
+        contribution.valid?(scope) ? nil : contribution.errors
       end
       
       # Create a new Contribution database record from an import table row.
       # Follows the semantics of create(): Always returns a Contribution instance,
       # you'll need to check saved?() to verify whether save was successful.
       def self.create_from_import_row(row, coh)
-        contribution = create(params_from_import_row(row, coh))
+        create(params_from_import_row(row, coh))
       end
       
     end # class Contribution    
