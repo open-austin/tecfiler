@@ -32,10 +32,10 @@ task :default => :spec
 require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : "<unavailable>"
-  rdoc.rdoc_dir = 'rdoc/html'
+  rdoc.rdoc_dir = "rdoc/html"
   rdoc.title = "TEC Filer version #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+  rdoc.rdoc_files.include("**/*.rdoc")
+  rdoc.rdoc_files.include("lib/**/*.rb")
 end
 
 begin
