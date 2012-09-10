@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class TECFiler::ImportFile - TEC Filer version 0.1.0</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/tecfiler/import-file.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">CSV
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-i-shift">#shift</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../TECFiler.html">TECFiler</a>
+  
+    <li><a href="../TECFiler/CSVParser.html">TECFiler::CSVParser</a>
+  
+    <li><a href="../TECFiler/ImportFile.html">TECFiler::ImportFile</a>
+  
+    <li><a href="../TECFiler/Model.html">TECFiler::Model</a>
+  
+    <li><a href="../TECFiler/Model/COH.html">TECFiler::Model::COH</a>
+  
+    <li><a href="../TECFiler/Model/Contribution.html">TECFiler::Model::Contribution</a>
+  
+    <li><a href="../TECFiler/Model/Expenditure.html">TECFiler::Model::Expenditure</a>
+  
+    <li><a href="../TECFiler/Model/SPAC.html">TECFiler::Model::SPAC</a>
+  
+    <li><a href="../NilClass.html">NilClass</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class TECFiler::ImportFile</h1>
+
+  <div id="description" class="description">
+    
+<p>Import TEC data from a CSV file.</p>
+
+<p>Example:</p>
+
+<pre class="ruby"><span class="ruby-identifier">coh</span> =  <span class="ruby-constant">TECFiler</span><span class="ruby-operator">::</span><span class="ruby-constant">Model</span><span class="ruby-operator">::</span><span class="ruby-constant">COH</span>.<span class="ruby-identifier">create</span>( <span class="ruby-operator">...</span> )
+<span class="ruby-constant">TECFiler</span><span class="ruby-operator">::</span><span class="ruby-constant">ImportFile</span>.<span class="ruby-identifier">each</span>(<span class="ruby-identifier">file_contribs</span>, :<span class="ruby-identifier">import_type</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">contributions</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
+  <span class="ruby-constant">TECFiler</span><span class="ruby-operator">::</span><span class="ruby-constant">Model</span><span class="ruby-operator">::</span><span class="ruby-constant">Contribution</span>.<span class="ruby-identifier">create_from_import_row</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">coh</span>)
+<span class="ruby-keyword">end</span>
+<span class="ruby-constant">TECFiler</span><span class="ruby-operator">::</span><span class="ruby-constant">ImportFile</span>.<span class="ruby-identifier">each</span>(<span class="ruby-identifier">file_expends</span>, :<span class="ruby-identifier">import_type</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">expenditures</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
+  <span class="ruby-constant">TECFiler</span><span class="ruby-operator">::</span><span class="ruby-constant">Model</span><span class="ruby-operator">::</span><span class="ruby-constant">Expenditure</span>.<span class="ruby-identifier">create_from_import_row</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">coh</span>)
+<span class="ruby-keyword">end</span>
+</pre>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(data, options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Acts like CSV.new, with the following options added:</p>
+<ul><li>
+<p>:import_type =&gt; Symbol – Supported values are :contributions and
+:expenditures. This option is a shortcut to set appropriate option for the
+indicated import, including setting :headers for the field names.</p>
+</li><li>
+<p>:skip_empty =&gt; Boolean – Skips records where all fields are empty.</p>
+</li><li>
+<p>:skip_comments =&gt; Boolean – Skip records that begin with “#”.</p>
+</li><li>
+<p>:cleanup_whitespace =&gt; Boolean – Cleanup values by stripping
+leading/trailing whitespace, collapsing internal whitespace.</p>
+</li></ul>
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/tecfiler/import-file.rb, line 29</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">options</span> = {})
+  
+  <span class="ruby-identifier">options1</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:import_type</span>]
+  <span class="ruby-keyword">when</span> <span class="ruby-value">:contributions</span>
+    {
+      <span class="ruby-value">:headers</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">TECFiler</span><span class="ruby-operator">::</span><span class="ruby-constant">Model</span><span class="ruby-operator">::</span><span class="ruby-constant">Contribution</span><span class="ruby-operator">::</span><span class="ruby-constant">IMPORT_COLS</span>,
+      <span class="ruby-value">:skip_blanks</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>,
+      <span class="ruby-value">:skip_empty</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>,
+      <span class="ruby-value">:skip_comments</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>,
+      <span class="ruby-value">:cleanup_whitespace</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>,
+    }
+  <span class="ruby-keyword">when</span> <span class="ruby-value">:expenditures</span>
+    {
+      <span class="ruby-value">:headers</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">TECFiler</span><span class="ruby-operator">::</span><span class="ruby-constant">Model</span><span class="ruby-operator">::</span><span class="ruby-constant">Expenditure</span><span class="ruby-operator">::</span><span class="ruby-constant">IMPORT_COLS</span>,
+      <span class="ruby-value">:skip_blanks</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>,
+      <span class="ruby-value">:skip_empty</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>,
+      <span class="ruby-value">:skip_comments</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>,
+      <span class="ruby-value">:cleanup_whitespace</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>,
+    }
+  <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
+    {}
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;unknown TecFiler::ImportFile type \&quot;#{option[:import_type]}\&quot;&quot;</span>
+  <span class="ruby-keyword">end</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)
+  <span class="ruby-identifier">options1</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:import_type</span>)      
+  
+  <span class="ruby-ivar">@skip_empty</span> = <span class="ruby-identifier">options1</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:skip_empty</span>) <span class="ruby-operator">||</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-ivar">@skip_comments</span> = <span class="ruby-identifier">options1</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:skip_comments</span>) <span class="ruby-operator">||</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-ivar">@cleanup_whitespace</span> = <span class="ruby-identifier">options1</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:cleanup_whitespace</span>) <span class="ruby-operator">||</span> <span class="ruby-keyword">false</span>
+  
+  <span class="ruby-keyword">super</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">options1</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-shift" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">shift</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Wraps arount CSV#shift to implement our added options.</p>
+          
+
+          
+          <div class="method-source-code" id="shift-source">
+            <pre><span class="ruby-comment"># File lib/tecfiler/import-file.rb, line 73</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">shift</span>      
+  <span class="ruby-identifier">loop</span> <span class="ruby-keyword">do</span>
+  
+    <span class="ruby-identifier">row</span> = <span class="ruby-keyword">super</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">row</span>
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">row</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">=~</span> <span class="ruby-node">%r^#/</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@skip_comments</span>
+  
+    <span class="ruby-comment"># when :cleanup_whitespace given, trim leading/trailing ws and collapse internal ws</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@cleanup_whitespace</span>
+      <span class="ruby-identifier">row</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">row</span>
+      <span class="ruby-keyword">when</span> <span class="ruby-constant">Array</span>
+        <span class="ruby-identifier">row</span>.<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">cleanup_value</span>(<span class="ruby-identifier">v</span>)}
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">row1</span> = {}
+        <span class="ruby-identifier">row</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">row1</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">cleanup_value</span>(<span class="ruby-identifier">v</span>)}
+        <span class="ruby-identifier">row1</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    
+    <span class="ruby-comment"># when :skip_empty given, skip rows where all fields are empty</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@skip_empty</span>
+      <span class="ruby-identifier">all_empty</span> = <span class="ruby-keyword">true</span>
+      <span class="ruby-keyword">case</span> <span class="ruby-identifier">row</span>
+      <span class="ruby-keyword">when</span> <span class="ruby-constant">Array</span>
+        <span class="ruby-identifier">row</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">all_empty</span> = <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">empty?</span>}
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">row</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">all_empty</span> = <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">empty?</span>}
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">all_empty</span>
+    <span class="ruby-keyword">end</span> 
+    
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">row</span>
+    
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment"># not reached  </span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- shift-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- shift-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
