@@ -1,7 +1,6 @@
 .buildpath
 .project
 .idea
-rdoc
 coverage
 coverage/.resultset.json
 *.db
