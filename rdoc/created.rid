@@ -1,5 +1,5 @@
-Sun, 09 Sep 2012 22:56:30 -0500
-README.md	Sun, 09 Sep 2012 13:06:37 -0500
+Sun, 09 Sep 2012 23:05:14 -0500
+README.rdoc	Sun, 09 Sep 2012 23:04:50 -0500
 lib/tecfiler.rb	Sun, 09 Sep 2012 22:51:13 -0500
 lib/tecfiler/controller/CSVParser.rb	Sun, 09 Sep 2012 13:06:37 -0500
 lib/tecfiler/model/contribution.rb	Sun, 09 Sep 2012 22:37:35 -0500
