@@ -1,13 +1,11 @@
 module TECFiler
   module Model
 
-    # Represents a "Candidate/Office Holder Campaign Finance Report" (Form C/OH)
+    # TODO: comment
     #
-    # The source for this form is: http://www.ethics.state.tx.us/forms/coh.pdf
+    # TODO: implement this class (right now it is just a dup of COH)
     #
-    # For more information see: http://www.ethics.state.tx.us/filinginfo/localcohfrm.htm
-    #
-    class COH
+    class SPAC
       
       include DataMapper::Resource
 
@@ -70,7 +68,7 @@ module TECFiler
       has n, :contributions
       has n, :expenditures
 
-    end # class COH    
+    end # class SPAC    
   end # module Model
 end # module TECFiler
 

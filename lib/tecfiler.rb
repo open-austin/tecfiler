@@ -1,12 +1,28 @@
+require 'singleton'
+require 'pry'
 require "data_mapper"
 
+class NilClass
+  # So obj.empty? works when obj is expected by hold a String value, but is currently unset.
+  def empty?
+    true
+  end
+end
+
+# Require all the ruby files in the tecfiler subdirectory
+Dir["#{File.dirname(__FILE__)}/tecfiler/**/*.rb"].each {|fn| require_relative fn}
+  
 # If you want the logs displayed you have to do this before the call to setup
 DataMapper::Logger.new($stderr, :debug)
 
-# An in-memory Sqlite3 connection:
-#DataMapper.setup(:default, 'sqlite::memory:')
+# Connect to SQLite database in current directory.
 DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/tecfiler.db")
 
+# XXX - This may not be a good thing to do. The semantics of new().save() are not
+# quite the same as create(). Plus, we need to do error checking anyway to gather
+# and display the validation errors, so this may not gain anything (so long as we
+# are sure to check all return results from database operations.
+#
 DataMapper::Model.raise_on_save_failure = true
 
 DataMapper::Validations::FormatValidator::FORMATS.merge!({
@@ -18,38 +34,13 @@ DataMapper::Validations::FormatValidator::FORMATS.merge!({
     lambda {|field, value| '%s is not a valid zip code (e.g. "99999" or "99999-9999")'.t(value)}],
 })
 
-require "tecfiler/model/coh"
-require "tecfiler/model/contribution"
-require "tecfiler/model/expenditure"
-
 DataMapper.finalize
 
-
-# DataMapper.auto_migrate!
-
-# This will issue the necessary CREATE statements (DROPing the table first, if it exists) to define each storage
-# according to their properties. After auto_migrate! has been run, the database should be in a pristine state.
-# All the tables will be empty and match the model definitions.
-
-# This wipes out existing data, so you could also do:
-
+# Execute the database operations to make the schema match the model. This will
+# automatically initialize a new database from scatch when needed. It will create
+# new tables and add columns to existing tables as needed. It won't change any
+# existing columns (say, to add a NOT NULL constraint) and it won't drop any columns.
+#
 DataMapper.auto_upgrade!
-
-# This tries to make the schema match the model. It will CREATE new tables, and add columns to existing tables.
-# It won't change any existing columns though (say, to add a NOT NULL constraint) and it doesn't drop any columns.
-# Both these commands also can be used on an individual model (e.g. Post.auto_migrate!)
-
-require 'singleton'
-require 'pry'
-
-class NilClass
-  # So obj.empty? works when obj is expected by hold a String value, but is currently unset.
-  def empty?
-    true
-  end
-end
-
-# require all the ruby files in the tecfiler subdirectory
-Dir["#{File.dirname(__FILE__)}/**/*.rb"].each {|fn| require_relative fn}
 
 # vi:et:ai:ts=2:sw=2

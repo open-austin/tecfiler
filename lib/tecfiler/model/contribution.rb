@@ -17,8 +17,23 @@ module TECFiler
 
       include DataMapper::Resource
       
-      # FIXME - can belong to either a COH or an SPAC.
-      belongs_to :coh, "COH", :when => [:default]
+      belongs_to :coh, "COH", :required => false
+      belongs_to :spac, "SPAC", :required => false    
+      validates_with_method :check_association, :when => [:default]
+      
+      def check_association
+        n = 0
+        n += 1 unless self.coh
+        n += 1 unless self.spac
+        case n
+        when 0
+          [false, "contribution not associated with any reports"]
+        when 1
+          true          
+        else
+          [false, "contribution is associated with more than one report"]
+        end
+      end
       
       property :id, Serial
       property :version, String, :required => true, :default => "20110928"
