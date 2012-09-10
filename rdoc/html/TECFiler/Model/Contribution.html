@@ -88,12 +88,6 @@
     
     <li><a href="#method-c-validate_import_row">::validate_import_row</a>
     
-    <li><a href="#method-i-check_association">#check_association</a>
-    
-    <li><a href="#method-i-contributor_type-3D">#contributor_type=</a>
-    
-    <li><a href="#method-i-rec_type-3D">#rec_type=</a>
-    
   </ul>
 </nav>
 
@@ -169,7 +163,11 @@ href="Contribution.html#CODE_R">CODE_R</a> is false.</p>
       
         <dt id="FORM_TYPES">FORM_TYPES
         
-        <dd class="description">
+        <dd class="description"><p>Mapping to identify which form types are valid for a given report.</p>
+
+<p>Example:</p>
+
+<pre>FORM_TYPES[:LOCAL_NONJUDICIAL_COH].include?(:A1) -&gt;  true</pre>
         
       
         <dt id="IMPORT_COLS">IMPORT_COLS
@@ -208,7 +206,7 @@ check saved?() to verify whether save was successful.</p>
 
           
           <div class="method-source-code" id="create_from_import_row-source">
-            <pre><span class="ruby-comment"># File lib/tecfiler/model/contribution.rb, line 184</span>
+            <pre><span class="ruby-comment"># File lib/tecfiler/model/contribution.rb, line 191</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">create_from_import_row</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">coh</span>)
   <span class="ruby-identifier">create</span>(<span class="ruby-identifier">params_from_import_row</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">coh</span>))
 <span class="ruby-keyword">end</span></pre>
@@ -240,7 +238,7 @@ row.</p>
 
           
           <div class="method-source-code" id="params_from_import_row-source">
-            <pre><span class="ruby-comment"># File lib/tecfiler/model/contribution.rb, line 148</span>
+            <pre><span class="ruby-comment"># File lib/tecfiler/model/contribution.rb, line 155</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">params_from_import_row</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">owner</span> = <span class="ruby-keyword">nil</span>)        
   {
     <span class="ruby-value">:rec_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">row</span>[<span class="ruby-value">:REC_TYPE</span>],
@@ -293,7 +291,7 @@ encountered, returns a DataMapper::Validations::ValidationErrors.</p>
 
           
           <div class="method-source-code" id="validate_import_row-source">
-            <pre><span class="ruby-comment"># File lib/tecfiler/model/contribution.rb, line 176</span>
+            <pre><span class="ruby-comment"># File lib/tecfiler/model/contribution.rb, line 183</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">validate_import_row</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">scope</span> = <span class="ruby-value">:default</span>)
   <span class="ruby-identifier">contribution</span> = <span class="ruby-identifier">new</span>(<span class="ruby-identifier">params_from_import_row</span>(<span class="ruby-identifier">row</span>))
   <span class="ruby-identifier">contribution</span>.<span class="ruby-identifier">valid?</span>(<span class="ruby-identifier">scope</span>) <span class="ruby-operator">?</span> <span class="ruby-keyword">nil</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">contribution</span>.<span class="ruby-identifier">errors</span>
@@ -309,126 +307,6 @@ encountered, returns a DataMapper::Validations::ValidationErrors.</p>
 
     
     </section><!-- public-class-method-details -->
-  
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
-      <h3 class="section-header">Public Instance Methods</h3>
-
-    
-      <div id="method-i-check_association" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">check_association</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-
-          
-          <div class="method-source-code" id="check_association-source">
-            <pre><span class="ruby-comment"># File lib/tecfiler/model/contribution.rb, line 24</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_association</span>
-  <span class="ruby-identifier">n</span> = <span class="ruby-value">0</span>
-  <span class="ruby-identifier">n</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">unless</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">coh</span>
-  <span class="ruby-identifier">n</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">unless</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">spac</span>
-  <span class="ruby-keyword">case</span> <span class="ruby-identifier">n</span>
-  <span class="ruby-keyword">when</span> <span class="ruby-value">0</span>
-    [<span class="ruby-keyword">false</span>, <span class="ruby-string">&quot;contribution not associated with any reports&quot;</span>]
-  <span class="ruby-keyword">when</span> <span class="ruby-value">1</span>
-    <span class="ruby-keyword">true</span>          
-  <span class="ruby-keyword">else</span>
-    [<span class="ruby-keyword">false</span>, <span class="ruby-string">&quot;contribution is associated with more than one report&quot;</span>]
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- check_association-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- check_association-method -->
-
-    
-      <div id="method-i-contributor_type-3D" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">contributor_type=</span><span
-            class="method-args">(value)</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-
-          
-          <div class="method-source-code" id="contributor_type-3D-source">
-            <pre><span class="ruby-comment"># File lib/tecfiler/model/contribution.rb, line 69</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">contributor_type=</span>(<span class="ruby-identifier">value</span>)
-  <span class="ruby-keyword">case</span> <span class="ruby-identifier">value</span>
-  <span class="ruby-keyword">when</span> <span class="ruby-regexp">%r^i/</span>
-    <span class="ruby-keyword">super</span>(<span class="ruby-value">:INDIVIDUAL</span>)
-  <span class="ruby-keyword">when</span> <span class="ruby-regexp">%r^e/</span>
-    <span class="ruby-keyword">super</span>(<span class="ruby-value">:ENTITY</span>)
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-keyword">super</span>(<span class="ruby-identifier">value</span>)
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- contributor_type-3D-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- contributor_type-3D-method -->
-
-    
-      <div id="method-i-rec_type-3D" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">rec_type=</span><span
-            class="method-args">(value)</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-
-          
-          <div class="method-source-code" id="rec_type-3D-source">
-            <pre><span class="ruby-comment"># File lib/tecfiler/model/contribution.rb, line 43</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">rec_type=</span>(<span class="ruby-identifier">value</span>)
-  <span class="ruby-keyword">case</span> <span class="ruby-identifier">value</span>
-  <span class="ruby-keyword">when</span> <span class="ruby-regexp">%r^r/</span>
-    <span class="ruby-keyword">super</span>(<span class="ruby-value">:RECEIPT</span>)
-  <span class="ruby-keyword">when</span> <span class="ruby-regexp">%r^p/</span>
-    <span class="ruby-keyword">super</span>(<span class="ruby-value">:PLEDGE</span>)
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-keyword">super</span>(<span class="ruby-identifier">value</span>)
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- rec_type-3D-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- rec_type-3D-method -->
-
-    
-    </section><!-- public-instance-method-details -->
   
   </section><!-- 5Buntitled-5D -->
 
