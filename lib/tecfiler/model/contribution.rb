@@ -21,10 +21,10 @@ module TECFiler
       belongs_to :spac, "SPAC", :required => false    
       validates_with_method :check_association, :when => [:default]
       
-      def check_association
+      def check_association #:nodoc:
         n = 0
-        n += 1 unless self.coh
-        n += 1 unless self.spac
+        n += 1 if self.coh
+        n += 1 if self.spac
         case n
         when 0
           [false, "contribution not associated with any reports"]
@@ -34,13 +34,14 @@ module TECFiler
           [false, "contribution is associated with more than one report"]
         end
       end
+      private :check_association
       
       property :id, Serial
       property :version, String, :required => true, :default => "20110928"
       
       property :rec_type, Enum[:RECEIPT, :PLEDGE], :required => true
         
-      def rec_type=(value)
+      def rec_type=(value) #:nodoc:
         case value
         when /^r/i
           super(:RECEIPT)
@@ -51,6 +52,12 @@ module TECFiler
         end
       end
       
+      # Mapping to identify which form types are valid for a given report.
+      #
+      # Example:
+      #
+      #   FORM_TYPES[:LOCAL_NONJUDICIAL_COH].include?(:A1) ->  true
+      #
       FORM_TYPES = {
         :LOCAL_NONJUDICIAL_COH => [:A1, :B1],
         :LOCAL_NONJUDICIAL_SPAC => [:A1, :B1, :C],
@@ -66,7 +73,7 @@ module TECFiler
           :message => "Only \"ENTITY\" type contributors can be entered for this form type.",
           :if => lambda{|t| [:C, :C2, :D].include?(t.form_type)}
       
-      def contributor_type=(value)
+      def contributor_type=(value)  #:nodoc:
         case value
         when /^i/i
           super(:INDIVIDUAL)

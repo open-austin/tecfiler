@@ -18,12 +18,12 @@ DataMapper::Logger.new($stderr, :debug)
 # Connect to SQLite database in current directory.
 DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/tecfiler.db")
 
-# XXX - This may not be a good thing to do. The semantics of new().save() are not
-# quite the same as create(). Plus, we need to do error checking anyway to gather
-# and display the validation errors, so this may not gain anything (so long as we
-# are sure to check all return results from database operations.
-#
-DataMapper::Model.raise_on_save_failure = true
+## XXX - This may not be a good thing to do. The semantics of new().save() are not
+## quite the same as create(). Plus, we need to do error checking anyway to gather
+## and display the validation errors, so this may not gain anything (so long as we
+## are sure to check all return results from database operations.
+##
+#DataMapper::Model.raise_on_save_failure = true
 
 DataMapper::Validations::FormatValidator::FORMATS.merge!({
   :telno => [/(^$)|(^(\d\d\d-)?\d\d\d-\d\d\d\d(x\d+)?$)/,
