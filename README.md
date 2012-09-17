@@ -1,5 +1,5 @@
-Do not use the "gh-pages" branch.
+== tecfiler
 
-It is the source to generate the Git Hub documentation.
+This project is in development.
 
-View the documentation here: http://chip-rosenthal.github.com/tecfiler
+For design information, please see the wiki: https://github.com/chip-rosenthal/tecfiler/wiki
