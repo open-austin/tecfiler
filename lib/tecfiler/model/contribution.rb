@@ -1,6 +1,5 @@
 module TECFiler
-  module Model
-    
+  module Model    
 
     # TODO - document
     class Contribution
@@ -17,11 +16,26 @@ module TECFiler
 
       include DataMapper::Resource
       
+      # For test purposes, set @unassociated true to test this instance
+      # without associating it with a COH or SPAC entity.
+      attr_accessor :unassociated      
+      
       belongs_to :coh, "COH", :required => false
+      def coh=(value)
+        @unassociated = false
+        super(value)
+      end
+      
       belongs_to :spac, "SPAC", :required => false    
-      validates_with_method :check_association, :when => [:default]
+      def spac=(value)
+        @unassociated = false
+        super(value)
+      end
+        
+      validates_with_method :check_association
       
       def check_association #:nodoc:
+        return true if @unassociated
         n = 0
         n += 1 if self.coh
         n += 1 if self.spac
@@ -85,24 +99,28 @@ module TECFiler
       end
       
       property :name_title, String, :length => 25        # e.g. "Mr."
-        validates_absence_of :name_title, :if  => lambda{|t| t.contributor_type == :ENTITY}
+        validates_absence_of :name_title, :if => lambda{|t| t.contributor_type == :ENTITY}
       property :name_first, String, :length => 45
         validates_presence_of :name_first, :if => lambda{|t| t.contributor_type == :INDIVIDUAL}
       property :name_last, String, :length => 100, :required => true
       property :name_suffix, String, :length => 10       # e.g. "Jr."
-        validates_absence_of :name_suffix, :if  => lambda{|t| t.contributor_type == :ENTITY}
+        validates_absence_of :name_suffix, :if => lambda{|t| t.contributor_type == :ENTITY}
        
       property :address, String, :length => 55, :required => CODE_R
       property :address2, String, :length => 55
       property :city, String, :length => 30, :required => CODE_R
       property :state, String, :length => 2, :required => CODE_R, :format => :state_code
       property :zip, String, :length => 10, :required => CODE_R, :format => :zip_code
+          
+      def state=(value)
+        super(value ? value.to_s.upcase : nil)
+      end
       
       property :is_out_of_state_pac, Boolean
-        validates_absence_of :is_out_of_state_pac, :if  => lambda{|t| [:AL, :C].include?(t.form_type)} 
+        validates_absence_of :is_out_of_state_pac, :if => lambda{|t| [:AL, :C].include?(t.form_type)} 
       property :pac_id, String, :length => 9
         validates_presence_of :pac_id, :if => lambda{|t| t.is_out_of_state_pac}   
-        validates_absence_of :pac_id, :if  => lambda{|t| [:AL, :C].include?(t.form_type)} 
+        validates_absence_of :pac_id, :if => lambda{|t| [:AL, :C].include?(t.form_type)} 
 
         
       property :date, Date, :required => true
@@ -113,7 +131,8 @@ module TECFiler
         validates_absence_of :employer, :if => lambda{|t| [:AL, :C].include?(t.form_type)} 
       property :occupation, String, :length => 60
         validates_presence_of :occupation, :if => lambda{|t| [:A2, :AJ].include?(t.form_type)}  
-        validates_absence_of :occupation, :if => lambda{|t| [:AL, :C].include?(t.form_type)}  
+        validates_absence_of :occupation, :if => lambda{|t| [:AL, :C].include?(t.form_type)} 
+          
         
       # fields not implemented (applies only to form_type :AJ)
       # * job_title
