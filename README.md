@@ -21,10 +21,7 @@ The filings are posted online but are not easily searchable [http://www.austinte
 
 In April, the City Council passed an ordinance [http://www.austintexas.gov/edims/document.cfm?id=169484] to create an online, searchable database of campaign and lobbyist filings.
 
-Initial staff estimates to implement have come back with:
-* about 800K cost
-* about a year development
-* solution based on proprietary technology
+Initial staff estimates to implement have come back with: about 800K cost, about a year development, solution based on proprietary technology
 
 In a meeting organized by Councilmember Morrison, city staff was open to the idea of a "civic sourced" effort to help reduce costs and time.
 
@@ -40,8 +37,7 @@ Some complexities not addressed:
 TEC Forms
 ---------
 
-*Form C/OH*
-Candidate/Office-Holder Campaign Finance Report
+**Form C/OH**: Candidate/Office-Holder Campaign Finance Report
 http://www.ethics.state.tx.us/forms/coh.pdf
 
 * Schedule A: Political Contributions other than Pledges or Loans
@@ -54,8 +50,7 @@ http://www.ethics.state.tx.us/forms/coh.pdf
 * Schedule K: Interest Earned, Other Credits/Gains/Refunds, and Purchase of Investments
 * Schedule T: In-Kind Contribution or Political Expenditure for Travel Outside of Texas
 
-*Form SPAC*
-Specific-Purpose Committee Campaign Finance Report
+**Form SPAC**: Specific-Purpose Committee Campaign Finance Report
 http://www.ethics.state.tx.us/forms/spac.pdf
 
 * Schedule A: Political Contributions other than Pledges or Loans
@@ -70,7 +65,7 @@ http://www.ethics.state.tx.us/forms/spac.pdf
 * Schedule K: Interest Earned, Other Credits/Gains/Refunds, and Purchase of Investments
 * Schedule T: In-Kind Contribution or Political Expenditure for Travel Outside of Texas
 
-*TEC Automation and Import Format*
+**TEC Automation and Import Format**
 
 The state provides free software for electronic filing with the state. The software can
 be used to generate reports for local filing, but does not support electronic filing locally.
