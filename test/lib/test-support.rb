@@ -205,6 +205,15 @@ module MiniTest
       true
     end
     
+    def skip_test_because(assertion, &block)
+      assert assertion
+    end
+
+  def perform_test_because(assertion, &block)
+    assert assertion
+    yield
+  end
+    
     
   end # module Assertions
 end # module MiniTest

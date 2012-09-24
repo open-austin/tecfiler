@@ -82,10 +82,12 @@ module TECFiler
         :LOCAL_NONJUDICIAL_COH => [:A1, :B1],
         :LOCAL_NONJUDICIAL_SPAC => [:A1, :B1, :C],
       }
+      
+      FORM_TYPES_ALLOWED = FORM_TYPES.values.flatten.sort.uniq
         
       property :form_type, Enum[:A1, :A2, :AJ, :AL, :B1, :B2, :B3, :BJ, :C, :C2, :D], :required => true
         validates_within :form_type,
-          :set => FORM_TYPES[:LOCAL_NONJUDICIAL_COH] + FORM_TYPES[:LOCAL_NONJUDICIAL_SPAC],
+          :set =>FORM_TYPES_ALLOWED,
           :message => "form type is not appropriate for local, non-judicial offices"
               
       property :contributor_type, Enum[:INDIVIDUAL, :ENTITY], :required => true
@@ -118,8 +120,8 @@ module TECFiler
       property :state, String, :length => 2, :required => @require_code_r_items, :format => :state_code
       property :zip, String, :length => 10, :required => @require_code_r_items, :format => :zip_code
           
-      def state=(value)
-        super(value ? value.to_s.upcase : nil)
+      def state=(value) # :nodoc:
+        super(value.instance_of?(String) ? value.upcase : value)
       end
       
       property :is_out_of_state_pac, Boolean
@@ -130,7 +132,14 @@ module TECFiler
 
         
       property :date, Date, :required => true
+      
       property :amount, Decimal, :precision => 12, :scale => 2, :required => true
+      
+      # allow thousands separator (",") in value assignment
+      def amount=(value) # :nodoc:
+        super(value.instance_of?(String) ? value.gsub(/,/, '') : value)
+      end
+      
       property :in_kind_description, String, :length => 100
       property :employer, String, :length => 60
         validates_presence_of :employer, :if => lambda{|t| [:AJ].include?(t.form_type)}  

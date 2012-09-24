@@ -5,16 +5,19 @@ require "tecfiler"
 require "test-support"
     
 class TestModelContribution < MiniTest::Unit::TestCase
-  
   def new_contribution_type_individual(params = {})
     TECFiler::Model::Contribution.new(TECFiler::Test::PARAMS_CONTRIBUTION.merge(params))
   end
-
   
   def new_contribution_type_entity(params = {})
     p1 = {:contributor_type => :ENTITY, :employer => nil, :occupation => nil}.merge(params)
     TECFiler::Model::Contribution.new(TECFiler::Test::PARAMS_CONTRIBUTION.merge(p1))
   end
+  
+  def form_type_allowed?(form_type)
+    TECFiler::Model::Contribution::FORM_TYPES_ALLOWED.include?(form_type)
+  end
+  
   
   
   def setup
@@ -205,8 +208,8 @@ class TestModelContribution < MiniTest::Unit::TestCase
   
   def test51_field_date
     # import spec defines format: YYYYMMDD
-    @t.assert_required :date, :value => "20120110", :expect_value => Date.new(2012, 1, 10)
     @t.assert_value_valid :date, "20120110", :expect_value => Date.new(2012, 1, 10)
+    @t.assert_required :date, :value => "20120110", :expect_value => Date.new(2012, 1, 10)
     
     # accept some additional formats
     @t.assert_value_valid :date, "2012-01-10", :expect_value => Date.new(2012, 1, 10)
@@ -215,44 +218,83 @@ class TestModelContribution < MiniTest::Unit::TestCase
     @t.assert_value_valid :date, "Jan 10, 2012", :expect_value => Date.new(2012, 1, 10)
     @t.assert_value_valid :date, "Jan 10", :expect_value => Date.new(Time.now.year, 1, 10)
     
-
+    # the Data parser is extremely tolerant, and for better or worse accepts very loosely
+    @t.refute_value_valid :date, "cupcakes"
     @t.refute_value_valid :date, "20123001"
     @t.refute_value_valid :date, "2012-30-01"
-    @t.refute_value_valid :date, "2012011"
     @t.refute_value_valid :date, "201201100"
 
   end
   
   
   def test52_field_amount
-    # not done
+    @t.assert_value_valid :amount, "100", :expect_value => 100.00
+    @t.assert_required :amount, :value => "100", :expect_value => 100.00    
+
+    @t.assert_value_valid :amount, "0.01", :expect_value => 0.01
+    @t.assert_value_valid :amount, "100", :expect_value => 100.00
+    @t.assert_value_valid :amount, "100.1", :expect_value => 100.10
+    @t.assert_value_valid :amount, "100.15", :expect_value => 100.15    
+
+    @t.assert_value_valid :amount, "999999", :expect_value => 999999.00
+    @t.assert_value_valid :amount, "9999999", :expect_value => 9999999.00
+    @t.assert_value_valid :amount, "99999999", :expect_value => 99999999.00
+    
+    # we allow thousand seperator (',') in value assignments
+    @t.assert_value_valid :amount, "99,999,999", :expect_value => 99999999.00
+    
+    @t.refute_value_valid :amount, "cupcakes"
+    @t.refute_value_valid :amount, "100.159"
+
+    # precision = 12, scale = 2
+    @t.assert_value_valid :amount, "1000000000", :expect_value => 1000000000.00
+    @t.assert_value_valid :amount, "9999999999", :expect_value => 9999999999.00
+    @t.assert_value_valid :amount, "9999999999.99", :expect_value => 9999999999.99
+    @t.refute_value_valid :amount, "10000000000"      
+
   end
+  
   
   def test53_field_in_kind_description
     @t.assert_optional :in_kind_description
     @t.assert_max_length :in_kind_description, 100
   end
   
+  
   def test54_field_employer
-    # not done
+    @t.assert_optional :employer
+    @t.assert_max_length :employer, 60
+
+    skip_test_because ! form_type_allowed?(:AJ) do
+      @t.assert_required :employer, :entity => proc {new_contribution_type_individual(:form_type => :AJ)}
+    end
+    skip_test_because ! form_type_allowed?(:AL) do
+      @t.assert_not_allowed :employer, :entity => proc {new_contribution_type_individual(:form_type => :AL)}
+    end
+    perform_test_because form_type_allowed?(:C) do
+      @t.assert_not_allowed :employer, :entity => proc {new_contribution_type_entity(:form_type => :C)}
+    end
   end
   
+  
   def test55_field_occupation
-    # not done
+    @t.assert_optional :occupation
+    @t.assert_max_length :occupation, 60
+    
+    skip_test_because ! form_type_allowed?(:A2) do
+      @t.assert_required :occupation, :entity => proc {new_contribution_type_individual(:form_type => :A2)}
+    end
+    skip_test_because ! form_type_allowed?(:AJ) do
+      @t.assert_required :occupation, :entity => proc {new_contribution_type_individual(:form_type => :AJ)}
+    end
+    skip_test_because ! form_type_allowed?(:AL) do
+      @t.assert_not_allowed :occupation, :entity => proc {new_contribution_type_individual(:form_type => :AL)}
+    end
+    perform_test_because form_type_allowed?(:C) do
+      @t.assert_not_allowed :occupation, :entity => proc {new_contribution_type_entity(:form_type => :C)}
+    end
   end
      
-
-#  
-#property :date, Date, :required => true
-#property :amount, Decimal, :precision => 12, :scale => 2, :required => true
-#property :in_kind_description, String, :length => 100
-#property :employer, String, :length => 60
-#  validates_presence_of :employer, :if => lambda{|t| [:AJ].include?(t.form_type)}  
-#  validates_absence_of :employer, :if => lambda{|t| [:AL, :C].include?(t.form_type)} 
-#property :occupation, String, :length => 60
-#  validates_presence_of :occupation, :if => lambda{|t| [:A2, :AJ].include?(t.form_type)}  
-#  validates_absence_of :occupation, :if => lambda{|t| [:AL, :C].include?(t.form_type)} 
-    
 
   
 #  def test81_from_import_row
