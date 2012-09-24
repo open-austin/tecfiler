@@ -54,11 +54,11 @@ class TestModelContribution < MiniTest::Unit::TestCase
     @t.refute_value_valid :rec_type, :CUPCAKES
     
     [:RECEIPT, "receipt", "r", "R", "Rxxxxxxxx"].each do |value|    
-      @t.assert_value_valid:rec_type, value, :verify_value => :RECEIPT
+      @t.assert_value_valid :rec_type, value, :expect_value => :RECEIPT
     end
     
     [:PLEDGE, "pledge", "p", "P", "Pxxxxxxxx"].each do |value|   
-      @t.assert_value_valid:rec_type, value, :verify_value => :PLEDGE
+      @t.assert_value_valid :rec_type, value, :expect_value => :PLEDGE
     end
   end
 
@@ -69,14 +69,14 @@ class TestModelContribution < MiniTest::Unit::TestCase
         form_type = (x + (y == "~" ? "" : y))  
         case form_type
         when "A1"
-          @t.assert_value_valid:form_type, form_type, :entity => proc{new_contribution_type_individual}, :verify_value => :A1
-          @t.assert_value_valid:form_type, form_type, :entity => proc{new_contribution_type_entity}, :verify_value => :A1
+          @t.assert_value_valid :form_type, form_type, :entity => proc{new_contribution_type_individual}, :expect_value => :A1
+          @t.assert_value_valid :form_type, form_type, :entity => proc{new_contribution_type_entity}, :expect_value => :A1
         when "B1"
-          @t.assert_value_valid:form_type, form_type, :entity => proc{new_contribution_type_individual}, :verify_value => :B1
-          @t.assert_value_valid:form_type, form_type, :entity => proc{new_contribution_type_entity}, :verify_value => :B1
+          @t.assert_value_valid :form_type, form_type, :entity => proc{new_contribution_type_individual}, :expect_value => :B1
+          @t.assert_value_valid :form_type, form_type, :entity => proc{new_contribution_type_entity}, :expect_value => :B1
         when "C"
           @t.refute_value_valid :form_type, form_type, :entity => proc{new_contribution_type_individual}, :reject_field => :contributor_type
-          @t.assert_value_valid:form_type, form_type, :entity => proc{new_contribution_type_entity}, :verify_value => :C
+          @t.assert_value_valid :form_type, form_type, :entity => proc{new_contribution_type_entity}, :expect_value => :C
         else
           @t.refute_value_valid :form_type, form_type, :entity => proc{new_contribution_type_individual}
           @t.refute_value_valid :form_type, form_type, :entity => proc{new_contribution_type_entity}
@@ -92,10 +92,10 @@ class TestModelContribution < MiniTest::Unit::TestCase
     @t.refute_value_valid :contributor_type, "cupcakes"
     @t.refute_value_valid :contributor_type, :CUPCAKES
     [:INDIVIDUAL, "individual", "i", "I", "ixx", "IXX"].each do |value| 
-      @t.assert_value_valid:contributor_type, value, :verify_value => :INDIVIDUAL
+      @t.assert_value_valid :contributor_type, value, :expect_value => :INDIVIDUAL
     end
     [:ENTITY, "entity", "e", "E", "exx", "EXX"].each do |value|    
-      @t.assert_value_valid:contributor_type, value, :verify_value => :ENTITY
+      @t.assert_value_valid :contributor_type, value, :expect_value => :ENTITY
     end
   end
 
@@ -151,8 +151,8 @@ class TestModelContribution < MiniTest::Unit::TestCase
 
   def test33_field_state    
     @t.refute_value_valid :state, "T"
-    @t.assert_value_valid:state, "TX"
-    @t.assert_value_valid:state, "tx", :verify_value => "TX"
+    @t.assert_value_valid :state, "TX"
+    @t.assert_value_valid :state, "tx", :expect_value => "TX"
     @t.refute_value_valid :state, "Txx"
     @t.refute_value_valid :state, "Texas"
       
@@ -162,8 +162,8 @@ class TestModelContribution < MiniTest::Unit::TestCase
   
   
   def test34_field_zip
-    @t.assert_value_valid:zip, "78701"
-    @t.assert_value_valid:zip, "78701-0000"
+    @t.assert_value_valid :zip, "78701"
+    @t.assert_value_valid :zip, "78701-0000"
     
     %w(cupcakes 7870 787010000 78701-000 78701-00000 7870-0000 787010-0000).each do |value|
       @t.refute_value_valid :zip, value
@@ -175,11 +175,11 @@ class TestModelContribution < MiniTest::Unit::TestCase
   
   
   def test41_field_is_out_of_state_pac
-    @t.assert_value_valid:is_out_of_state_pac, true, :entity => proc {
+    @t.assert_value_valid :is_out_of_state_pac, true, :entity => proc {
       new_contribution_type_entity(:pac_id => "xyz")
     }
-    @t.assert_value_valid:is_out_of_state_pac, false
-    @t.assert_value_valid:is_out_of_state_pac, nil
+    @t.assert_value_valid :is_out_of_state_pac, false
+    @t.assert_value_valid :is_out_of_state_pac, nil
     @t.refute_value_valid :form_type, :AL, :reject_field => :is_out_of_state_pac, :entity => proc {  
       new_contribution_type_entity(:is_out_of_state_pac => true, :pac_id => "xyz") 
     }
@@ -204,7 +204,23 @@ class TestModelContribution < MiniTest::Unit::TestCase
   
   
   def test51_field_date
-    # not done
+    # import spec defines format: YYYYMMDD
+    @t.assert_required :date, :value => "20120110", :expect_value => Date.new(2012, 1, 10)
+    @t.assert_value_valid :date, "20120110", :expect_value => Date.new(2012, 1, 10)
+    
+    # accept some additional formats
+    @t.assert_value_valid :date, "2012-01-10", :expect_value => Date.new(2012, 1, 10)
+    @t.assert_value_valid :date, "2012-Jan-10", :expect_value => Date.new(2012, 1, 10)
+    @t.assert_value_valid :date, "10 Jan 2012", :expect_value => Date.new(2012, 1, 10)
+    @t.assert_value_valid :date, "Jan 10, 2012", :expect_value => Date.new(2012, 1, 10)
+    @t.assert_value_valid :date, "Jan 10", :expect_value => Date.new(Time.now.year, 1, 10)
+    
+
+    @t.refute_value_valid :date, "20123001"
+    @t.refute_value_valid :date, "2012-30-01"
+    @t.refute_value_valid :date, "2012011"
+    @t.refute_value_valid :date, "201201100"
+
   end
   
   

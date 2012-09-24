@@ -1,33 +1,39 @@
 module TECFiler
-  module Model    
-
-    # TODO - document
+  module Model
+    
+    #
+    # A "Contribution" line item on a campaign finance report.
+    #
     class Contribution
+      
+      VERSION = "20110928"            
 
       # According to the import guide, code "R" items are marked as required
-      # but TEC will accept form without them. The CODE_R parameter may be used
-      # to determine whether we should reject (CODE_R true) or accept (CODE_R false)
-      # filings without these values.
+      # but TEC will accept form without them. This class instance parameter
+      # controls whether we should reject (@require_code_r_items true)
+      # or accept (@require_code_r_items false) filings without these values.
       #
-      # XXX - might be a nice feature to generate warnings (not errors) when
-      # CODE_R is false.
-      #
-      CODE_R = true
+      @require_code_r_items = true
 
       include DataMapper::Resource
       
-      # For test purposes, set @unassociated true to test this instance
-      # without associating it with a COH or SPAC entity.
-      attr_accessor :unassociated      
+      # Do not use @unassociated in normal operation.
+      #
+      # When testing, you can set @unassociated true to test this instance
+      # without associating it with a COH or SPAC entity. If you make a
+      # COH or SPAC assignment then this parameter will be set false, thus
+      # enabling validation of the association.
+      #
+      attr_accessor :unassociated
       
       belongs_to :coh, "COH", :required => false
-      def coh=(value)
+      def coh=(value) #:nodoc:
         @unassociated = false
         super(value)
       end
       
       belongs_to :spac, "SPAC", :required => false    
-      def spac=(value)
+      def spac=(value) #:nodoc:
         @unassociated = false
         super(value)
       end
@@ -51,7 +57,7 @@ module TECFiler
       private :check_association
       
       property :id, Serial
-      property :version, String, :required => true, :default => "20110928"
+      property :version, String, :required => true, :default => VERSION
       
       property :rec_type, Enum[:RECEIPT, :PLEDGE], :required => true
         
@@ -106,11 +112,11 @@ module TECFiler
       property :name_suffix, String, :length => 10       # e.g. "Jr."
         validates_absence_of :name_suffix, :if => lambda{|t| t.contributor_type == :ENTITY}
        
-      property :address, String, :length => 55, :required => CODE_R
+      property :address, String, :length => 55, :required => @require_code_r_items
       property :address2, String, :length => 55
-      property :city, String, :length => 30, :required => CODE_R
-      property :state, String, :length => 2, :required => CODE_R, :format => :state_code
-      property :zip, String, :length => 10, :required => CODE_R, :format => :zip_code
+      property :city, String, :length => 30, :required => @require_code_r_items
+      property :state, String, :length => 2, :required => @require_code_r_items, :format => :state_code
+      property :zip, String, :length => 10, :required => @require_code_r_items, :format => :zip_code
           
       def state=(value)
         super(value ? value.to_s.upcase : nil)
@@ -211,7 +217,8 @@ module TECFiler
         create(params_from_import_row(row, coh))
       end
       
-    end # class Contribution    
+    end # class Contribution   
+  
   end # module Model
 end # module TECFiler
 

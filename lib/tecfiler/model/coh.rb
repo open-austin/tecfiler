@@ -9,10 +9,12 @@ module TECFiler
     #
     class COH
       
+      VERSION = "20110928"
+      
       include DataMapper::Resource
 
       property :id, Serial
-      property :version, String, :required => true, :default => "20110928"
+      property :version, String, :required => true, :default => VERSION
 
       # XXX - can/should this information be aggregated into a "Name" property type?
       property :coh_name_prefix, String
@@ -70,7 +72,8 @@ module TECFiler
       has n, :contributions
       has n, :expenditures
 
-    end # class COH    
+    end # class COH
+    
   end # module Model
 end # module TECFiler
 

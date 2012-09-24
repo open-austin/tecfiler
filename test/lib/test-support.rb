@@ -98,7 +98,7 @@ module TECFiler
       #
       # Options:
       # * :entity -- Specifies entity to use for tests, instead of the default.
-      # * :verify_value -- Verify field has this value after assignment. Default
+      # * :expect_value -- Verify field has this value after assignment. Default
       #   is the same value as assigned.
       #
       def assert_value_valid(field, value, options = {})
@@ -108,7 +108,7 @@ module TECFiler
         entity.send(setter, value)
         @test_case.assert_entity_valid entity
         
-        expect_value = options.has_key?(:verify_value) ? options[:verify_value] : value
+        expect_value = options.has_key?(:expect_value) ? options[:expect_value] : value
         @test_case.assert_equal expect_value,  entity.send(field)
       
         entity
