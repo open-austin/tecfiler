@@ -11,27 +11,37 @@ For design information, please see the wiki: https://github.com/chip-rosenthal/t
 Background
 ----------
 
-The requirements for candidate and lobbyist disclosures are set by the Texas Ethics Commission (TEC) [http://www.ethics.state.tx.us/main/local.htm].
+The requirements for candidate and lobbyist disclosures are set by the Texas
+Ethics Commission (TEC): http://www.ethics.state.tx.us/main/local.html
 
-Local candidate and lobbyist disclosures are filed not with the State, but with the Austin City Clerk.
+Local candidate and lobbyist disclosures are filed not with the State, but with
+the Austin City Clerk.
 
 Clerk takes filings on paper (or PDF versions of the forms).
 
-The filings are posted online but are not easily searchable [http://www.austintexas.gov/department/campaign-finance-reports].
+The filings are posted online but are not easily searchable:
+http://www.austintexas.gov/department/campaign-finance-reports
 
-In April, the City Council passed an ordinance [http://www.austintexas.gov/edims/document.cfm?id=169484] to create an online, searchable database of campaign and lobbyist filings.
+In April, the City Council passed an ordinance to create an online, searchable
+database of campaign and lobbyist filings:
+http://www.austintexas.gov/edims/document.cfm?id=169484
 
-Initial staff estimates to implement have come back with: about 800K cost, about a year development, solution based on proprietary technology
+Initial staff estimates to implement have come back with: about 800K cost,
+about a year development, solution based on proprietary technology
 
-In a meeting organized by Councilmember Morrison, city staff was open to the idea of a "civic sourced" effort to help reduce costs and time.
+In a meeting organized by Councilmember Morrison, city staff was open to the
+idea of a "civic sourced" effort to help reduce costs and time.
 
 Some complexities not addressed:
 
-* There are additional forms, such as the treasurer filing and correction filings, that are not scoped at this time.
+* There are additional forms, such as the treasurer filing and correction
+  filings, that are not scoped at this time.
 
-* There are additional schedules that the City of Austin uses, that are not scoped in this discussion.
+* There are additional schedules that the City of Austin uses, that are not
+  scoped in this discussion.
 
-* Local government can require electronic filings, but the process is going to need TEC approval.
+* Local government can require electronic filings, but the process is going to
+  need TEC approval.
 
 
 TEC Forms
@@ -74,4 +84,3 @@ The state software allows import of contributions and expenditures. Our tool wil
 modeled around this import format. It is documented in the TX-CFA Import Guide:
 
 http://www.ethics.state.tx.us/whatsnew/ImportGuide.pdf
-
