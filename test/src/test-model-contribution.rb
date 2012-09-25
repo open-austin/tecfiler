@@ -295,31 +295,86 @@ class TestModelContribution < MiniTest::Unit::TestCase
     end
   end
      
+  
+  def test81_params_from_import_row
+    
+    sample_values = {
+      :REC_TYPE => "RCPT",
+      :FORM_TYPE => "A1",
+      :ITEM_ID => nil,
+      :ENTITY_CD => "IND",
+      :CTRIB_NAML => "grenadier",
+      :CTRIB_NAMF => "jim",
+      :CTRIB_NAMT => "Mr.",
+      :CTRIB_NAMS => "Jr.",
+      :CTRIB_ADR1 => "210 Main. St. Apt. 110",
+      :CTRIB_ADR2 => nil,
+      :CTRIB_CITY => "Corpus Christi",
+      :CTRIB_STCD => "TX",
+      :CTRIB_ZIP4 => "78401",
+      :OS_PAC_CB => nil,
+      :OS_PAC_FEC => nil,
+      :CTRIB_DATE => "20120907",
+      :CTRIB_AMT => "50",
+      :CTRIB_DSCR => nil,
+      :EMPLOYER => "First Community Bank",
+      :OCCUP => "Automotive and Watercraft Service Attendants",
+      :JOB_TITLE => nil,
+      :SPOUS_EMP => nil,
+      :PARENT1 => nil,
+      :PARENT2 => nil
+    }
+        
+    expect = {
+      :rec_type => "RCPT",
+      :form_type => "A1",
+      :contributor_type => "IND",
+      :name_title => "Mr.",
+      :name_first => "jim",
+      :name_last => "grenadier",
+      :name_suffix => "Jr.",
+      :address => "210 Main. St. Apt. 110",
+      :address2 => nil,
+      :city => "Corpus Christi",
+      :state => "TX",
+      :zip => "78401",
+      :is_out_of_state_pac => nil,
+      :pac_id => nil,
+      :date => "20120907",
+      :amount => "50",
+      :in_kind_description => nil,
+      :employer => "First Community Bank",
+      :occupation => "Automotive and Watercraft Service Attendants"
+    }    
+
+    row = CSV::Row.new(sample_values.keys, sample_values.values)        
+    params = TECFiler::Model::Contribution.params_from_import_row(row)
+    assert_equal expect, params
+  end
 
   
-#  def test81_from_import_row
-#    fail("not implemented")
-#  end
-#  
-#  def test82_validate_from_import_row
-#    fn = TECFiler::Test::PATH_SAMPLE_DATA_CONTRIBUTIONS
-#    csv = TECFiler::ImportFile.open(fn, :import_type => :contributions)
-#    csv.each do |row|
-#      e = TECFiler::Model::Contribution.validate_import_row(row, :unassociated)
-#      assert_nil e, "validation failed: record=#{csv.lineno}, #{e ? e.to_h : nil}"
-#    end
-#  end
-#  
-#  def test83_create_from_import_row
-#    coh = TECFiler::Test::new_coh(:create => true)          
-#    fn = TECFiler::Test::PATH_SAMPLE_DATA_CONTRIBUTIONS 
-#    csv = TECFiler::ImportFile.open(fn, :import_type => :contributions)
-#    csv.each do |row|
-#      c = TECFiler::Model::Contribution.create_from_import_row(row, coh)
-#      refute_nil c, "create_from_import_row failed"
-#      assert c.saved?, "save failed: record=#{csv.lineno}, #{c.errors.to_h}"  
-#    end
-#  end
+  def test82_validate_from_import_row
+    fn = TECFiler::Test::PATH_SAMPLE_DATA_CONTRIBUTIONS
+    csv = TECFiler::ImportFile.open(fn, :import_type => :contributions)
+    csv.each do |row|
+      errs = TECFiler::Model::Contribution.validate_import_row(row)
+      assert_nil errs, "validation failed: record=#{csv.lineno}, #{errs ? errs.to_h : nil}"
+    end
+  end
+  
+  
+  def test83_create_from_import_row
+    coh = TECFiler::Model::COH.create(TECFiler::Test::PARAMS_COH)
+    refute_nil coh, "precondition failed"
+      
+    fn = TECFiler::Test::PATH_SAMPLE_DATA_CONTRIBUTIONS 
+    csv = TECFiler::ImportFile.open(fn, :import_type => :contributions)
+    csv.each do |row|
+      c = TECFiler::Model::Contribution.create_from_import_row(row, :coh => coh)
+      refute_nil c, "create_from_import_row failed"
+      assert c.saved?, "save failed: record=#{csv.lineno}, #{c.errors.to_h}"  
+    end
+  end
 
   
 end
