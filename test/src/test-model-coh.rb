@@ -1,8 +1,6 @@
 $:.insert(0, "#{File.dirname(__FILE__)}/../../lib")
 require "minitest/autorun"
 require "tecfiler"
-
-require "pp"
     
 class TestModelCOH < MiniTest::Unit::TestCase
 

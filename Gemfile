@@ -3,6 +3,7 @@ source "https://rubygems.org"
 
 gem "data_mapper", "~>1.2.0"
 gem "dm-sqlite-adapter", "~>1.2.0"
+gem "prawn", "~>0.12.0"
 
 group :development do
   gem 'rake'
