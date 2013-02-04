@@ -23,6 +23,7 @@ class TestModelCOH < MiniTest::Unit::TestCase
     :treasurer_phone  => "512-867-5309",
     :period_begin => "2012-01-01",
     :period_end => "2012-03-31",
+    :report_type => :JAN15,
   }
     
   

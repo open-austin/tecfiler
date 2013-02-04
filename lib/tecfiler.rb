@@ -1,5 +1,3 @@
-require 'singleton'
-require 'pry'
 require "data_mapper"
 
 class NilClass

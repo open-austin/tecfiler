@@ -6,15 +6,15 @@ gem "dm-sqlite-adapter", "~>1.2.0"
 
 group :development do
   gem 'rake'
-  gem 'cane'
+#  gem 'cane'
   gem 'rdoc'
-  gem 'redcarpet'
-  gem 'pygments.rb'
-  gem 'pry'
+#  gem 'redcarpet'
+#  gem 'pygments.rb'
+#  gem 'pry'
 end
 
-group :test do
-  gem 'cucumber'
-  gem 'rspec'
-  gem 'simplecov'
-end
+#group :test do
+#  gem 'cucumber'
+#  gem 'rspec'
+#  gem 'simplecov'
+#end
