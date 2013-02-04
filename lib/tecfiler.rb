@@ -1,5 +1,11 @@
 require "data_mapper"
 
+# Adjust DBLOG_OUTPUT to control database logging.
+# XXX - introduce a way to control this via command line or environment
+
+#DBLOG_OUTPUT = $stderr
+#DBLOG_OUTPUT = "/tmp/tecfiler-db.log"
+
 class NilClass
   # So obj.empty? works when obj is expected by hold a String value, but is currently unset.
   def empty?
@@ -9,9 +15,12 @@ end
 
 # Require all the ruby files in the tecfiler subdirectory
 Dir["#{File.dirname(__FILE__)}/tecfiler/**/*.rb"].each {|fn| require_relative fn}
-  
-# If you want the logs displayed you have to do this before the call to setup
-DataMapper::Logger.new($stderr, :debug)
+
+# Logging must be initialized before call to setup
+if Module.const_defined?(:DBLOG_OUTPUT) && DBLOG_OUTPUT
+  $stderr.puts("Database logging enabled to #{DBLOG_OUTPUT}")
+  DataMapper::Logger.new(DBLOG_OUTPUT, :debug)
+end
 
 # Connect to SQLite database in current directory.
 DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/tecfiler.db")
