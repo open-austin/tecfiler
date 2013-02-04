@@ -158,8 +158,7 @@ module TECFiler
       ]
       
     
-    # Construct a hash of parameters to create a new Expenditure instance
-    # from an import table row.
+    # Parameters to create a new Expenditure instance from an import table row.
     def self.params_from_import_row(row, owner = nil)
       {
         :rec_type => row[:REC_TYPE],

@@ -184,8 +184,7 @@ module TECFiler
       ]
       
       
-      # Construct a hash of parameters to create a new Contribution instance
-      # from an import table row.
+      # Parameters to create a new Contribution instance from an import table row.
       def self.params_from_import_row(row)        
         {
           :rec_type => row[:REC_TYPE],
