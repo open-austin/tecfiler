@@ -1,3 +1,4 @@
+TECFILER_MODE = :TEST
 cwd = File.dirname(__FILE__)
 $:.insert(0, "#{cwd}/../lib", "#{cwd}/../../lib")
 require "minitest/autorun"
@@ -16,11 +17,10 @@ class TestModelContribution < MiniTest::Unit::TestCase
   
   def form_type_allowed?(form_type)
     TECFiler::Model::Contribution::FORM_TYPES_ALLOWED.include?(form_type)
-  end
-  
-  
+  end  
   
   def setup
+    TECFiler::initialize(:TEST)
     @t = TECFiler::Test::EntityFieldAssertions.new(self, TECFiler::Model::Contribution, proc{new_contribution_type_individual})
   end
   

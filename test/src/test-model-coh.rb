@@ -1,3 +1,4 @@
+TECFILER_MODE = :TEST
 cwd = File.dirname(__FILE__)
 $:.insert(0, "#{cwd}/../lib", "#{cwd}/../../lib")
 require "minitest/autorun"
@@ -7,6 +8,7 @@ require "test-support"
 class TestModelCOH < MiniTest::Unit::TestCase
   
   def setup
+    TECFiler::initialize(:TEST)
     @a = TECFiler::Model::COH.new(TECFiler::Test::PARAMS_COH)
     assert @a.valid?, "precondition failed: #{@a.errors.to_h}"
   end

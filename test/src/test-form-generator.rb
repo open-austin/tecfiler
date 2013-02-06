@@ -1,3 +1,4 @@
+TECFILER_MODE = :TEST
 cwd = File.dirname(__FILE__)
 $:.insert(0, "#{cwd}/../lib", "#{cwd}/../../lib")
 require "minitest/autorun"
@@ -5,9 +6,10 @@ require "tecfiler"
 require "test-support"
     
 class TestFormGenerator< MiniTest::Unit::TestCase
-  
-  # XXX - This is depending on other tests having run and created database.
-  # Would be better if we create some mock data structures and use that.
+
+  def setup
+    TECFiler::initialize(:TEST)
+  end  
   
   def test02_produce_fail_bad_entity
     e = assert_raises RuntimeError do
