@@ -5,9 +5,13 @@ module TECFiler
     
     PATH_SAMPLE_DATA_CONTRIBUTIONS = "#{TESTDIR}/data/Schedule_A.csv"
     
-    PARAMS_COH = {
-      :coh_name_first => "Moe",
+    PARAMS_COH = {      
+      :coh_name_prefix => "Dr.",
+      :coh_name_first => "Moishe",
+      :coh_name_mi => "X.",
+      :coh_name_nick => "Moe",
       :coh_name_last => "Howard",
+      :coh_name_suffix => "Esq.",
       :coh_address_street => "100 Congress Ave",
       :coh_address_city => "Austin",
       :coh_address_state => "TX",
