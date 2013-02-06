@@ -2,6 +2,7 @@ cwd = File.dirname(__FILE__)
 $:.insert(0, "#{cwd}/../lib", "#{cwd}/../../lib")
 require "minitest/autorun"
 require "tecfiler"
+require "test-support"
     
 class TestModelCOH < MiniTest::Unit::TestCase
   
@@ -71,16 +72,20 @@ class TestModelCOH < MiniTest::Unit::TestCase
     end
   end
   
-  def test_required_fields
+  def test_fields_required
     REQUIRED_FIELDS.each {|field| validate_required_field(@a, field)}
   end
   
   
-  def test_telno_fields
+  def test_fields_telno
     TELNO_FIELDS.each {|field| validate_telno_field(@a, field)}
-  end  
-
+  end
   
+  def test_coh_address
+    assert_equal ["100 Congress Ave", "Austin, TX 78701"], @a.coh_address
+    @a.coh_address_suite = "123"
+    assert_equal ["100 Congress Ave ste 123", "Austin, TX 78701"], @a.coh_address
+  end  
   
 end
 

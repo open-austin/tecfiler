@@ -71,6 +71,15 @@ module TECFiler
       
       has n, :contributions
       has n, :expenditures
+      
+      def coh_address
+        addr = []
+        a = self.coh_address_street
+        a << " ste " + self.coh_address_suite unless self.coh_address_suite.nil?
+        addr << a
+        addr << self.coh_address_city + ", " + self.coh_address_state + " " + self.coh_address_zip
+        return addr        
+      end
 
     end # class COH
     
