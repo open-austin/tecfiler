@@ -1,5 +1,5 @@
-currdir = File.dirname(__FILE__)
-$:.insert(0, "#{currdir}/../lib", "#{currdir}/../../lib")
+cwd = File.dirname(__FILE__)
+$:.insert(0, "#{cwd}/../lib", "#{cwd}/../../lib")
 require "minitest/autorun"
 require "tecfiler"
 require "test-support"
