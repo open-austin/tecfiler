@@ -71,7 +71,8 @@ module TECFiler
       
       FORM_TYPES = {
         :LOCAL_NONJUDICIAL_COH => [:F, :G, :H, :I],
-        :LOCAL_NONJUDICIAL_SPAC => [:F, :H, :I],      }
+        :LOCAL_NONJUDICIAL_SPAC => [:F, :H, :I],
+      }
         
       property :form_type, Enum[:F, :FL, :G, :H, :I], :required => true
         validates_within :form_type,
