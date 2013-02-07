@@ -114,6 +114,15 @@ module TECFiler
       property :name_suffix, String, :length => 10       # e.g. "Jr."
         validates_absence_of :name_suffix, :if => lambda{|t| t.contributor_type == :ENTITY}
        
+      def name
+        [
+          self.name_title,
+          self.name_first,
+          self.name_last,
+          self.name_suffix
+        ].reject {|s| s.empty?}.join(" ")
+      end
+          
       property :address, String, :length => 55, :required => @require_code_r_items
       property :address2, String, :length => 55
       property :city, String, :length => 30, :required => @require_code_r_items
@@ -122,6 +131,14 @@ module TECFiler
           
       def state=(value) # :nodoc:
         super(value.instance_of?(String) ? value.upcase : value)
+      end
+      
+      def full_address
+        a = []
+        a << self.address
+        a << self.address2 unless self.address2.empty?
+        a << "#{self.city}, #{self.state} #{self.zip}"
+        a
       end
       
       property :is_out_of_state_pac, Boolean

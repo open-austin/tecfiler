@@ -22,7 +22,8 @@ class TestModelContribution < MiniTest::Unit::TestCase
   def setup
     TECFiler::initialize(:TEST)
     @t = TECFiler::Test::EntityFieldAssertions.new(self, TECFiler::Model::Contribution, proc{new_contribution_type_individual})
-  end
+    @params_coh = TECFiler::Test::load_datafile("sample_coh.json")
+end
   
 
   def test01_new
@@ -36,7 +37,7 @@ class TestModelContribution < MiniTest::Unit::TestCase
   
   
   def test02_create
-    coh = TECFiler::Model::COH.create(TECFiler::Test::PARAMS_COH)
+    coh = TECFiler::Model::COH.create(@params_coh)
     refute_nil coh, "precondition failed"
       
     p = TECFiler::Test::PARAMS_CONTRIBUTION.merge(:unassociated => false, :coh => coh)
@@ -364,7 +365,7 @@ class TestModelContribution < MiniTest::Unit::TestCase
   
   
   def test83_create_from_import_row
-    coh = TECFiler::Model::COH.create(TECFiler::Test::PARAMS_COH)
+    coh = TECFiler::Model::COH.create(@params_coh)
     refute_nil coh, "precondition failed"
       
     fn = TECFiler::Test::PATH_SAMPLE_DATA_CONTRIBUTIONS 

@@ -9,7 +9,9 @@ class TestModelCOH < MiniTest::Unit::TestCase
   
   def setup
     TECFiler::initialize(:TEST)
-    @a = TECFiler::Model::COH.new(TECFiler::Test::PARAMS_COH)
+      
+    @params = TECFiler::Test::load_datafile("sample_coh.json")    
+    @a = TECFiler::Model::COH.new(@params)
     assert @a.valid?, "precondition failed: #{@a.errors.to_h}"
   end
   
@@ -87,6 +89,12 @@ class TestModelCOH < MiniTest::Unit::TestCase
     assert_equal ["100 Congress Ave", "Austin, TX 78701"], @a.coh_address
     @a.coh_address_suite = "123"
     assert_equal ["100 Congress Ave ste 123", "Austin, TX 78701"], @a.coh_address
+  end  
+  
+  def test_treasurer_address
+    assert_equal ["100 Congress Ave", "Austin, TX 78701"], @a.treasurer_address
+    @a.treasurer_address_suite = "123"
+    assert_equal ["100 Congress Ave ste 123", "Austin, TX 78701"], @a.treasurer_address
   end  
   
 end

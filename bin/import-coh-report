@@ -1,0 +1,68 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "logger"
+require "optparse"
+require "ostruct"
+require "json"
+require_relative "../lib/tecfiler.rb"
+
+PROGNAME = File.basename($0)
+
+USAGE = "usage: #{PROGNAME} [OPTIONS] COH.json CONTRIBS.csv EXPENDS.csv"
+
+@log = Logger.new($stderr)
+@log.level = Logger::INFO
+
+def die(*mssg)
+  mssg[0].insert(0, PROGNAME + ": ") unless mssg[0] =~ /^usage:/
+  STDERR.puts(mssg)
+  exit(1)
+end
+
+@options = OpenStruct.new({
+  # notused
+})
+
+begin
+  OptionParser.new do |opts|
+
+    opts.banner = USAGE
+    opts.separator "\noptions:"
+
+    opts.on("-v", "--[no-]verbose",
+      "Show debugging log messages. Sets log level to DEBUG."
+    ) {|flag| @log.level = (flag ? Logger::DEBUG : Logger::INFO)}
+
+    opts.on("-q", "--[no-]quiet",
+      "Suppress informational log messages. Sets log level to WARN."
+    ) {|flag| @log.level = (flag ? Logger::WARN : Logger::INFO)}      
+      
+    opts.on("-h", "-?", "--help",
+      "Show help, including default values."
+    ) {puts opts; exit}
+
+  end.parse!
+rescue OptionParser::ParseError => e
+  die(e.message, USAGE)
+end
+
+die(USAGE) unless ARGV.length == 3
+@fn_coh, @fn_contribs, @fn_expends = ARGV
+
+
+TECFiler::initialize
+
+@params_coh = open(@fn_coh) {|fp| JSON.parse(fp.read)}       
+@coh = TECFiler::Model::COH.create(@params_coh)
+@log.info "created COH entity id #{@coh.id}"
+
+TECFiler::ImportFile.open(@fn_contribs, :import_type => :contributions) do |import|
+  import.each do |row|
+    TECFiler::Model::Contribution.create_from_import_row(row, :coh => @coh)
+  end
+end
+@log.info "imported #{@coh.contributions.count} contribution records"
+        
+
+

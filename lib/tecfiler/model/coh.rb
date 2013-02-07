@@ -72,12 +72,32 @@ module TECFiler
       has n, :contributions
       has n, :expenditures
       
+      def coh_name
+        a = [
+          self.coh_name_prefix,
+          self.coh_name_first,
+          self.coh_name_mi,
+          self.coh_name_nick.empty? ? nil : "(#{self.coh_name_nick})",
+          self.coh_name_last,
+          self.coh_name_suffix,
+        ].reject {|x| x.empty?}.join(" ")        
+      end
+      
       def coh_address
         addr = []
         a = self.coh_address_street
         a << " ste " + self.coh_address_suite unless self.coh_address_suite.nil?
         addr << a
         addr << self.coh_address_city + ", " + self.coh_address_state + " " + self.coh_address_zip
+        return addr        
+      end
+      
+      def treasurer_address
+        addr = []
+        a = self.treasurer_address_street
+        a << " ste " + self.treasurer_address_suite unless self.treasurer_address_suite.nil?
+        addr << a
+        addr << self.treasurer_address_city + ", " + self.treasurer_address_state + " " + self.treasurer_address_zip
         return addr        
       end
 
