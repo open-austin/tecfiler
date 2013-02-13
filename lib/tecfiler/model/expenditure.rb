@@ -78,13 +78,15 @@ module TECFiler
         validates_within :form_type,
           :set => FORM_TYPES[:LOCAL_NONJUDICIAL_COH] + FORM_TYPES[:LOCAL_NONJUDICIAL_SPAC],
           :message => "form type is not appropriate for local, non-judicial offices"
+            
+      property :item_id, String, :length => 20
               
-      property :recipient_type, Enum[:INDIVIDUAL, :ENTITY], :required => true
-        validates_within :recipient_type, :set => [:ENTITY],
+      property :payee_type, Enum[:INDIVIDUAL, :ENTITY], :required => true
+        validates_within :payee_type, :set => [:ENTITY],
           :message => "Only \"ENTITY\" type contributors can be entered for this form type.",
           :if => lambda{|t| [:C, :C2, :D].include?(t.form_type)}
       
-      def recipient_type=(value)
+      def payee_type=(value)
         case value
         when /^i/i
           super(:INDIVIDUAL)
@@ -95,19 +97,19 @@ module TECFiler
         end
       end
       
-      property :name_title, String, :length => 15        # e.g. "Mr."
-        validates_absence_of :name_title, :if  => lambda{|t| t.recipient_type == :ENTITY}
-      property :name_first, String, :length => 45
-        validates_presence_of :name_first, :if => lambda{|t| t.recipient_type == :INDIVIDUAL}
-      property :name_last, String, :length => 100, :required => true
-      property :name_suffix, String, :length => 10       # e.g. "Jr."
-        validates_absence_of :name_suffix, :if  => lambda{|t| t.recipient_type == :ENTITY}
+      property :payee_name_title, String, :length => 15        # e.g. "Mr."
+        validates_absence_of :name_title, :if  => lambda{|t| t.payee_type == :ENTITY}
+      property :payee_name_first, String, :length => 45
+        validates_presence_of :name_first, :if => lambda{|t| t.payee_type == :INDIVIDUAL}
+      property :payee_name_last, String, :length => 100, :required => true
+      property :payee_name_suffix, String, :length => 10       # e.g. "Jr."
+        validates_absence_of :name_suffix, :if  => lambda{|t| t.payee_type == :ENTITY}
        
-      property :address, String, :length => 55, :required => @require_code_r_items
-      property :address2, String, :length => 55
-      property :city, String, :length => 30, :required => @require_code_r_items
-      property :state, String, :length => 2, :required => @require_code_r_items, :format => :state_code
-      property :zip, String, :length => 10, :required => @require_code_r_items, :format => :zip_code
+      property :payee_address, String, :length => 55, :required => @require_code_r_items
+      property :payee_address2, String, :length => 55
+      property :payee_city, String, :length => 30, :required => @require_code_r_items
+      property :payee_state, String, :length => 2, :required => @require_code_r_items, :format => :state_code
+      property :payee_zip, String, :length => 10, :required => @require_code_r_items, :format => :zip_code
         
       property :date, Date, :required => true
       property :amount, Decimal, :precision => 12, :scale => 2, :required => true
@@ -118,12 +120,25 @@ module TECFiler
       
       property :reimbursement_expected, Boolean
         validates_absence_of :reimbursement_expected, :if  => lambda{|t| ! [:G].include?(t.form_type)} 
-
-      # TODO - fields 19 - 28 (to another C/OH under certain circumstances)
-      # TODO - BakRef_ID (field 29, for child records)
-          
-      # fields not implemented (applies only to GPAC/MPAC filings)
-      # * ExpnCorp_YN (field 30)
+      
+      property :candidate_name_title, String, :length => 15        # e.g. "Mr."
+      property :candidate_name_first, String, :length => 45
+      property :candidate_name_last, String, :length => 100
+      property :candidate_name_suffix, String, :length => 10       # e.g. "Jr."
+       
+      property :office_held_code, Enum[:GOV, :LGV, :AG, :COM, :LC, :AC, :RC, :SCJ, :CAJ, :SEN, :REP, :COA, :DJ, :DA, :SBE, :OTH]
+      property :office_held_description, String, :length => 30
+        validates_presence_of :office_held_description, :if  => lambda{|t| t.office_held_code == :OTH}
+      property :office_held_district, String, :length => 4
+      
+      property :office_sought_code, Enum[:GOV, :LGV, :AG, :COM, :LC, :AC, :RC, :SCJ, :CAJ, :SEN, :REP, :COA, :DJ, :DA, :SBE, :OTH]
+      property :office_sought_description, String, :length => 30
+        validates_presence_of :office_sought_description, :if  => lambda{|t| t.office_sought_code == :OTH}
+      property :office_sought_district, String, :length => 4
+                         
+      property :backreference_id, String, :length => 20
+      
+      property :is_corp_contrib, Boolean      
   
       IMPORT_COLS = [
         :REC_TYPE,
@@ -159,46 +174,57 @@ module TECFiler
       ]
       
     
-    # Parameters to create a new Expenditure instance from an import table row.
-    def self.params_from_import_row(row, owner = nil)
-      {
-        :rec_type => row[:REC_TYPE],
-        :form_type => row[:FORM_TYPE],
-        :recipient_type => row[:ENTITY_CD],
-        :name_title => row[:CTRIB_NAMT],
-        :name_first => row[:CTRIB_NAMF],
-        :name_last => row[:CTRIB_NAML],
-        :name_suffix => row[:CTRIB_NAMS],
-        :address => row[:CTRIB_ADR1],
-        :address2 => row[:CTRIB_ADR2],
-        :city => row[:CTRIB_CITY],
-        :state => row[:CTRIB_STCD],
-        :zip => row[:CTRIB_ZIP4],
-        :is_out_of_state_pac => row[:OS_PAC_CB],
-        :pac_id => row[:OS_PAC_FEC],
-        :date => row[:CTRIB_DATE],
-        :amount => row[:CTRIB_AMT],
-        :in_kind_description => row[:CTRIB_DSCR],
-        :employer => row[:EMPLOYER],
-        :occupation => row[:OCCUP],
-        :coh => owner,
-      }
-    end
-    
-    # Validate a Expenditure import table row.
-    # Returns nil if row validates without problem.
-    # If validation problems were encountered, returns a DataMapper::Validations::ValidationErrors.
-    def self.validate_import_row(row, scope = :default)
-      expenditure = new(params_from_import_row(row))
-      expenditure.valid?(scope) ? nil : expenditure.errors
-    end
-    
-    # Create a new Expenditure database record from an import table row.
-    # Follows the semantics of create(): Always returns a Expenditure instance,
-    # you'll need to check saved?() to verify whether save was successful.
-    def self.create_from_import_row(row, coh)
-      create(params_from_import_row(row, coh))
-    end
+      # Parameters to create a new Expenditure instance from an import table row.
+      def self.params_from_import_row(row, owner = nil)
+        {
+          :rec_type => row[:REC_TYPE],
+          :form_type => row[:FORM_TYPE],
+          :item_id => row[:ITEM_ID],
+          :payee_type => row[:ENTITY_CD],
+          :payee_name_last => row[:PAYEE_NAML],
+          :payee_name_first => row[:PAYEE_NAMF],
+          :payee_name_title => row[:PAYEE_NAMT],
+          :payee_name_suffix => row[:PAYEE_NAMS],
+          :payee_address => row[:PAYEE_ADR1],
+          :payee_address2 => row[:PAYEE_ADR2],
+          :payee_city => row[:PAYEE_CITY],
+          :payee_state => row[:PAYEE_STCD],
+          :payee_zip => row[:PAYEE_ZIP4],
+          :date => row[:EXPN_DATE],
+          :amount => row[:EXPN_AMT],
+          :description => row[:EXPN_DESCR],
+          # skipping row[:EXPCNTR_YN] -- XXX check this
+          :reimbursement_expected => row[:REIMBUR_CB],
+          :candidate_name_last => row[:CAND_NAML],
+          :candidate_name_first => row[:CAND_NAMF],
+          :candidate_name_title => row[:CAND_NAMT],
+          :candidate_name_suffix => row[:CAND_NAMS],
+          :office_held_code => row[:OFFHLDCD],
+          :office_held_description => row[:OFFHLDNAM],
+          :office_held_district => row[:OFFHLDNUM],
+          :office_sought_code => row[:OFFSEEKCD],
+          :office_sought_description => row[:OFFSEEKNAM],
+          :office_sought_district => row[:OFFSEEKNUM],
+          :backreference_id => row[:BAKREF_ID],
+          :is_corp_contrib => row[:EXPNCORP_YN],
+          :coh => owner,
+        }
+      end
+      
+      # Validate a Expenditure import table row.
+      # Returns nil if row validates without problem.
+      # If validation problems were encountered, returns a DataMapper::Validations::ValidationErrors.
+      def self.validate_import_row(row)
+        expenditure = new(params_from_import_row(row).merge(:unassociated => true))
+        expenditure.valid? ? nil : expenditure.errors
+      end
+      
+      # Create a new Expenditure database record from an import table row.
+      # Follows the semantics of create(): Always returns a Expenditure instance,
+      # you'll need to check saved?() to verify whether save was successful.
+      def self.create_from_import_row(row, params = {})
+        create(params_from_import_row(row).merge(params))
+      end
     
     end # class Expenditure  
     
