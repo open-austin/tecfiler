@@ -63,11 +63,10 @@ TECFiler::ImportFile.open(@fn_contribs, :import_type => :contributions) do |impo
 end
 @log.info "imported #{@coh.contributions.count} contribution records"
 
-@log.warning "note - expediture import not implemented yet"
-#TECFiler::ImportFile.open(@fn_expends, :import_type => :expenditures) do |import|
-#  import.each do |row|
-#    TECFiler::Model::Expenditure.create_from_import_row(row, :coh => @coh)
-#  end
-#end
-#@log.info "imported #{@coh.expenditures.count} expenditure records"
+TECFiler::ImportFile.open(@fn_expends, :import_type => :expenditures) do |import|
+  import.each do |row|
+    TECFiler::Model::Expenditure.create_from_import_row(row, :coh => @coh)
+  end
+end
+@log.info "imported #{@coh.expenditures.count} expenditure records"
 
