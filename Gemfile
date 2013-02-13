@@ -6,12 +6,16 @@ gem "dm-sqlite-adapter", "~>1.2.0"
 gem "prawn", "~>0.12.0"
 
 group :development do
-  gem 'rake'
-#  gem 'cane'
   gem 'rdoc'
+#  gem 'cane'
 #  gem 'redcarpet'
 #  gem 'pygments.rb'
 #  gem 'pry'
+end
+
+group :development, :test do
+  gem 'rake'
+  gem 'factory_girl'
 end
 
 #group :test do
