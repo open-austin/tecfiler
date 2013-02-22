@@ -34,35 +34,25 @@ module TECFiler
     end
     
     
-    def self.produce_coh_20110928
-      
-      #require "pp" ; pp @entity, @entity.contributions, @entity.expenditures
-      
-      sched_a =  OpenStruct.new({
-        :template_page => 3,
-        :entries_per_page => 5,
-        :entry_offset => 108,
-        :dataset => @entity.contributions.all(:form_type => [:A1, :A2, :AJ, :AL]),
-      })
-      
-      sched_b =  OpenStruct.new({
-        :template_page => 4,
-        :entries_per_page => 5,
-        :entry_offset => 114,
-        :dataset => @entity.contributions.all(:form_type => [:B1, :B2, :B3, :BJ]),
-      })      
-        
-      # calculated values
-      npages = 999
-      unitimized_pledges = 0
-      total_contributions_small = 0
-      total_contributions_itemized = @entity.contributions.sum(:amount) || 0
-      total_expenditures_small = 0
-      total_expenditures_itemized = @entity.expenditures.sum(:amount) || 0
-      balance_contributions = 0
-      outstanding_loans = 0
+    def self.produce_coh_20110928      
       
       Prawn::Document.generate(@outfile) do |pdf|
+      
+        sched_a = TECFiler::Schedule::A.new(pdf, @entity,
+          @entity.contributions.all(:form_type => [:A1, :A2, :AJ, :AL]))
+        sched_b = TECFiler::Schedule::A.new(pdf, @entity,
+          @entity.contributions.all(:form_type => [:B1, :B2, :B3, :BJ]))
+
+          
+        # calculated values
+        npages = 999
+        unitimized_pledges = 0
+        total_contributions_small = 0
+        total_contributions_itemized = @entity.contributions.sum(:amount) || 0
+        total_expenditures_small = 0
+        total_expenditures_itemized = @entity.expenditures.sum(:amount) || 0
+        balance_contributions = 0
+        outstanding_loans = 0
         
         pdf.text_box "TECFiler report for COH entity id #{@entity.id}"
         
@@ -81,7 +71,7 @@ module TECFiler
         end
 
         #
-        # cover page 1/2
+        # COH page 1/2
         #
         
         pdf.start_new_page :template => @template, :template_page => 1  
@@ -140,11 +130,11 @@ module TECFiler
         pdf.t 416, 629, "X" if @entity.election_type == :GENERAL
         pdf.t 504, 629, "X" if @entity.election_type == :SPECIAL
         
-        pdf.t 141, 694, @entity.office_held
-        pdf.t 353, 694, @entity.office_sought       
+        pdf.t 141, 684, @entity.office_held
+        pdf.t 353, 684, @entity.office_sought       
 
         #
-        # page 2/2
+        # COH page 2/2
         #
         
         pdf.start_new_page :template => @template, :template_page => 2  
@@ -158,75 +148,8 @@ module TECFiler
         pdf.t 470, 484, "%-12.2f" % [balance_contributions]
         pdf.t 470, 517, "%-12.2f" % [outstanding_loans]
         
-        #
-        # Schedule A
-        #
-      
-        nrecs = sched_a.dataset.count
-        if nrecs > 0
-          npages = (nrecs + sched_a.entries_per_page-1) / sched_a.entries_per_page
-          pageno = 0
-          entryno = sched_a.entries_per_page # to force new page on first rec
-          sched_a.dataset.each do |c|
-            entryno += 1
-            if entryno > sched_a.entries_per_page
-              pdf.start_new_page :template => @template, :template_page => sched_a.template_page
-              pageno += 1
-              entryno = 1
-            end  
-            
-            pdf.t 408, 114, "#{pageno} of #{npages}"
-            pdf.t 54, 143, @entity.coh_name
-            off = (entryno-1) * sched_a.entry_offset
-            
-            pdf.t  48, 178+off, c.date.strftime("%m/%d/%Y")
-            pdf.t 128, 178+off, c.name
-            pdf.t 232, 162+off, "X" if c.is_out_of_state_pac
-            pdf.t 302, 162+off, c.pac_id
-            pdf.t 128, 207+off, c.full_address.join("\n")
-            pdf.t 396, 181+off, "%.2f" % [c.amount]
-            pdf.t 468, 181+off, c.in_kind_description
-            pdf.t  54, 252+off, c.occupation
-            pdf.t 328, 252+off, c.employer
-          end # next contribution
-        end
-
-        #
-        # Schedule B
-        #
-        
-        nrecs = sched_b.dataset.count
-        if nrecs > 0
-          npages = (nrecs + sched_b.entries_per_page-1) / sched_b.entries_per_page
-          pageno = 0
-          entryno = sched_b.entries_per_page # to force new page on first rec
-          sched_b.dataset.each do |c|
-            entryno += 1
-            if entryno > sched_b.entries_per_page
-              pdf.start_new_page :template => @template, :template_page => sched_b.template_page
-              pageno += 1
-              entryno = 1
-            end  
-            
-            pdf.t 408, 114, "#{pageno} of #{npages}"
-            pdf.t  54, 143, @entity.coh_name
-            pdf.t 488, 170, "%.2f" % unitimized_pledges if pageno == 1
-            
-            # these fields are the same as sched, just 26pts lower down the page
-            off = (entryno-1) * sched_b.entry_offset + 26
-            
-            pdf.t  48, 178+off, c.date.strftime("%m/%d/%Y")
-            pdf.t 128, 178+off, c.name
-            pdf.t 232, 162+off, "X" if c.is_out_of_state_pac
-            pdf.t 302, 162+off, c.pac_id
-            pdf.t 128, 207+off, c.full_address.join("\n")
-            pdf.t 396, 181+off, "%.2f" % [c.amount]
-            pdf.t 468, 181+off, c.in_kind_description
-            pdf.t  54, 252+off, c.occupation
-            pdf.t 328, 252+off, c.employer
-          end # next contribution
-        end
- 
+        sched_a.produce
+        sched_b.produce      
       
       end
       
