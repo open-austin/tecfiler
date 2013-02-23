@@ -92,9 +92,9 @@ class TestModelCOH < MiniTest::Unit::TestCase
   end  
   
   def test_treasurer_address
-    assert_equal ["100 Congress Ave", "Austin, TX 78701"], @a.treasurer_address
+    assert_equal ["100 E 1st St", "Austin, TX 78701"], @a.treasurer_address
     @a.treasurer_address_suite = "123"
-    assert_equal ["100 Congress Ave ste 123", "Austin, TX 78701"], @a.treasurer_address
+    assert_equal ["100 E 1st St ste 123", "Austin, TX 78701"], @a.treasurer_address
   end  
   
 end
