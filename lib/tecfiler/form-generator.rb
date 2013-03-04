@@ -37,12 +37,6 @@ module TECFiler
     def self.produce_coh_20110928      
       
       Prawn::Document.generate(@outfile) do |pdf|
-      
-        sched_a = TECFiler::Schedule::A.new(pdf, @entity,
-          @entity.contributions.all(:form_type => [:A1, :A2, :AJ, :AL]))
-        sched_b = TECFiler::Schedule::A.new(pdf, @entity,
-          @entity.contributions.all(:form_type => [:B1, :B2, :B3, :BJ]))
-
           
         # calculated values
         npages = 999
@@ -53,6 +47,24 @@ module TECFiler
         total_expenditures_itemized = @entity.expenditures.sum(:amount) || 0
         balance_contributions = 0
         outstanding_loans = 0
+      
+        sched_a = TECFiler::Schedule::A.new(pdf, @entity,
+          @entity.contributions.all(:form_type => [:A1, :A2, :AJ, :AL]))
+        sched_b = TECFiler::Schedule::B.new(pdf, @entity,
+          @entity.contributions.all(:form_type => [:B1, :B2, :B3, :BJ]),
+          :unitemized_pledges => unitimized_pledges)
+        # sched_e [TODO]
+        sched_f = TECFiler::Schedule::F.new(pdf, @entity,
+          @entity.expenditures.all(:form_type => [:F]))
+#        sched_g = TECFiler::Schedule::G.new(pdf, @entity,
+#          @entity.expenditures.all(:form_type => [:G]))
+#        sched_h = TECFiler::Schedule::H.new(pdf, @entity,
+#          @entity.expenditures.all(:form_type => [:H]))   
+#        sched_i = TECFiler::Schedule::I.new(pdf, @entity,
+#          @entity.expenditures.all(:form_type => [:I]))   
+        # sched_k [TODO]
+        # sched_t [TODO]
+        # form FR [TODO]
         
         pdf.text_box "TECFiler report for COH entity id #{@entity.id}"
         
@@ -149,8 +161,16 @@ module TECFiler
         pdf.t 470, 517, "%-12.2f" % [outstanding_loans]
         
         sched_a.produce
-        sched_b.produce      
-      
+        sched_b.produce     
+        # sched_e.produce [TODO]
+        sched_f.produce     
+#        sched_g.produce     
+#        sched_h.produce     
+#        sched_i.produce     
+        # sched_k.produce [TODO]
+        # sched_t.produce [TODO]
+        # form FR [TODO]
+
       end
       
     end
