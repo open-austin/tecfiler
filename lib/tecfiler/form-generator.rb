@@ -39,7 +39,6 @@ module TECFiler
       Prawn::Document.generate(@outfile) do |pdf|
           
         # calculated values
-        npages = 999
         unitimized_pledges = 0
         total_contributions_small = 0
         total_contributions_itemized = @entity.contributions.sum(:amount) || 0
@@ -56,15 +55,23 @@ module TECFiler
         # sched_e [TODO]
         sched_f = TECFiler::Schedule::F.new(pdf, @entity,
           @entity.expenditures.all(:form_type => [:F]))
-#        sched_g = TECFiler::Schedule::G.new(pdf, @entity,
-#          @entity.expenditures.all(:form_type => [:G]))
-#        sched_h = TECFiler::Schedule::H.new(pdf, @entity,
-#          @entity.expenditures.all(:form_type => [:H]))   
-#        sched_i = TECFiler::Schedule::I.new(pdf, @entity,
-#          @entity.expenditures.all(:form_type => [:I]))   
+        sched_g = TECFiler::Schedule::G.new(pdf, @entity,
+          @entity.expenditures.all(:form_type => [:G]))
+        sched_h = TECFiler::Schedule::H.new(pdf, @entity,
+          @entity.expenditures.all(:form_type => [:H]))   
+        sched_i = TECFiler::Schedule::I.new(pdf, @entity,
+          @entity.expenditures.all(:form_type => [:I]))   
         # sched_k [TODO]
         # sched_t [TODO]
         # form FR [TODO]
+            
+        npages = 2 \
+          + sched_a.num_pages \
+          + sched_b.num_pages \
+          + sched_f.num_pages \
+          + sched_g.num_pages \
+          + sched_h.num_pages \
+          + sched_i.num_pages
         
         pdf.text_box "TECFiler report for COH entity id #{@entity.id}"
         
@@ -164,9 +171,9 @@ module TECFiler
         sched_b.produce     
         # sched_e.produce [TODO]
         sched_f.produce     
-#        sched_g.produce     
-#        sched_h.produce     
-#        sched_i.produce     
+        sched_g.produce     
+        sched_h.produce     
+        sched_i.produce     
         # sched_k.produce [TODO]
         # sched_t.produce [TODO]
         # form FR [TODO]

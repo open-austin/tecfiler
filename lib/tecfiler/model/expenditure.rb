@@ -104,13 +104,30 @@ module TECFiler
       property :payee_name_last, String, :length => 100, :required => true
       property :payee_name_suffix, String, :length => 10       # e.g. "Jr."
         validates_absence_of :name_suffix, :if  => lambda{|t| t.payee_type == :ENTITY}
-       
+      
+      def payee_name
+        [
+          self.payee_name_title,
+          self.payee_name_first,
+          self.payee_name_last,
+          self.payee_name_suffix
+        ].reject {|s| s.empty?}.join(" ")
+      end
+            
       property :payee_address, String, :length => 55, :required => @require_code_r_items
       property :payee_address2, String, :length => 55
       property :payee_city, String, :length => 30, :required => @require_code_r_items
       property :payee_state, String, :length => 2, :required => @require_code_r_items, :format => :state_code
       property :payee_zip, String, :length => 10, :required => @require_code_r_items, :format => :zip_code
-        
+      
+      def payee_full_address
+        a = []
+        a << self.payee_address
+        a << self.payee_address2 unless self.payee_address2.empty?
+        a << "#{self.payee_city}, #{self.payee_state} #{self.payee_zip}"
+        a
+      end
+            
       property :date, Date, :required => true
       property :amount, Decimal, :precision => 12, :scale => 2, :required => true
       property :description, String, :length => 100, :required => @require_code_r_items

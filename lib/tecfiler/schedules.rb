@@ -22,7 +22,7 @@ module TECFiler
         @entity = entity
         @dataset = dataset
         
-        @template_file = attrs[:template_file] or DEFAULT_TEMPLATE_FILE
+        @template_file = attrs[:template_file] || DEFAULT_TEMPLATE_FILE
         @template_page = attrs[:template_page] or raise "required attribute :template_page not defined"
         @entries_per_page = attrs[:entries_per_page] or raise "required attribute :entries_per_page not defined"
         @entry_height = attrs[:entry_height] or raise "required attribute :entry_height not defined"
@@ -152,6 +152,33 @@ module TECFiler
         super(pdf, entity, dataset, {
           :template_page => 6,
           :entries_per_page => 4,
+          :entry_height => 136,
+        }.merge(attrs))
+      end
+    
+      def emit_page_header(pageno)
+        field  45, 189, "#{pageno} of #{@num_pages}"
+        field 151, 189, @entity.coh_name
+      end 
+    
+      def emit_entry(offset, entry)
+        y = 214
+        field  50,  0+y+offset, entry.date.strftime("%m/%d/%Y")
+        field 153,  0+y+offset, entry.payee_name
+        field  50, 27+y+offset, "%.2f" % [entry.amount]
+        field 153, 27+y+offset, entry.payee_full_address.join("\n")
+        field 153, 74+y+offset, "???" # entry.category [FIXME]
+        field 360, 74+y+offset, entry.description
+        # TODO candiate info
+      end
+      
+    end # TECFiler::Schedule::F
+    
+    class G < GenericSchedule
+      def initialize(pdf, entity, dataset, attrs = {})
+        super(pdf, entity, dataset, {
+          :template_page => 7,
+          :entries_per_page => 4,
           :entry_height => 99,
         }.merge(attrs))
       end
@@ -164,16 +191,44 @@ module TECFiler
       def emit_entry(offset, entry) 
         # TODO
       end
-      
-    end # TECFiler::Schedule::F
-    
-    class G < GenericSchedule
     end # TECFiler::Schedule::G
     
     class H < GenericSchedule
+      def initialize(pdf, entity, dataset, attrs = {})
+        super(pdf, entity, dataset, {
+          :template_page => 8,
+          :entries_per_page => 4,
+          :entry_height => 99,
+        }.merge(attrs))
+      end
+    
+      def emit_page_header(pageno)
+        field 408, 114, "#{pageno} of #{@num_pages}"
+        field  54, 143, @entity.coh_name
+      end 
+    
+      def emit_entry(offset, entry) 
+        # TODO
+      end
     end # TECFiler::Schedule::H
     
     class I < GenericSchedule
+      def initialize(pdf, entity, dataset, attrs = {})
+        super(pdf, entity, dataset, {
+          :template_page => 9,
+          :entries_per_page => 4,
+          :entry_height => 99,
+        }.merge(attrs))
+      end
+    
+      def emit_page_header(pageno)
+        field 408, 114, "#{pageno} of #{@num_pages}"
+        field  54, 143, @entity.coh_name
+      end 
+    
+      def emit_entry(offset, entry) 
+        # TODO
+      end
     end # TECFiler::Schedule::I
 
   end # module Schedule
