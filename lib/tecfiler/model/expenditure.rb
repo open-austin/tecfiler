@@ -142,7 +142,16 @@ module TECFiler
       property :candidate_name_first, String, :length => 45
       property :candidate_name_last, String, :length => 100
       property :candidate_name_suffix, String, :length => 10       # e.g. "Jr."
-       
+      
+      def candidate_name
+        [
+          self.candidate_name_title,
+          self.candidate_name_first,
+          self.candidate_name_last,
+          self.candidate_name_suffix
+        ].reject {|s| s.empty?}.join(" ")
+      end
+      
       property :office_held_code, Enum[:GOV, :LGV, :AG, :COM, :LC, :AC, :RC, :SCJ, :CAJ, :SEN, :REP, :COA, :DJ, :DA, :SBE, :OTH]
       property :office_held_description, String, :length => 30
         validates_presence_of :office_held_description, :if  => lambda{|t| t.office_held_code == :OTH}

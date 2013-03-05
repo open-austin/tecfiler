@@ -169,7 +169,9 @@ module TECFiler
         field 153, 27+y+offset, entry.payee_full_address.join("\n")
         field 153, 74+y+offset, "???" # entry.category [FIXME]
         field 360, 74+y+offset, entry.description
-        # TODO candiate info
+        field 162, 107+y+offset, entry.candidate_name
+        field 360, 107+y+offset, entry.office_sought_description
+        field 493, 107+y+offset, entry.office_held_description
       end
       
     end # TECFiler::Schedule::F
@@ -179,18 +181,26 @@ module TECFiler
         super(pdf, entity, dataset, {
           :template_page => 7,
           :entries_per_page => 4,
-          :entry_height => 99,
+          :entry_height => 132,
         }.merge(attrs))
       end
-    
+
       def emit_page_header(pageno)
-        field 408, 114, "#{pageno} of #{@num_pages}"
-        field  54, 143, @entity.coh_name
+        field  45, 192, "#{pageno} of #{@num_pages}"
+        field 151, 192, @entity.coh_name
       end 
-    
-      def emit_entry(offset, entry) 
-        # TODO
+
+      def emit_entry(offset, entry)
+        y = 222
+        field  50,  0+y+offset, entry.date.strftime("%m/%d/%Y")
+        field 150,  0+y+offset, entry.payee_name
+        field  50, 36+y+offset, "%.2f" % [entry.amount]
+        field 150, 36+y+offset, entry.payee_full_address.join("\n")        
+        field  50, 57+y+offset, "X" if entry.reimbursement_expected
+        field 150, 91+y+offset, "???" # entry.category [FIXME]
+        field 360, 91+y+offset, entry.description
       end
+      
     end # TECFiler::Schedule::G
     
     class H < GenericSchedule
@@ -198,18 +208,29 @@ module TECFiler
         super(pdf, entity, dataset, {
           :template_page => 8,
           :entries_per_page => 4,
-          :entry_height => 99,
+          :entry_height => 136,
         }.merge(attrs))
       end
-    
+
       def emit_page_header(pageno)
-        field 408, 114, "#{pageno} of #{@num_pages}"
-        field  54, 143, @entity.coh_name
+        field  45, 189, "#{pageno} of #{@num_pages}"
+        field 151, 189, @entity.coh_name
       end 
-    
-      def emit_entry(offset, entry) 
-        # TODO
+
+      # TODO - this is copied from schedule F -- DRY!!
+      def emit_entry(offset, entry)
+        y = 214
+        field  50,  0+y+offset, entry.date.strftime("%m/%d/%Y")
+        field 153,  0+y+offset, entry.payee_name
+        field  50, 27+y+offset, "%.2f" % [entry.amount]
+        field 153, 27+y+offset, entry.payee_full_address.join("\n")
+        field 153, 74+y+offset, "???" # entry.category [FIXME]
+        field 360, 74+y+offset, entry.description
+        field 162, 107+y+offset, entry.candidate_name
+        field 360, 107+y+offset, entry.office_sought_description
+        field 493, 107+y+offset, entry.office_held_description
       end
+      
     end # TECFiler::Schedule::H
     
     class I < GenericSchedule
@@ -217,18 +238,25 @@ module TECFiler
         super(pdf, entity, dataset, {
           :template_page => 9,
           :entries_per_page => 4,
-          :entry_height => 99,
+          :entry_height => 132,
         }.merge(attrs))
       end
-    
+
       def emit_page_header(pageno)
-        field 408, 114, "#{pageno} of #{@num_pages}"
-        field  54, 143, @entity.coh_name
+        field  45, 192, "#{pageno} of #{@num_pages}"
+        field 151, 192, @entity.coh_name
       end 
-    
-      def emit_entry(offset, entry) 
-        # TODO
+
+      def emit_entry(offset, entry)
+        y = 222
+        field  50,  0+y+offset, entry.date.strftime("%m/%d/%Y")
+        field 150,  0+y+offset, entry.payee_name
+        field  50, 36+y+offset, "%.2f" % [entry.amount]
+        field 150, 36+y+offset, entry.payee_full_address.join("\n")        
+        field 150, 91+y+offset, "???" # entry.category [FIXME]
+        field 360, 91+y+offset, entry.description
       end
+      
     end # TECFiler::Schedule::I
 
   end # module Schedule
