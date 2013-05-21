@@ -1,5 +1,0 @@
-#Rec_Type,Form_Type,Item_ID,Entity_Cd,Ctrib_NamL,Ctrib_NamF,Ctrib_NamT,Ctrib_NamS,Ctrib_Adr1,Ctrib_Adr2,Ctrib_City,Ctrib_StCd,Ctrib_ZIP4,OS_PAC_CB,OS_PAC_FEC,Ctrib_Date,Ctrib_Amt,Ctrib_Dscr,Employer,Occup,Job_Title,Spous_Law,Parent1,Parent2
-RCPT,A1,,IND,Doe,John,Mr.,Jr.,210 Main. St. Apt. 110,,Corpus Christi,TX,78401,,,20050625,50,,First Community Bank,Banker,,,,
-RCPT,A1,,IND,Box,Richard,Dr.,,1111 Guadalupe Ste. 500,,Austin,TX,78705-4555,,,20050625,50,,Yoakum National Bank,Bank Director,,,,
-RCPT,A1,,ENT,Imaginary PAC,,,,Bank Two Building,2200 Vista Dr. Ste. 512,Waco,TX,76201-9056,,,20050625,5000,,,,,,,
-PLDG,B1,,ENT,Imaginary PAC,,,,Bank Two Building,2200 Vista Dr. Ste. 512,Waco,TX,76201-9056,,,20050630,4000,,,,,,,
