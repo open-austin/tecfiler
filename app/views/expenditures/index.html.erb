@@ -1,0 +1,37 @@
+<h1>Listing expenditures</h1>
+
+<table>
+  <tr>
+    <th>Rec type</th>
+    <th>Form type</th>
+    <th>Item</th>
+    <th>Payee type</th>
+    <th>Payee name title</th>
+    <th>Payee name first</th>
+    <th>Payee name last</th>
+    <th>Payee name suffix</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @expenditures.each do |expenditure| %>
+  <tr>
+    <td><%= expenditure.rec_type %></td>
+    <td><%= expenditure.form_type %></td>
+    <td><%= expenditure.item_id %></td>
+    <td><%= expenditure.payee_type %></td>
+    <td><%= expenditure.payee_name_title %></td>
+    <td><%= expenditure.payee_name_first %></td>
+    <td><%= expenditure.payee_name_last %></td>
+    <td><%= expenditure.payee_name_suffix %></td>
+    <td><%= link_to 'Show', expenditure %></td>
+    <td><%= link_to 'Edit', edit_expenditure_path(expenditure) %></td>
+    <td><%= link_to 'Destroy', expenditure, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Expenditure', new_expenditure_path %>

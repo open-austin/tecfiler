@@ -1,0 +1,16 @@
+<%= render :partial => 'shared/filers' %>
+
+<%= link_to 'Add a New Filer', new_user_filer_path(@user) %>
+
+<% content_for(:sidebar) do %>
+  <h2>Instructions</h2>
+  <p>
+    Please use the form on the left to manage your filer information.
+    You can add and edit your filer records as needed.
+  </p>
+  <p>
+    At least one filer and treasurer must be added before a report
+    can be filed.
+  </p>
+<% end %>
+

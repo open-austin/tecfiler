@@ -1,0 +1,43 @@
+<legend>Your Reports</legend>
+
+<% if @reports.present? %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Report type</th>
+        <th>Status</th>
+        <th>Election date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    <% @reports.each do |report| %>
+      <tr>
+        <td><%= report.report_type %></td>
+        <td><%= report.status %></td>
+        <td><%= report.election_date %></td>
+        <td>
+          <%= link_to 'Show details', user_filer_report_path(@user, @filer, report) %>
+          <%= link_to 'Edit', edit_user_filer_report_path(@user, @filer, report), :class => 'btn btn-mini' %>
+          <%= link_to 'Delete', user_filer_report_path(@user, @filer, report), :method => :delete, 
+            :confirm => 'Are you sure you want to delete this report? The action cannot be undone.', 
+            :class => 'btn btn-mini btn-danger' %>
+      </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>You haven't added any reports, yet.</p>
+<% end %>
+
+<%= link_to 'Add a New Report', new_user_filer_report_path(@user, @filer) %>
+
+<% content_for(:sidebar) do %>
+  <h2>Instructions</h2>
+  <p>
+    Please use the form on the left to manage your reports.
+  </p>
+<% end %>
+

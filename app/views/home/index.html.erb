@@ -1,0 +1,47 @@
+<h1>Austin Campaign Report Filing</h1>
+
+<p>
+	Welcome to the City of Austin online campaign finance report filing.
+</p>
+
+<% if user_signed_in? %>
+
+  <%= render 'filer' %>
+
+  <%= render 'treasurer' %>
+
+  <%= render 'reports' %>
+
+  <% content_for(:sidebar) do %>
+    <h2>Instructions</h2>
+    Please use the form on the left to manage your filing information and reports.
+  <% end %>
+
+<% else %>
+ 
+  <p>
+    Political campaigns must file finance disclosures with the city. 
+    This website provides an alternative to filing the reports on paper or PDF files 
+    by allowing electronic filing of campaign finance reports. 
+  </p>
+
+  <p>
+    In April, 2012, the City Council passed an ordinance to create an online, searchable 
+    database of campaign and lobbyist filings.  
+  </p>
+
+ <p>
+    To get started, please <%= link_to 'Login', new_user_session_path %> or 
+    <%= link_to 'Sign up for a new account', new_user_registration_path %>.
+  </p>
+
+  <% content_for(:sidebar) do %>
+      <h3>Created by</h3>
+      <div>
+        <%= link_to "http://www.open-austin.org/" do %>
+          <%= image_tag "logo_open_austin_230x46.png", :size => "230x46", :alt => "Open Austin", :title => "Open Austin" %><br />
+        <% end %>
+      </div>
+  <% end %>
+
+<% end %>

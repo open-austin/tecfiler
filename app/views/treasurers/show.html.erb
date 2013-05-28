@@ -1,0 +1,71 @@
+<h1>THIS PAGE IS NOT USED</h1>
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name prefix:</b>
+  <%= @treasurer.name_prefix %>
+</p>
+
+<p>
+  <b>Name first:</b>
+  <%= @treasurer.name_first %>
+</p>
+
+<p>
+  <b>Name mi:</b>
+  <%= @treasurer.name_mi %>
+</p>
+
+<p>
+  <b>Name nick:</b>
+  <%= @treasurer.name_nick %>
+</p>
+
+<p>
+  <b>Name last:</b>
+  <%= @treasurer.name_last %>
+</p>
+
+<p>
+  <b>Name suffix:</b>
+  <%= @treasurer.name_suffix %>
+</p>
+
+<p>
+  <b>Address street:</b>
+  <%= @treasurer.address_street %>
+</p>
+
+<p>
+  <b>Address suite:</b>
+  <%= @treasurer.address_suite %>
+</p>
+
+<p>
+  <b>Address city:</b>
+  <%= @treasurer.address_city %>
+</p>
+
+<p>
+  <b>Address state:</b>
+  <%= @treasurer.address_state %>
+</p>
+
+<p>
+  <b>Address zip:</b>
+  <%= @treasurer.address_zip %>
+</p>
+
+<p>
+  <b>Address changed:</b>
+  <%= @treasurer.address_changed %>
+</p>
+
+<p>
+  <b>Phone:</b>
+  <%= @treasurer.phone %>
+</p>
+
+<%= link_to 'Edit', edit_user_filer_treasurer_path(@user, @filer, @treasurer) %> |
+<%= link_to 'Back', user_filer_treasurers_path(@user, @filer) %>

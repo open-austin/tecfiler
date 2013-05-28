@@ -1,0 +1,65 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Rec type:</b>
+  <%= @contribution.rec_type %>
+</p>
+
+<p>
+  <b>Form type:</b>
+  <%= @contribution.form_type %>
+</p>
+
+<p>
+  <b>Contributor type:</b>
+  <%= @contribution.contributor_type %>
+</p>
+
+<p>
+  <b>Name title:</b>
+  <%= @contribution.name_title %>
+</p>
+
+<p>
+  <b>Name first:</b>
+  <%= @contribution.name_first %>
+</p>
+
+<p>
+  <b>Name last:</b>
+  <%= @contribution.name_last %>
+</p>
+
+<p>
+  <b>Name suffix:</b>
+  <%= @contribution.name_suffix %>
+</p>
+
+<p>
+  <b>Address:</b>
+  <%= @contribution.address %>
+</p>
+
+<p>
+  <b>Address2:</b>
+  <%= @contribution.address2 %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%= @contribution.city %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @contribution.state %>
+</p>
+
+<p>
+  <b>Zip:</b>
+  <%= @contribution.zip %>
+</p>
+
+
+<%= link_to 'Edit', edit_contribution_path(@contribution) %> |
+<%= link_to 'Back', contributions_path %>

@@ -1,0 +1,45 @@
+<h1>Listing contributions</h1>
+
+<table>
+  <tr>
+    <th>Rec type</th>
+    <th>Form type</th>
+    <th>Contributor type</th>
+    <th>Name title</th>
+    <th>Name first</th>
+    <th>Name last</th>
+    <th>Name suffix</th>
+    <th>Address</th>
+    <th>Address2</th>
+    <th>City</th>
+    <th>State</th>
+    <th>Zip</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @contributions.each do |contribution| %>
+  <tr>
+    <td><%= contribution.rec_type %></td>
+    <td><%= contribution.form_type %></td>
+    <td><%= contribution.contributor_type %></td>
+    <td><%= contribution.name_title %></td>
+    <td><%= contribution.name_first %></td>
+    <td><%= contribution.name_last %></td>
+    <td><%= contribution.name_suffix %></td>
+    <td><%= contribution.address %></td>
+    <td><%= contribution.address2 %></td>
+    <td><%= contribution.city %></td>
+    <td><%= contribution.state %></td>
+    <td><%= contribution.zip %></td>
+    <td><%= link_to 'Show', contribution %></td>
+    <td><%= link_to 'Edit', edit_contribution_path(contribution) %></td>
+    <td><%= link_to 'Destroy', contribution, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Contribution', new_contribution_path %>

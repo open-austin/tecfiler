@@ -1,0 +1,39 @@
+<h1>THIS PAGE IS NOT USED</h1>
+
+<legend>Treasurer for <%= @filer.name_first %> <%= @filer.name_last %></legend>
+
+<% if @treasurer.present? %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td><%= @treasurer.name_first %></td>
+        <td><%= @treasurer.name_last %></td>
+        <td>
+          <%= link_to 'Show details', user_filer_treasurer_path(@user, @filer, @treasurer) %>
+          <%= link_to 'Edit', edit_user_filer_treasurer_path(@user, @filer, @treasurer), :class => 'btn btn-mini' %>
+          <%= link_to 'Delete', user_filer_treasurer_path(@user, @filer, @treasurer), :method => :delete, 
+            :confirm => 'Are you sure you want to delete this treasurer? The action cannot be undone.', 
+            :class => 'btn btn-mini btn-danger' %>
+      </td>
+      </tr>
+    </tbody>
+  </table>
+<% else %>
+  <p>You haven't added a treasurer, yet.</p>
+<% end %>
+
+<br />
+
+<p><%= link_to 'Add a Treasurer', new_user_filer_treasurer_path(@user, @filer) %></p>
+
+<p><%= link_to "Back to #{@filer.name_first} #{@filer.name_last}", user_filer_path(@user, @filer) %></p>
+
+<p><%= link_to 'Back to Filers', user_filers_path(@user) %></p>

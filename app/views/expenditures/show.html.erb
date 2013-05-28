@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Rec type:</b>
+  <%= @expenditure.rec_type %>
+</p>
+
+<p>
+  <b>Form type:</b>
+  <%= @expenditure.form_type %>
+</p>
+
+<p>
+  <b>Item:</b>
+  <%= @expenditure.item_id %>
+</p>
+
+<p>
+  <b>Payee type:</b>
+  <%= @expenditure.payee_type %>
+</p>
+
+<p>
+  <b>Payee name title:</b>
+  <%= @expenditure.payee_name_title %>
+</p>
+
+<p>
+  <b>Payee name first:</b>
+  <%= @expenditure.payee_name_first %>
+</p>
+
+<p>
+  <b>Payee name last:</b>
+  <%= @expenditure.payee_name_last %>
+</p>
+
+<p>
+  <b>Payee name suffix:</b>
+  <%= @expenditure.payee_name_suffix %>
+</p>
+
+
+<%= link_to 'Edit', edit_expenditure_path(@expenditure) %> |
+<%= link_to 'Back', expenditures_path %>

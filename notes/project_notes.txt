@@ -1,0 +1,37 @@
+
+gems in use:
+
+https://github.com/plataformatec/devise
+https://github.com/thoughtbot/paperclip
+
+http://railscasts.com/episodes/328-twitter-bootstrap-basics?view=asciicast
+https://github.com/seyhunak/twitter-bootstrap-rails
+http://stackoverflow.com/questions/15155890/styling-form-error-message-bootstrap-rails
+
+
+rails new tecfiler-ar
+rails generate devise:install
+rails g devise:views
+rails generate devise User
+bundle exec rake db:migrate
+rails generate controller home
+rails g bootstrap:install
+
+
+
+rails g scaffold Filer name_prefix:string name_first:string name_mi:string name_nick:string name_last:string name_suffix:string address_street:string address_suite:string address_city:string address_state:string address_zip:string address_changed:boolean phone:string
+
+rake db:migrate
+rails g bootstrap:themed Filers
+
+rails g scaffold Treasurer name_prefix:string name_first:string name_mi:string name_nick:string name_last:string name_suffix:string address_street:string address_suite:string address_city:string address_state:string address_zip:string address_changed:boolean phone:string
+
+rails g scaffold Report report_type:enum status:string period_begin:date period_end:date election_date:date election_type:enum office_held:string office_sought:string
+
+
+rails g scaffold Contribution rec_type:enum form_type:enum contributor_type:enum name_title:string name_first:string name_last:string name_suffix:string address:string address2:string city:string state:string zip:string
+
+
+rails g scaffold Expenditure rec_type:enum form_type:enum item_id:string payee_type:enum payee_name_title:string payee_name_first:string payee_name_last:string payee_name_suffix:string
+
+

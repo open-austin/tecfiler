@@ -1,0 +1,54 @@
+<%= form_for [@user, @filer, @report], :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend>Expenditure File</legend>
+
+    <% if @report.expenditure_csv_file_name.present? %>
+      <p>Your expenditure file details are below. Uploading a new file will replace this one.</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>File name</th>
+            <th>Content type</th>
+            <th>File size</th>
+            <th>Uploaded</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td><%= link_to @report.expenditure_csv_file_name, @report.expenditure_csv.url %></td>
+            <td><%= @report.expenditure_csv_content_type %></td>
+            <td><%= @report.expenditure_csv_file_size %></td>
+            <td><%= @report.expenditure_csv_updated_at %></td>
+          </tr>
+        </tbody>
+      </table>
+    <% else %>
+      <p>You haven't added an expenditure file, yet.</p>
+    <% end %>
+
+
+    <% if @report.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
+
+        <ul>
+        <% @report.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="control-group">
+      <%= f.label "Expenditure File", :class => 'control-label' %>
+      <div class="controls">
+   			<%= f.file_field :expenditure_csv %>
+        <%= f.submit "Upload", :class => 'btn btn-primary' %>
+        <%= link_to 'Cancel', root_path, :class => 'btn' %>
+      </div>
+    </div>
+
+  </fieldset>
+<% end %>
+

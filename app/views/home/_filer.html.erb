@@ -1,0 +1,34 @@
+<div class="span4">
+  <legend>Filer Details</legend>
+  <% if @filer.present? %>
+    <address>
+      <strong><%= @filer.name_prefix %>
+      <%= @filer.name_first %>
+      <%= @filer.name_mi %>
+      <%= @filer.name_last %>
+      <%= @filer.name_suffix %>
+      (<%= @filer.name_nick %>)</strong><br />
+
+      <%= @filer.address_street %>
+      <%= @filer.address_suite %><br />
+      <%= @filer.address_city %>
+      <%= @filer.address_state %>
+      <%= @filer.address_zip %><br />
+      <%= @filer.phone %>
+    </address> 
+    
+    <% if @filer.address_changed == true %>
+      <p>Change of address marked.</p>
+    <% end %>
+
+    <div class="form-actions">
+      <%= link_to 'Edit Filer', edit_user_filer_path(@user, @filer), :class => 'btn' %>
+    </div>
+  <% else %>
+    <p>You haven't added your filer information, yet. Please add your filer information to continue.</p>
+    <div class="form-actions">
+      <%= link_to 'Add Filer', new_user_filer_path(@user), :class => 'btn' %>
+    </div>
+  <% end %>
+</div>
+

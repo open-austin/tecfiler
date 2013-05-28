@@ -1,0 +1,114 @@
+<%= form_for [@user, @filer, @treasurer], :html => { :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend><%= controller.action_name.capitalize %> Treasurer</legend>
+
+    <% if @treasurer.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@treasurer.errors.count, "error") %> prohibited this treasurer from being saved:</h2>
+
+        <ul>
+        <% @treasurer.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="control-group">
+      <%= f.label "Last Name", :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name_last, :class => 'text_field' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label "First Name", :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name_first, :class => 'text_field' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label "Middle Initial", :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name_mi, :class => 'text_field' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label "Ms/Mrs/Mr", :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name_prefix, :class => 'text_field' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label "Suffix", :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name_suffix, :class => 'text_field' %>
+      </div>
+    </div>
+ 
+    <div class="control-group">
+      <%= f.label "Nickname", :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name_nick, :class => 'text_field' %>
+      </div>
+    </div>
+ 
+    <div class="control-group">
+      <%= f.label "Address Line 1", :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :address_street, :class => 'text_field' %>
+      </div>
+    </div>
+ 
+    <div class="control-group">
+      <%= f.label "Address Line 2", :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :address_suite, :class => 'text_field' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label "City", :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :address_city, :class => 'text_field' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label "State", :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :address_state, :class => 'text_field' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label "Zip", :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :address_zip, :class => 'text_field' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :address_changed, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.check_box :address_changed, :class => 'text_field' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :phone, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :phone, :class => 'text_field' %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', root_path, :class => 'btn' %>
+    </div>
+
+  </fieldset>
+<% end %>

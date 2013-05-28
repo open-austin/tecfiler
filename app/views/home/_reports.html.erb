@@ -1,0 +1,39 @@
+<div class="span8">
+  <% unless @treasurer.blank? %>
+    <legend>Your Reports</legend>
+
+    <% if @reports.present? %>
+      <p><%= link_to 'Add a New Report', new_user_filer_report_path(@user, @filer) %></p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Report type</th>
+            <th>Status</th>
+            <th>Election date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        <% @reports.each do |report| %>
+          <tr>
+            <td><%= report.report_type %></td>
+            <td><%= report.status %></td>
+            <td><%= report.election_date %></td>
+            <td>
+              <%= link_to 'View', user_filer_report_path(@user, @filer, report) %>
+              <%= link_to 'Edit', edit_user_filer_report_path(@user, @filer, report), :class => 'btn btn-mini' %>
+              <%= link_to('Contributions', edit_user_filer_report_path(@user, @filer, report, :t => "contributions"), :class => 'btn btn-mini') %>
+              <%= link_to('Expenditures', edit_user_filer_report_path(@user, @filer, report, :t => "expenditures"), :class => 'btn btn-mini') %>
+          </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>You haven't added any reports, yet.</p>
+      <p><%= link_to 'Add a New Report', new_user_filer_report_path(@user, @filer) %></p>
+    <% end %>
+  <% end %>
+</div>
+

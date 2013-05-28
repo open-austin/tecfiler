@@ -1,0 +1,7 @@
+<% if params[:t] == "contributions" %>
+  <%= render 'contributions' %>
+<% elsif params[:t] == "expenditures" %>
+  <%= render 'expenditures' %>
+<% else %>
+  <%= render 'form' %>
+<% end %>

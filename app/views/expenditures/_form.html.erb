@@ -1,0 +1,49 @@
+<%= form_for(@expenditure) do |f| %>
+  <% if @expenditure.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@expenditure.errors.count, "error") %> prohibited this expenditure from being saved:</h2>
+
+      <ul>
+      <% @expenditure.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :rec_type %><br />
+    <%= f.text_field :rec_type %>
+  </div>
+  <div class="field">
+    <%= f.label :form_type %><br />
+    <%= f.text_field :form_type %>
+  </div>
+  <div class="field">
+    <%= f.label :item_id %><br />
+    <%= f.text_field :item_id %>
+  </div>
+  <div class="field">
+    <%= f.label :payee_type %><br />
+    <%= f.text_field :payee_type %>
+  </div>
+  <div class="field">
+    <%= f.label :payee_name_title %><br />
+    <%= f.text_field :payee_name_title %>
+  </div>
+  <div class="field">
+    <%= f.label :payee_name_first %><br />
+    <%= f.text_field :payee_name_first %>
+  </div>
+  <div class="field">
+    <%= f.label :payee_name_last %><br />
+    <%= f.text_field :payee_name_last %>
+  </div>
+  <div class="field">
+    <%= f.label :payee_name_suffix %><br />
+    <%= f.text_field :payee_name_suffix %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
