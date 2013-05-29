@@ -84,3 +84,56 @@ The state software allows import of contributions and expenditures. Our tool wil
 modeled around this import format. It is documented in the TX-CFA Import Guide:
 
 http://www.ethics.state.tx.us/whatsnew/ImportGuide.pdf
+
+
+Development Status
+------------------
+
+There is currently a prototype "import engine" that would load CSV files in a standard form 
+defined by the TEC, save them in a database, and (if desired) produce the standard TEC forms as PDFs.
+
+Now that we've got a workable data model and PDF rendering tool, we'd like to build a web-based app. 
+When complete, this will provide a complete solution for campaigns to file their financial reports, 
+and provide public transparency to funds in the political system.
+
+The import engine is written in ruby, and the web framework has been created in rails. 
+They need to be merged. 
+
+
+Installation Notes
+------------------
+
+These instructions will help get the rails web framework installed. The import engine 
+currently lives in the dm-import-engine branch.
+
+    git clone https://github.com/chip-rosenthal/tecfiler.git
+    cd tecfiler
+    bundle install
+
+- Copy config/database_example.yml to database.yml and edit it for your preferred db.
+
+- Copy config/email_example.yml to email.yml and edit it for your email server settings. Devise is configured to require account confirmation via email.
+
+- Migrate the database:
+
+    bundle exec rake db:migrate
+
+- Change directory to <tt>tecfiler</tt> and start the web server:
+
+    cd tecfiler 
+    rails server 
+
+- Go to http://localhost:3000/
+
+
+Production Notes
+----------------
+
+Before running in a production environment, be sure to update the secret token to a unique value:
+
+    rake secret
+
+Edit your config/initializers/secret_token.rb file to add the secret token:
+
+    TecfilerAr::Application.config.secret_token = '...some really long, random string...'
+
