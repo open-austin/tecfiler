@@ -115,13 +115,12 @@ currently lives in the dm-import-engine branch.
 - Copy config/email_example.yml to email.yml and edit it for your email server settings. Devise is configured to require account confirmation via email.
 
 - Migrate the database:
+     
+     bundle exec rake db:migrate
 
-    bundle exec rake db:migrate
-
-- Change directory to <tt>tecfiler</tt> and start the web server:
-
-    cd tecfiler 
-    rails server 
+- Start the web server:
+     
+     rails server 
 
 - Go to http://localhost:3000/
 
