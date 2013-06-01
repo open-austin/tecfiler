@@ -28,6 +28,10 @@ class Filer < ActiveRecord::Base
     self.version = VERSION
   end
 
+  def self.types
+    { "COH - Candidate Office Holder" => "COH", "GPAC - General Purpose PAC" => "GPAC" }
+  end
+
   def name
     a = [
       self.name_prefix,
