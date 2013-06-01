@@ -18,24 +18,24 @@ ActiveRecord::Schema.define(:version => 20130521181138) do
     t.string   "rec_type"
     t.string   "form_type"
     t.string   "contributor_type"
-    t.string   "name_title"
-    t.string   "name_first"
-    t.string   "name_last"
-    t.string   "name_suffix"
-    t.string   "address"
-    t.string   "address2"
-    t.string   "city"
-    t.string   "state"
-    t.string   "zip"
+    t.string   "name_title",          :limit => 25
+    t.string   "name_first",          :limit => 45
+    t.string   "name_last",           :limit => 100
+    t.string   "name_suffix",         :limit => 10
+    t.string   "address",             :limit => 55
+    t.string   "address2",            :limit => 55
+    t.string   "city",                :limit => 30
+    t.string   "state",               :limit => 2
+    t.string   "zip",                 :limit => 10
     t.boolean  "is_out_of_state_pac"
-    t.string   "pac_id"
+    t.string   "pac_id",              :limit => 9
     t.date     "date"
-    t.decimal  "amount",              :precision => 12, :scale => 2
-    t.string   "in_kind_description"
-    t.string   "employer"
-    t.string   "occupation"
-    t.datetime "created_at",                                         :null => false
-    t.datetime "updated_at",                                         :null => false
+    t.decimal  "amount",                             :precision => 12, :scale => 2
+    t.string   "in_kind_description", :limit => 100
+    t.string   "employer",            :limit => 60
+    t.string   "occupation",          :limit => 60
+    t.datetime "created_at",                                                        :null => false
+    t.datetime "updated_at",                                                        :null => false
   end
 
   create_table "expenditures", :force => true do |t|
@@ -98,14 +98,40 @@ ActiveRecord::Schema.define(:version => 20130521181138) do
 
   create_table "reports", :force => true do |t|
     t.integer  "filer_id"
+    t.string   "coh_name_prefix"
+    t.string   "coh_name_first"
+    t.string   "coh_name_mi"
+    t.string   "coh_name_nick"
+    t.string   "coh_name_last"
+    t.string   "coh_name_suffix"
+    t.string   "coh_address_street"
+    t.string   "coh_address_suite"
+    t.string   "coh_address_city"
+    t.string   "coh_address_state"
+    t.string   "coh_address_zip"
+    t.boolean  "coh_address_changed"
+    t.string   "coh_phone"
+    t.string   "treasurer_name_prefix"
+    t.string   "treasurer_name_first"
+    t.string   "treasurer_name_mi"
+    t.string   "treasurer_name_nick"
+    t.string   "treasurer_name_last"
+    t.string   "treasurer_name_suffix"
+    t.string   "treasurer_address_street"
+    t.string   "treasurer_address_suite"
+    t.string   "treasurer_address_city"
+    t.string   "treasurer_address_state"
+    t.string   "treasurer_address_zip"
+    t.boolean  "treasurer_address_changed"
+    t.string   "treasurer_phone"
     t.string   "status"
-    t.string   "office_held"
-    t.string   "office_sought"
     t.string   "report_type"
     t.date     "period_begin"
     t.date     "period_end"
     t.date     "election_date"
     t.string   "election_type"
+    t.string   "office_held"
+    t.string   "office_sought"
     t.string   "contribution_csv_file_name"
     t.string   "contribution_csv_content_type"
     t.integer  "contribution_csv_file_size"
