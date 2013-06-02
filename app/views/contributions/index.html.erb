@@ -1,45 +1,130 @@
-<h1>Listing contributions</h1>
+<%= form_for [@user, @filer, @report], :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend>Contribution File</legend>
 
-<table>
-  <tr>
-    <th>Rec type</th>
-    <th>Form type</th>
-    <th>Contributor type</th>
-    <th>Name title</th>
-    <th>Name first</th>
-    <th>Name last</th>
-    <th>Name suffix</th>
-    <th>Address</th>
-    <th>Address2</th>
-    <th>City</th>
-    <th>State</th>
-    <th>Zip</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+    <% if @report.contribution_csv_file_name.present? %>
+      <p>Your contribution file details are below. Uploading a new file will replace this one.</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>File name</th>
+            <th>Content type</th>
+            <th>File size</th>
+            <th>Uploaded</th>
+          </tr>
+        </thead>
 
-<% @contributions.each do |contribution| %>
-  <tr>
-    <td><%= contribution.rec_type %></td>
-    <td><%= contribution.form_type %></td>
-    <td><%= contribution.contributor_type %></td>
-    <td><%= contribution.name_title %></td>
-    <td><%= contribution.name_first %></td>
-    <td><%= contribution.name_last %></td>
-    <td><%= contribution.name_suffix %></td>
-    <td><%= contribution.address %></td>
-    <td><%= contribution.address2 %></td>
-    <td><%= contribution.city %></td>
-    <td><%= contribution.state %></td>
-    <td><%= contribution.zip %></td>
-    <td><%= link_to 'Show', contribution %></td>
-    <td><%= link_to 'Edit', edit_contribution_path(contribution) %></td>
-    <td><%= link_to 'Destroy', contribution, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+        <tbody>
+          <tr>
+            <td><%= link_to @report.contribution_csv_file_name, @report.contribution_csv.url %></td>
+            <td><%= @report.contribution_csv_content_type %></td>
+            <td><%= @report.contribution_csv_file_size %></td>
+            <td><%= @report.contribution_csv_updated_at %></td>
+          </tr>
+        </tbody>
+      </table>
+    <% else %>
+      <p>You haven't added a contribution file, yet.</p>
+    <% end %>
+
+
+    <% if @report.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
+
+        <ul>
+        <% @report.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="control-group">
+      <%= f.label "Contribution File", :class => 'control-label' %>
+      <div class="controls">
+   			<%= f.file_field :contribution_csv %>
+        <%= f.submit "Upload", :class => 'btn btn-primary' %>
+        <%= link_to 'Cancel', root_path, :class => 'btn' %>
+      </div>
+    </div>
+
+  </fieldset>
 <% end %>
+
+<hr />
+
+<%- model_class = Contribution -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:version) %></th>
+      <th><%= model_class.human_attribute_name(:rec_type) %></th>
+      <th><%= model_class.human_attribute_name(:form_type) %></th>
+      <th><%= model_class.human_attribute_name(:contributor_type) %></th>
+      <th><%= model_class.human_attribute_name(:name_title) %></th>
+      <th><%= model_class.human_attribute_name(:name_first) %></th>
+      <th><%= model_class.human_attribute_name(:name_last) %></th>
+      <th><%= model_class.human_attribute_name(:name_suffix) %></th>
+      <th><%= model_class.human_attribute_name(:address) %></th>
+      <th><%= model_class.human_attribute_name(:address2) %></th>
+      <th><%= model_class.human_attribute_name(:city) %></th>
+      <th><%= model_class.human_attribute_name(:state) %></th>
+      <th><%= model_class.human_attribute_name(:zip) %></th>
+      <th><%= model_class.human_attribute_name(:is_out_of_state_pac) %></th>
+      <th><%= model_class.human_attribute_name(:pac_id) %></th>
+      <th><%= model_class.human_attribute_name(:date) %></th>
+      <th><%= model_class.human_attribute_name(:amount) %></th>
+      <th><%= model_class.human_attribute_name(:in_kind_description) %></th>
+      <th><%= model_class.human_attribute_name(:employer) %></th>
+      <th><%= model_class.human_attribute_name(:occupation) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @contributions.each do |contribution| %>
+      <tr>
+        <td><%= contribution.id %></td>
+        <td><%= contribution.version %></td>
+        <td><%= contribution.rec_type %></td>
+        <td><%= contribution.form_type %></td>
+        <td><%= contribution.contributor_type %></td>
+        <td><%= contribution.name_title %></td>
+        <td><%= contribution.name_first %></td>
+        <td><%= contribution.name_last %></td>
+        <td><%= contribution.name_suffix %></td>
+        <td><%= contribution.address %></td>
+        <td><%= contribution.address2 %></td>
+        <td><%= contribution.city %></td>
+        <td><%= contribution.state %></td>
+        <td><%= contribution.zip %></td>
+        <td><%= contribution.is_out_of_state_pac %></td>
+        <td><%= contribution.pac_id %></td>
+        <td><%= contribution.date %></td>
+        <td><%= contribution.amount %></td>
+        <td><%= contribution.in_kind_description %></td>
+        <td><%= contribution.employer %></td>
+        <td><%= contribution.occupation %></td>
+        <td><%=l contribution.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_user_filer_report_contribution_path(@user, @filer, @report, contribution), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      user_filer_report_contribution_path(@user, @filer, @report, contribution),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
-
-<%= link_to 'New Contribution', new_contribution_path %>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_user_filer_report_contribution_path,
+            :class => 'btn btn-primary' %>

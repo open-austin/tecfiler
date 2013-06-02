@@ -38,14 +38,14 @@
     <div class="control-group">
       <%= f.label "Ms/Mrs/Mr", :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :name_prefix, :class => 'text_field' %>
+        <%= f.select(:name_prefix, ["Ms.", "Mrs.", "Mr."], { :include_blank => true }) %> 
       </div>
     </div>
 
     <div class="control-group">
       <%= f.label "Suffix", :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :name_suffix, :class => 'text_field' %>
+        <%= f.select(:name_suffix, ["Jr.", "Sr."], { :include_blank => true }) %> 
       </div>
     </div>
  
@@ -80,7 +80,7 @@
     <div class="control-group">
       <%= f.label "State", :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :address_state, :class => 'text_field' %>
+        <%= f.select(:address_state, us_states, :selected => "TX") %>
       </div>
     </div>
 
