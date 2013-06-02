@@ -2,6 +2,7 @@ class CreateContributions < ActiveRecord::Migration
   def change
     create_table :contributions do |t|
       t.integer :report_id
+      t.integer :filer_id
       
       t.string :rec_type # ContributionType
       t.string :form_type # FormType
@@ -17,7 +18,7 @@ class CreateContributions < ActiveRecord::Migration
       t.string :zip, :limit => 10
 
       t.boolean :is_out_of_state_pac
-      t.string :pac_id, :limit => 9
+      t.string :out_of_state_pac_id, :limit => 9
       t.date :date
       t.decimal :amount, :precision => 12, :scale => 2
       t.string :in_kind_description, :limit => 100
@@ -26,7 +27,10 @@ class CreateContributions < ActiveRecord::Migration
 
       t.timestamps
     end
+    
     add_index :contributions, :report_id
+    add_index :contributions, :filer_id
+    add_index :contributions, [:report_id, :form_type]
   end
 
   def self.down

@@ -10,6 +10,9 @@ FactoryGirl.define do
     city "Austin"
     state "TX"
     zip "78701"
+    is_out_of_state_pac false
+    date Date.new(2012, 12, 3)
+    amount 50.00
   end
   
 end
