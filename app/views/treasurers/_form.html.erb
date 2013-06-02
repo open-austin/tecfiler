@@ -4,11 +4,12 @@
 
     <% if @treasurer.errors.any? %>
       <div id="error_explanation">
-        <h2><%= pluralize(@treasurer.errors.count, "error") %> prohibited this treasurer from being saved:</h2>
-
+        <div class="alert alert-error">
+          The form contains <%= pluralize(@treasurer.errors.count, "error") %>.
+        </div>
         <ul>
         <% @treasurer.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
+          <li>* <%= msg %></li>
         <% end %>
         </ul>
       </div>
@@ -38,14 +39,14 @@
     <div class="control-group">
       <%= f.label "Ms/Mrs/Mr", :class => 'control-label' %>
       <div class="controls">
-        <%= f.select(:name_prefix, ["Ms.", "Mrs.", "Mr."], { :include_blank => true }) %> 
+        <%= f.select(:name_prefix, name_prefixes, { :include_blank => true }) %> 
       </div>
     </div>
 
     <div class="control-group">
       <%= f.label "Suffix", :class => 'control-label' %>
       <div class="controls">
-        <%= f.select(:name_suffix, ["Jr.", "Sr."], { :include_blank => true }) %> 
+        <%= f.select(:name_suffix, name_suffixes, { :include_blank => true }) %> 
       </div>
     </div>
  

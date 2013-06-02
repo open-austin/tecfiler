@@ -57,4 +57,12 @@ module ApplicationHelper
     ]
   end
 
+  def name_prefixes
+     ["Mr.", "Ms.", "Mrs.", "Miss", "Dr.", "Hon.", "Rep.", "Sen.", "Prof." ]
+  end
+
+  def name_suffixes
+     ["Jr.", "Sr.", "II", "III"]
+  end
+
 end

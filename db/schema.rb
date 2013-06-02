@@ -14,6 +14,7 @@
 ActiveRecord::Schema.define(:version => 20130521181138) do
 
   create_table "contributions", :force => true do |t|
+    t.integer  "report_id"
     t.string   "rec_type"
     t.string   "form_type"
     t.string   "contributor_type"
@@ -37,8 +38,10 @@ ActiveRecord::Schema.define(:version => 20130521181138) do
     t.datetime "updated_at",                                                        :null => false
   end
 
+  add_index "contributions", ["report_id"], :name => "index_contributions_on_report_id"
+
   create_table "expenditures", :force => true do |t|
-    t.string   "version"
+    t.integer  "report_id"
     t.string   "rec_type"
     t.string   "form_type"
     t.string   "item_id"

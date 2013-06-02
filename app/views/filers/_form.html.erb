@@ -46,14 +46,14 @@
     <div class="control-group">
       <%= f.label "Ms/Mrs/Mr", :class => 'control-label' %>
       <div class="controls">
-        <%= f.select(:name_prefix, ["Ms.", "Mrs.", "Mr."], { :include_blank => true }) %> 
+        <%= f.select(:name_prefix, name_prefixes, { :include_blank => true }) %> 
       </div>
     </div>
 
     <div class="control-group">
       <%= f.label "Suffix", :class => 'control-label' %>
       <div class="controls">
-        <%= f.select(:name_suffix, ["Jr.", "Sr."], { :include_blank => true }) %> 
+        <%= f.select(:name_suffix, name_suffixes, { :include_blank => true }) %> 
       </div>
     </div>
  

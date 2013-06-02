@@ -1,5 +1,19 @@
 <%= form_for [@user, @filer, @report, @expenditure], :html => { :class => 'form-horizontal' } do |f| %>
-  <div class="control-group">
+
+  <% if @expenditure.errors.any? %>
+    <div id="error_explanation">
+      <div class="alert alert-error">
+        The form contains <%= pluralize(@expenditure.errors.count, "error") %>.
+      </div>
+      <ul>
+      <% @expenditure.full_messages.each do |msg| %>
+        <li>* <%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+ <div class="control-group">
     <%= f.label :rec_type, :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :rec_type, :class => 'text_field' %>

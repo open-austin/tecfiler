@@ -16,6 +16,7 @@ class Treasurer < ActiveRecord::Base
   validates_presence_of :address_city
   validates_presence_of :address_state
   validates_presence_of :address_zip
+  validates_presence_of :phone
 
   before_save :set_version
 

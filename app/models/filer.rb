@@ -29,7 +29,9 @@ class Filer < ActiveRecord::Base
   end
 
   def self.types
-    { "COH - Candidate Office Holder" => "COH", "GPAC - General Purpose PAC" => "GPAC" }
+    { "COH - Candidate Office Holder" => "COH", 
+      "SPAC - Non-Judicial Specific Purpose Committee" => "SPAC",
+      "GPAC - General Purpose Committee" => "GPAC" }
   end
 
   def name

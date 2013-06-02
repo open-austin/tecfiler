@@ -28,7 +28,8 @@ class Report < ActiveRecord::Base
 
   def self.election_types
     { "Primary" => "PRIMARY", "Runoff" => "RUNOFF", 
-      "General" => "GENERAL", "Special" => "SPECIAL" } 
+      "General" => "GENERAL", "Special" => "SPECIAL",
+      "Other" => "OTHER"} 
   end
 
 end

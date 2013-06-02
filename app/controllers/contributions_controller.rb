@@ -8,7 +8,7 @@ class ContributionsController < ApplicationController
     @contributions = @report.contributions.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {render :layout => 'fullwidth'} # index.html.erb
       format.json { render json: @contributions }
     end
   end
@@ -40,7 +40,7 @@ class ContributionsController < ApplicationController
 
   # GET /contributions/1/edit
   def edit
-    @contribution = Contribution.get(params[:id])
+    @contribution = Contribution.find(params[:id])
   end
 
   # POST /contributions
