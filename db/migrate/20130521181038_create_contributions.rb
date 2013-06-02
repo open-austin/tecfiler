@@ -1,12 +1,11 @@
 class CreateContributions < ActiveRecord::Migration
   def change
     create_table :contributions do |t|
-
-      t.string :version
-
-      t.string :rec_type # Enum[:RECEIPT, :PLEDGE]
-      t.string :form_type # Enum[:A1, :A2, :AJ, :AL, :B1, :B2, :B3, :BJ, :C, :C2, :D]
-      t.string :contributor_type # Enum[:INDIVIDUAL, :ENTITY]
+      t.integer :report_id
+      
+      t.string :rec_type # ContributionType
+      t.string :form_type # FormType
+      t.string :contributor_type # ContributorType
       t.string :name_title, :limit => 25
       t.string :name_first, :limit => 45
       t.string :name_last, :limit => 100
@@ -27,6 +26,7 @@ class CreateContributions < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :contributions, :report_id
   end
 
   def self.down

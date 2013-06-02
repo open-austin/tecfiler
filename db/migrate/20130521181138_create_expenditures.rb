@@ -1,8 +1,8 @@
 class CreateExpenditures < ActiveRecord::Migration
   def change
     create_table :expenditures do |t|
+      t.integer :report_id
 
-      t.string :version
       t.string :rec_type
       t.string :form_type
       t.string :item_id

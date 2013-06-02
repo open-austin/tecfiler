@@ -14,7 +14,6 @@
 ActiveRecord::Schema.define(:version => 20130521181138) do
 
   create_table "contributions", :force => true do |t|
-    t.string   "version"
     t.string   "rec_type"
     t.string   "form_type"
     t.string   "contributor_type"
