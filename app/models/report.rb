@@ -1,8 +1,8 @@
 class Report < ActiveRecord::Base
 
  	belongs_to :filer 
-  # has_many :contributions
-  # has_many :expenditures
+  has_many :contributions
+  has_many :expenditures
 
   has_attached_file :contribution_csv
   validates_attachment :contribution_csv, :content_type => { content_type: "text/csv"}
@@ -19,5 +19,16 @@ class Report < ActiveRecord::Base
 
   validates_presence_of :filer_id
 
+  def self.types
+    { "January 15" => "JAN15", "July 15" => "JUL15", 
+      "Election 30 day" => "ELECTION_30DAY", "Election 8 day" => "ELECTION_8DAY", 
+      "Runoff" => "RUNNOFF", "Exceed 500" => "EXCEED_500", 
+      "Treasurer Appointment" => "TREASURER_APPT", "Final" => "FINAL" } 
+  end
+
+  def self.election_types
+    { "Primary" => "PRIMARY", "Runoff" => "RUNOFF", 
+      "General" => "GENERAL", "Special" => "SPECIAL" } 
+  end
 
 end

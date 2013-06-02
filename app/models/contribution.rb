@@ -1,6 +1,10 @@
 class Contribution < ActiveRecord::Base
 
-  attr_accessible :address, :address2, :city, :contributor_type, :form_type, :name_first, :name_last, 
-    :name_suffix, :name_title, :rec_type, :state, :zip
+  belongs_to :report
+
+  attr_accessible :address, :address2, :amount, :city, :contributor_type, :date, 
+    :employer, :form_type, :in_kind_description, :is_out_of_state_pac, :name_first, 
+    :name_last, :name_suffix, :name_title, :occupation, :pac_id, :rec_type, :state, :zip
+
 
 end

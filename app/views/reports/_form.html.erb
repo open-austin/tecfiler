@@ -17,18 +17,7 @@
     <div class="control-group">
       <%= f.label "Report type", :class => 'control-label' %>
       <div class="controls">
-        <% types = { "Jan 15" => "JAN15", "Jul 15" => "JUL15", 
-                     "Election 30 day" => "ELECTION_30DAY", "Election 8 day" => "ELECTION_8DAY", 
-                     "Runoff" => "RUNNOFF", "Exceed 500" => "EXCEED_500", 
-                     "Treasurer Appt." => "TREASURER_APPT", "Final" => "FINAL" } %>
-        <%= f.select(:report_type, types) %> 
-      </div>
-    </div>
-
-    <div class="control-group">
-      <%= f.label "Status", :class => 'control-label' %>
-      <div class="controls">
-        <%= f.text_field :status, :class => 'text_field' %>
+        <%= f.select(:report_type, Report.types) %> 
       </div>
     </div>
 
@@ -37,7 +26,9 @@
       <div class="controls">
         <%= f.date_select :period_begin, {:prompt => { :day => 'Select day', 
                                                        :month => 'Select month', 
-                                                       :year => 'Select year' }}, 
+                                                       :year => 'Select year' }, 
+                                                       :start_year => Time.now.year - 1,
+                                                       :end_year => Time.now.year + 1},
                                                        {:class => 'date_select'}  %>
       </div>
     </div>
@@ -47,7 +38,9 @@
       <div class="controls">
         <%= f.date_select :period_end, {:prompt => { :day => 'Select day', 
                                                        :month => 'Select month', 
-                                                       :year => 'Select year' }}, 
+                                                       :year => 'Select year' }, 
+                                                       :start_year => Time.now.year - 1,
+                                                       :end_year => Time.now.year + 1},
                                                        {:class => 'date_select'}  %>
       </div>
     </div>
@@ -57,7 +50,9 @@
       <div class="controls">
         <%= f.date_select :election_date, {:prompt => { :day => 'Select day', 
                                                        :month => 'Select month', 
-                                                       :year => 'Select year' }}, 
+                                                       :year => 'Select year' }, 
+                                                       :start_year => Time.now.year - 1,
+                                                       :end_year => Time.now.year + 1},
                                                        {:class => 'date_select'}  %>
       </div>
     </div>
@@ -65,9 +60,7 @@
     <div class="control-group">
       <%= f.label "Election type", :class => 'control-label' %>
       <div class="controls">
-        <% types = { "Primary" => "PRIMARY", "Runoff" => "RUNOFF", 
-                     "General" => "GENERAL", "Special" => "SPECIAL" } %>
-        <%= f.select(:election_type, types) %> 
+        <%= f.select(:election_type, Report.election_types) %> 
       </div>
     </div>
 

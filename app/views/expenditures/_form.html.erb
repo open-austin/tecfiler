@@ -1,49 +1,185 @@
-<%= form_for(@expenditure) do |f| %>
-  <% if @expenditure.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@expenditure.errors.count, "error") %> prohibited this expenditure from being saved:</h2>
-
-      <ul>
-      <% @expenditure.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<%= form_for [@user, @filer, @report, @expenditure], :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :rec_type, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :rec_type, :class => 'text_field' %>
     </div>
-  <% end %>
+  </div>
+  <div class="control-group">
+    <%= f.label :form_type, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :form_type, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :item_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :item_id, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :payee_type, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :payee_type, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :payee_name_title, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :payee_name_title, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :payee_name_first, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :payee_name_first, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :payee_name_last, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :payee_name_last, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :payee_name_suffix, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :payee_name_suffix, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :payee_address, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :payee_address, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :payee_address2, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :payee_address2, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :payee_city, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :payee_city, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :payee_state, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :payee_state, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :payee_zip, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :payee_zip, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :date, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.date_select :date, {:default => Time.now, 
+                                :start_year => Time.now.year - 1,
+                                :end_year => Time.now.year + 1},
+                               {:class => 'date_select'}  %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :amount, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :amount, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :description, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :description, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :reimbursement_expected, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :reimbursement_expected, :class => 'check_box' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :candidate_name_title, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :candidate_name_title, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :candidate_name_first, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :candidate_name_first, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :candidate_name_last, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :candidate_name_last, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :candidate_name_suffix, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :candidate_name_suffix, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :office_held_code, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :office_held_code, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :office_held_description, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :office_held_description, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :office_held_district, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :office_held_district, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :office_sought_code, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :office_sought_code, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :office_sought_description, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :office_sought_description, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :office_sought_district, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :office_sought_district, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :backreference_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :backreference_id, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :is_corp_contrib, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :is_corp_contrib, :class => 'check_box' %>
+    </div>
+  </div>
 
-  <div class="field">
-    <%= f.label :rec_type %><br />
-    <%= f.text_field :rec_type %>
-  </div>
-  <div class="field">
-    <%= f.label :form_type %><br />
-    <%= f.text_field :form_type %>
-  </div>
-  <div class="field">
-    <%= f.label :item_id %><br />
-    <%= f.text_field :item_id %>
-  </div>
-  <div class="field">
-    <%= f.label :payee_type %><br />
-    <%= f.text_field :payee_type %>
-  </div>
-  <div class="field">
-    <%= f.label :payee_name_title %><br />
-    <%= f.text_field :payee_name_title %>
-  </div>
-  <div class="field">
-    <%= f.label :payee_name_first %><br />
-    <%= f.text_field :payee_name_first %>
-  </div>
-  <div class="field">
-    <%= f.label :payee_name_last %><br />
-    <%= f.text_field :payee_name_last %>
-  </div>
-  <div class="field">
-    <%= f.label :payee_name_suffix %><br />
-    <%= f.text_field :payee_name_suffix %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                user_filer_report_expenditures_path(@user, @filer, @report), :class => 'btn' %>
   </div>
 <% end %>

@@ -10,22 +10,28 @@
             <th>Report type</th>
             <th>Status</th>
             <th>Election date</th>
-            <th>Actions</th>
+            <th colspan=4></th>
           </tr>
         </thead>
 
         <tbody>
         <% @reports.each do |report| %>
           <tr>
-            <td><%= report.report_type %></td>
+            <td><%= Report.types.invert[report.report_type] %></td>
+
+
             <td><%= report.status %></td>
             <td><%= report.election_date %></td>
+            <td><%= link_to 'View', user_filer_report_path(@user, @filer, report) %></td>
+            <td><%= link_to 'Edit', edit_user_filer_report_path(@user, @filer, report), :class => 'btn btn-mini' %></td>
             <td>
-              <%= link_to 'View', user_filer_report_path(@user, @filer, report) %>
-              <%= link_to 'Edit', edit_user_filer_report_path(@user, @filer, report), :class => 'btn btn-mini' %>
-              <%= link_to('Contributions', edit_user_filer_report_path(@user, @filer, report, :t => "contributions"), :class => 'btn btn-mini') %>
-              <%= link_to('Expenditures', edit_user_filer_report_path(@user, @filer, report, :t => "expenditures"), :class => 'btn btn-mini') %>
-          </td>
+              <%= link_to('Manage Contributions', 
+                          user_filer_report_contributions_path(@user, @filer, report), :class => 'btn btn-mini') %>
+            </td>
+            <td>
+              <%= link_to('Manage Expenditures', 
+                          user_filer_report_expenditures_path(@user, @filer, report), :class => 'btn btn-mini') %>
+            </td>
           </tr>
         <% end %>
         </tbody>

@@ -88,7 +88,7 @@
     <div class="control-group">
       <%= f.label "State", :class => 'control-label' %>
       <div class="controls">
-        <%= f.select(:address_state, us_states, { :include_blank => true }) %>
+        <%= f.select(:address_state, us_states, :selected => "TX") %>
       </div>
     </div>
 

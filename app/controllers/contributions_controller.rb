@@ -2,7 +2,10 @@ class ContributionsController < ApplicationController
   # GET /contributions
   # GET /contributions.json
   def index
-    @contributions = Contribution.all
+    @user = current_user
+    @filer = Filer.find(params[:filer_id])
+    @report = Report.find(params[:report_id])
+    @contributions = @report.contributions.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -24,6 +27,9 @@ class ContributionsController < ApplicationController
   # GET /contributions/new
   # GET /contributions/new.json
   def new
+    @user = current_user
+    @filer = Filer.find(params[:filer_id])
+    @report = Report.find(params[:report_id])
     @contribution = Contribution.new
 
     respond_to do |format|
@@ -40,11 +46,15 @@ class ContributionsController < ApplicationController
   # POST /contributions
   # POST /contributions.json
   def create
+    @user = current_user
+    @filer = Filer.find(params[:filer_id])
+    @report = Report.find(params[:report_id])
     @contribution = Contribution.new(params[:contribution])
+    @contribution.report_id = @report.id
 
     respond_to do |format|
       if @contribution.save
-        format.html { redirect_to @contribution, notice: 'Contribution was successfully created.' }
+        format.html { redirect_to user_filer_report_contributions_path(@user, @filer, @report), notice: 'Contribution was successfully created.' }
         format.json { render json: @contribution, status: :created, location: @contribution }
       else
         format.html { render action: "new" }

@@ -2,7 +2,10 @@ class ExpendituresController < ApplicationController
   # GET /expenditures
   # GET /expenditures.json
   def index
-    @expenditures = Expenditure.all
+    @user = current_user
+    @filer = Filer.find(params[:filer_id])
+    @report = Report.find(params[:report_id])
+    @expenditures = @report.expenditures.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -24,6 +27,9 @@ class ExpendituresController < ApplicationController
   # GET /expenditures/new
   # GET /expenditures/new.json
   def new
+    @user = current_user
+    @filer = Filer.find(params[:filer_id])
+    @report = Report.find(params[:report_id])
     @expenditure = Expenditure.new
 
     respond_to do |format|
@@ -40,11 +46,15 @@ class ExpendituresController < ApplicationController
   # POST /expenditures
   # POST /expenditures.json
   def create
+    @user = current_user
+    @filer = Filer.find(params[:filer_id])
+    @report = Report.find(params[:report_id])
     @expenditure = Expenditure.new(params[:expenditure])
+    @expenditure.report_id = @report.id
 
     respond_to do |format|
       if @expenditure.save
-        format.html { redirect_to @expenditure, notice: 'Expenditure was successfully created.' }
+        format.html { redirect_to  user_filer_report_expenditures_path(@user, @filer, @report), notice: 'Expenditure was successfully created.' }
         format.json { render json: @expenditure, status: :created, location: @expenditure }
       else
         format.html { render action: "new" }
