@@ -16,7 +16,10 @@ class ContributionsController < ApplicationController
   # GET /contributions/1
   # GET /contributions/1.json
   def show
-    @contribution = Contribution.get(params[:id])
+    @user = current_user
+    @filer = Filer.find(params[:filer_id])
+    @report = Report.find(params[:report_id])
+    @contribution = Contribution.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -40,6 +43,9 @@ class ContributionsController < ApplicationController
 
   # GET /contributions/1/edit
   def edit
+    @user = current_user
+    @filer = Filer.find(params[:filer_id])
+    @report = Report.find(params[:report_id])
     @contribution = Contribution.find(params[:id])
   end
 
@@ -51,6 +57,7 @@ class ContributionsController < ApplicationController
     @report = Report.find(params[:report_id])
     @contribution = Contribution.new(params[:contribution])
     @contribution.report_id = @report.id
+    @contribution.filer_id = @filer.id
 
     respond_to do |format|
       if @contribution.save
@@ -66,11 +73,14 @@ class ContributionsController < ApplicationController
   # PUT /contributions/1
   # PUT /contributions/1.json
   def update
-    @contribution = Contribution.get(params[:id])
+    @user = current_user
+    @filer = Filer.find(params[:filer_id])
+    @report = Report.find(params[:report_id])
+    @contribution = Contribution.find(params[:id])
 
     respond_to do |format|
-      if @contribution.update(params[:contribution])
-        format.html { redirect_to @contribution, notice: 'Contribution was successfully updated.' }
+      if @contribution.update_attributes(params[:contribution])
+        format.html { redirect_to user_filer_report_contributions_path(@user, @filer, @report), notice: 'Contribution was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -82,11 +92,14 @@ class ContributionsController < ApplicationController
   # DELETE /contributions/1
   # DELETE /contributions/1.json
   def destroy
-    @contribution = Contribution.get(params[:id])
-    @contribution.destroy
+    @user = current_user
+    @filer = Filer.find(params[:filer_id])
+    @report = Report.find(params[:report_id])
+    @contribution = Contribution.find(params[:id])
+    @contribution.destroy unless ! @contribution.filer.user_id == @user.id
 
     respond_to do |format|
-      format.html { redirect_to contributions_url }
+      format.html { redirect_to user_filer_report_contributions_path(@user, @filer, @report), notice: 'Contribution was deleted.' }
       format.json { head :no_content }
     end
   end

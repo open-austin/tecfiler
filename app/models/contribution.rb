@@ -1,6 +1,7 @@
 class Contribution < ActiveRecord::Base
 
   belongs_to :report
+  belongs_to :filer
   # XXX - should this: belongs_to :filer
 
   attr_accessible :address, :address2, :amount, :city, :contributor_type, :date, 

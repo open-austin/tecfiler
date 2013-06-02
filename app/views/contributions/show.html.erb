@@ -4,8 +4,6 @@
 </div>
 
 <dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:version) %>:</strong></dt>
-  <dd><%= @contribution.version %></dd>
   <dt><strong><%= model_class.human_attribute_name(:rec_type) %>:</strong></dt>
   <dd><%= @contribution.rec_type %></dd>
   <dt><strong><%= model_class.human_attribute_name(:form_type) %>:</strong></dt>
@@ -47,13 +45,13 @@
 </dl>
 
 <div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              contributions_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_contribution_path(@contribution), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              contribution_path(@contribution),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
+   <%= link_to t('.back', :default => t("helpers.links.back")),
+              user_filer_report_contributions_path(@user, @filer, @report), :class => 'btn'  %>
+   <%= link_to "Edit",
+              edit_user_filer_report_contribution_path(@user, @filer, @report, @contribution), :class => 'btn' %>
+   <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              user_filer_report_contribution_path(@user, @filer, @report, @contribution),
+                :method => :delete,
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-danger' %>
 </div>

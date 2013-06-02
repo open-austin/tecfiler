@@ -9,99 +9,85 @@
   review and edit the records before submitting your report.
 </p>
 
-<%= form_for [@user, @filer, @report], :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
-  <fieldset>
-    <legend>Contribution File</legend>
+<% unless @contributions.present? %>
+  <%= form_for [@user, @filer, @report], :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
+    <fieldset>
+      <legend>Contribution File</legend>
 
-    <% if @report.contribution_csv_file_name.present? %>
-      <p>Your contribution file details are below. Uploading a new file will replace this one.</p>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>File name</th>
-            <th>Content type</th>
-            <th>File size</th>
-            <th>Uploaded</th>
-          </tr>
-        </thead>
+      <% if @report.contribution_csv_file_name.present? %>
+        <p>Your contribution file details are below. Uploading a new file will replace this one.</p>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>File name</th>
+              <th>Content type</th>
+              <th>File size</th>
+              <th>Uploaded</th>
+            </tr>
+          </thead>
 
-        <tbody>
-          <tr>
-            <td><%= link_to @report.contribution_csv_file_name, @report.contribution_csv.url %></td>
-            <td><%= @report.contribution_csv_content_type %></td>
-            <td><%= @report.contribution_csv_file_size %></td>
-            <td><%= @report.contribution_csv_updated_at %></td>
-          </tr>
-        </tbody>
-      </table>
-    <% else %>
-      <p>You haven't added a contribution file, yet.</p>
-    <% end %>
+          <tbody>
+            <tr>
+              <td><%= link_to @report.contribution_csv_file_name, @report.contribution_csv.url %></td>
+              <td><%= @report.contribution_csv_content_type %></td>
+              <td><%= @report.contribution_csv_file_size %></td>
+              <td><%= @report.contribution_csv_updated_at %></td>
+            </tr>
+          </tbody>
+        </table>
+      <% else %>
+        <p>You haven't added a contribution file, yet.</p>
+      <% end %>
 
 
-    <% if @report.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
+      <% if @report.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
 
-        <ul>
-        <% @report.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
+          <ul>
+          <% @report.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="control-group">
+        <%= f.label "Contribution File", :class => 'control-label' %>
+        <div class="controls">
+          <%= f.file_field :contribution_csv %>
+          <%= f.submit "Upload", :class => 'btn btn-primary' %>
+          <%= link_to 'Cancel', root_path, :class => 'btn' %>
+        </div>
       </div>
-    <% end %>
 
-    <div class="control-group">
-      <%= f.label "Contribution File", :class => 'control-label' %>
-      <div class="controls">
-   			<%= f.file_field :contribution_csv %>
-        <%= f.submit "Upload", :class => 'btn btn-primary' %>
-        <%= link_to 'Cancel', root_path, :class => 'btn' %>
-      </div>
-    </div>
-
-  </fieldset>
+    </fieldset>
+  <% end %>
 <% end %>
 
 <hr />
 
-<table class="table">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Amount</th>
+      <th></th>
+    </tr>
+  </thead>
+
   <tbody>
     <% @contributions.each do |contribution| %>
-      <% trclass = cycle("even", "odd") %>   
-      <tr class="<%= trclass %>">
-        <td><strong>Type: </strong><%= contribution.rec_type %></td>
-        <td><strong>Form: </strong><%= contribution.form_type %></td>
-        <td><strong>Contribution: </strong><%= contribution.contributor_type %></td>
-        <td><strong>Title: </strong><%= contribution.name_title %></td>
-        <td><strong>First: </strong><%= contribution.name_first %></td>
-        <td><strong>Last: </strong><%= contribution.name_last %></td>
-        <td><strong>Suffix: </strong><%= contribution.name_suffix %></td>
-        <td rowspan=3>
-          <%= link_to "Edit",
-                      edit_user_filer_report_contribution_path(@user, @filer, @report, contribution), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      user_filer_report_contribution_path(@user, @filer, @report, contribution),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
+      <tr>
+        <td><%= contribution.contributor_type.capitalize! %> <%= contribution.rec_type.capitalize! %></td>
+        <td><%= contribution.name_title %> <%= contribution.name_first %> <%= contribution.name_last %> <%= contribution.name_suffix %></td>
+        <td><%= contribution.date %></td>
+        <td><%= number_to_currency(contribution.amount) %></td>
+        <td>
+          <%= link_to 'Details', user_filer_report_contribution_path(@user, @filer, @report, contribution) %>
         </td>
-     </tr>
-     <tr class="<%= trclass %>">
-        <td colspan=2><strong>Address: </strong><%= contribution.address %></td>
-        <td colspan=2><strong>Address 2: </strong><%= contribution.address2 %></td>
-        <td><strong>City: </strong><%= contribution.city %></td>
-        <td><strong>State: </strong><%= contribution.state %></td>
-        <td><strong>Zip: </strong><%= contribution.zip %></td>
-      </tr>
-      <tr class="<%= trclass %> bottom_row">
-        <td><strong>Out of state PAC?: </strong><%= contribution.is_out_of_state_pac %></td>
-        <td><strong>PAC: </strong><%= contribution.out_of_state_pac_id %></td>
-        <td><strong>Date: </strong><%= contribution.date %></td>
-        <td><strong>Amount: </strong><%= contribution.amount %></td>
-        <td><strong>In kind desc: </strong><%= contribution.in_kind_description %></td>
-        <td><strong>Employer: </strong><%= contribution.employer %></td>
-        <td><strong>Occupation: </strong><%= contribution.occupation %></td>
       </tr>
     <% end %>
   </tbody>
