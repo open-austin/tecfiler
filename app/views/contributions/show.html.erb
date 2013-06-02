@@ -1,48 +1,102 @@
-<%- model_class = Contribution -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+  <h1>Contribution Details</h1>
 </div>
 
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:rec_type) %>:</strong></dt>
-  <dd><%= @contribution.rec_type %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:form_type) %>:</strong></dt>
-  <dd><%= @contribution.form_type %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:contributor_type) %>:</strong></dt>
-  <dd><%= @contribution.contributor_type %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:name_title) %>:</strong></dt>
-  <dd><%= @contribution.name_title %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:name_first) %>:</strong></dt>
-  <dd><%= @contribution.name_first %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:name_last) %>:</strong></dt>
-  <dd><%= @contribution.name_last %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:name_suffix) %>:</strong></dt>
-  <dd><%= @contribution.name_suffix %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:address) %>:</strong></dt>
-  <dd><%= @contribution.address %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:address2) %>:</strong></dt>
-  <dd><%= @contribution.address2 %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:city) %>:</strong></dt>
-  <dd><%= @contribution.city %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:state) %>:</strong></dt>
-  <dd><%= @contribution.state %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:zip) %>:</strong></dt>
-  <dd><%= @contribution.zip %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:is_out_of_state_pac) %>:</strong></dt>
-  <dd><%= @contribution.is_out_of_state_pac %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:out_of_state_pac_id) %>:</strong></dt>
-  <dd><%= @contribution.out_of_state_pac_id %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:date) %>:</strong></dt>
-  <dd><%= @contribution.date %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:amount) %>:</strong></dt>
-  <dd><%= @contribution.amount %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:in_kind_description) %>:</strong></dt>
-  <dd><%= @contribution.in_kind_description %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:employer) %>:</strong></dt>
-  <dd><%= @contribution.employer %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:occupation) %>:</strong></dt>
-  <dd><%= @contribution.occupation %></dd>
-</dl>
+<p>
+  <strong>Record type:</strong>
+  <%= @contribution.rec_type %>
+</p>
+
+<p>
+  <strong>Form type:</strong>
+  <%= @contribution.form_type %>
+</p>
+
+<p>
+  <strong>Contributor type:</strong>
+  <%= @contribution.contributor_type %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @contribution.name_title %>
+</p>
+
+<p>
+  <strong>First name:</strong>
+  <%= @contribution.name_first %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @contribution.name_last %>
+</p>
+
+<p>
+  <strong>Suffix:</strong>
+  <%= @contribution.name_suffix %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @contribution.address %>
+</p>
+
+<p>
+  <strong>Address 2:</strong>
+  <%= @contribution.address2 %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @contribution.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @contribution.state %>
+</p>
+
+<p>
+  <strong>Zip:</strong>
+  <%= @contribution.zip %>
+</p>
+
+<p>
+  <strong>Out of state PAC?</strong>
+  <%= @contribution.is_out_of_state_pac %>
+</p>
+
+<p>
+  <strong>Out of state PAC ID:</strong>
+  <%= @contribution.out_of_state_pac_id %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @contribution.date %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= number_to_currency(@contribution.amount) %>
+</p>
+
+<p>
+  <strong>In kind description:</strong>
+  <%= @contribution.in_kind_description %>
+</p>
+
+<p>
+  <strong>Employer:</strong>
+  <%= @contribution.employer %>
+</p>
+
+<p>
+  <strong>Occupation:</strong>
+  <%= @contribution.occupation %>
+</p>
+
 
 <div class="form-actions">
    <%= link_to t('.back', :default => t("helpers.links.back")),
