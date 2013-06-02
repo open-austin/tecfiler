@@ -1,1 +1,0 @@
-Dir[Rails.root.join("app/support/**/*.rb")].each {|f| require f}

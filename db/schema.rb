@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(:version => 20130521181138) do
 
   create_table "contributions", :force => true do |t|
     t.integer  "report_id"
+    t.integer  "filer_id"
     t.string   "rec_type"
     t.string   "form_type"
     t.string   "contributor_type"
@@ -28,7 +29,7 @@ ActiveRecord::Schema.define(:version => 20130521181138) do
     t.string   "state",               :limit => 2
     t.string   "zip",                 :limit => 10
     t.boolean  "is_out_of_state_pac"
-    t.string   "pac_id",              :limit => 9
+    t.string   "out_of_state_pac_id", :limit => 9
     t.date     "date"
     t.decimal  "amount",                             :precision => 12, :scale => 2
     t.string   "in_kind_description", :limit => 100
@@ -38,6 +39,8 @@ ActiveRecord::Schema.define(:version => 20130521181138) do
     t.datetime "updated_at",                                                        :null => false
   end
 
+  add_index "contributions", ["filer_id"], :name => "index_contributions_on_filer_id"
+  add_index "contributions", ["report_id", "form_type"], :name => "index_contributions_on_report_id_and_form_type"
   add_index "contributions", ["report_id"], :name => "index_contributions_on_report_id"
 
   create_table "expenditures", :force => true do |t|

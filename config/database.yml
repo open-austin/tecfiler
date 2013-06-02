@@ -1,24 +1,19 @@
 defaults: &defaults
   adapter: sqlite3
+  encoding: utf8
 
 development:
   database: db/tecfiler-rails_development.db
   <<: *defaults
 
-  # Add more repositories
-  # repositories:
-  #   repo1:
-  #     adapter:  postgres
-  #     database: sample_development
-  #     username: the_user
-  #     password: secrets
-  #     host:     localhost
-  #   repo2:
-  #     ...
+#test:
+#  database: db/tecfiler-rails_test.db
+#  <<: *defaults
 
-test:
-  database: db/tecfiler-rails_test.db
+test: &test  
+  database: ":memory:"
   <<: *defaults
+
 production:
   database: db/tecfiler-rails_production.db
   <<: *defaults

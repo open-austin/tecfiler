@@ -7,9 +7,9 @@ describe Contribution do
   end
   
   subject { @c }
-
+    
   describe "#valid?" do
-    it { should be_valid }
+    it { should validate }
   end
   
   describe "#rec_type" do
@@ -31,13 +31,25 @@ describe Contribution do
     it { should accept_attribute_value(:contributor_type, ContributorType::INDIVIDUAL) }
     it { should accept_attribute_value(:contributor_type, ContributorType::ENTITY) }
     it { should_not accept_attribute_value(:contributor_type, "CUPCAKES") }
+      
+    it "requires ContributorType::INDIVIDUAL for FormType::C" do
+      @c.form_type = FormType::C
+      @c.contributor_type = ContributorType::ENTITY
+      should_not accept_attribute_value(:contributor_type, ContributorType::INDIVIDUAL)
+    end
+    
+    it "requires ContributorType::INDIVIDUAL for FormType::D" do
+      @c.form_type = FormType::D
+      @c.contributor_type = ContributorType::ENTITY
+      should_not accept_attribute_value(:contributor_type, ContributorType::INDIVIDUAL)
+    end
   end
-  
+        
   describe "#contributor_type is INDIVIDUAL" do
     
     before(:each) do
       @c.contributor_type = ContributorType::INDIVIDUAL
-      should be_valid
+      should validate
     end
         
     describe "#name_title" do
@@ -70,7 +82,7 @@ describe Contribution do
     
     before(:each) do
       @c.contributor_type = ContributorType::ENTITY
-      should be_valid
+      should validate
     end
         
     describe "#name_title" do
@@ -131,126 +143,86 @@ describe Contribution do
     it { should_not accept_attribute_value(:zip, "12345-67890") }
     it { should_not accept_attribute_value(:zip, "123456789") }
   end
-
-#    
-#    def test41_field_is_out_of_state_pac
-#      @t.assert_value_valid :is_out_of_state_pac, true, :entity => proc {
-#        new_contribution_type_entity(:pac_id => "xyz")
-#      }
-#      @t.assert_value_valid :is_out_of_state_pac, false
-#      @t.assert_value_valid :is_out_of_state_pac, nil
-#      @t.refute_value_valid :form_type, :AL, :reject_field => :is_out_of_state_pac, :entity => proc {  
-#        new_contribution_type_entity(:is_out_of_state_pac => true, :pac_id => "xyz") 
-#      }
-#      @t.refute_value_valid :form_type, :C, :reject_field => :is_out_of_state_pac, :entity => proc {  
-#        new_contribution_type_entity(:is_out_of_state_pac => true, :pac_id => "xyz") 
-#      }
-#    end
-#    
-#  
-#    def test42_field_pac_id
-#      @t.assert_required :pac_id, :entity => proc {
-#        new_contribution_type_entity(:is_out_of_state_pac => true, :pac_id => "xyz") 
-#      }
-#  
-#      @t.refute_value_valid :form_type, :AL, :reject_field => :pac_id, :entity => proc {  
-#        new_contribution_type_entity(:is_out_of_state_pac => true, :pac_id => "xyz") 
-#      }
-#      @t.refute_value_valid :form_type, :C, :reject_field => :pac_id, :entity => proc {  
-#        new_contribution_type_entity(:is_out_of_state_pac => true, :pac_id => "xyz") 
-#      }
-#    end
-#    
-#    
-#    def test51_field_date
-#      # import spec defines format: YYYYMMDD
-#      @t.assert_value_valid :date, "20120110", :expect_value => Date.new(2012, 1, 10)
-#      @t.assert_required :date, :value => "20120110", :expect_value => Date.new(2012, 1, 10)
-#      
-#      # accept some additional formats
-#      @t.assert_value_valid :date, "2012-01-10", :expect_value => Date.new(2012, 1, 10)
-#      @t.assert_value_valid :date, "2012-Jan-10", :expect_value => Date.new(2012, 1, 10)
-#      @t.assert_value_valid :date, "10 Jan 2012", :expect_value => Date.new(2012, 1, 10)
-#      @t.assert_value_valid :date, "Jan 10, 2012", :expect_value => Date.new(2012, 1, 10)
-#      @t.assert_value_valid :date, "Jan 10", :expect_value => Date.new(Time.now.year, 1, 10)
-#      
-#      # the Data parser is extremely tolerant, and for better or worse accepts very loosely
-#      @t.refute_value_valid :date, "cupcakes"
-#      @t.refute_value_valid :date, "20123001"
-#      @t.refute_value_valid :date, "2012-30-01"
-#      @t.refute_value_valid :date, "201201100"
-#  
-#    end
-#    
-#    
-#    def test52_field_amount
-#      @t.assert_value_valid :amount, "100", :expect_value => 100.00
-#      @t.assert_required :amount, :value => "100", :expect_value => 100.00    
-#  
-#      @t.assert_value_valid :amount, "0.01", :expect_value => 0.01
-#      @t.assert_value_valid :amount, "100", :expect_value => 100.00
-#      @t.assert_value_valid :amount, "100.1", :expect_value => 100.10
-#      @t.assert_value_valid :amount, "100.15", :expect_value => 100.15    
-#  
-#      @t.assert_value_valid :amount, "999999", :expect_value => 999999.00
-#      @t.assert_value_valid :amount, "9999999", :expect_value => 9999999.00
-#      @t.assert_value_valid :amount, "99999999", :expect_value => 99999999.00
-#      
-#      # we allow thousand seperator (',') in value assignments
-#      @t.assert_value_valid :amount, "99,999,999", :expect_value => 99999999.00
-#      
-#      @t.refute_value_valid :amount, "cupcakes"
-#      @t.refute_value_valid :amount, "100.159"
-#  
-#      # precision = 12, scale = 2
-#      @t.assert_value_valid :amount, "1000000000", :expect_value => 1000000000.00
-#      @t.assert_value_valid :amount, "9999999999", :expect_value => 9999999999.00
-#      @t.assert_value_valid :amount, "9999999999.99", :expect_value => 9999999999.99
-#      @t.refute_value_valid :amount, "10000000000"      
-#  
-#    end
-#    
-#    
-#    def test53_field_in_kind_description
-#      @t.assert_optional :in_kind_description
-#      @t.assert_max_length :in_kind_description, 100
-#    end
-#    
-#    
-#    def test54_field_employer
-#      @t.assert_optional :employer
-#      @t.assert_max_length :employer, 60
-#  
-#      skip_test_because ! form_type_allowed?(:AJ) do
-#        @t.assert_required :employer, :entity => proc {new_contribution_type_individual(:form_type => :AJ)}
-#      end
-#      skip_test_because ! form_type_allowed?(:AL) do
-#        @t.assert_not_allowed :employer, :entity => proc {new_contribution_type_individual(:form_type => :AL)}
-#      end
-#      perform_test_because form_type_allowed?(:C) do
-#        @t.assert_not_allowed :employer, :entity => proc {new_contribution_type_entity(:form_type => :C)}
-#      end
-#    end
-#    
-#    
-#    def test55_field_occupation
-#      @t.assert_optional :occupation
-#      @t.assert_max_length :occupation, 60
-#      
-#      skip_test_because ! form_type_allowed?(:A2) do
-#        @t.assert_required :occupation, :entity => proc {new_contribution_type_individual(:form_type => :A2)}
-#      end
-#      skip_test_because ! form_type_allowed?(:AJ) do
-#        @t.assert_required :occupation, :entity => proc {new_contribution_type_individual(:form_type => :AJ)}
-#      end
-#      skip_test_because ! form_type_allowed?(:AL) do
-#        @t.assert_not_allowed :occupation, :entity => proc {new_contribution_type_individual(:form_type => :AL)}
-#      end
-#      perform_test_because form_type_allowed?(:C) do
-#        @t.assert_not_allowed :occupation, :entity => proc {new_contribution_type_entity(:form_type => :C)}
-#      end
-#    end
-#       
-#    
   
+  describe "#is_out_of_state_pac" do
+    it { should_not accept_attribute_value(:is_out_of_state_pac, nil) }
+    it { should accept_attribute_value(:is_out_of_state_pac, false) }
+    it { should accept_attribute_value(:is_out_of_state_pac, true) }
+    it "cannot be set for FormType::AL" do
+      @c.is_out_of_state_pac = true
+      should_not accept_attribute_value(:form_type,  FormType::AL)
+    end
+    it "cannot be set for FormType::C" do
+      @c.is_out_of_state_pac = true
+      should_not accept_attribute_value(:form_type,  FormType::C)
+    end            
+  end
+  
+  describe "#out_of_state_pac_id" do
+    describe "when is_out_of_state_pac is false" do
+      it { should_not require_attribute(:out_of_state_pac_id) } 
+      it { should_not accept_attribute_value(:out_of_state_pac_id, "C12345678") } 
+    end
+    describe "when is_out_of_state_pac is true" do
+      before(:each) do
+        @c.is_out_of_state_pac = true
+        @c.out_of_state_pac_id = "C12345678"
+      end      
+      # See note in Contribution validations as to why I'm treating this as not required.
+      it { should_not require_attribute(:out_of_state_pac_id) }
+      it { should_not accept_attribute_value(:out_of_state_pac_id, "xxxxxxxxx") } 
+      it { should_not accept_attribute_value(:out_of_state_pac_id, "C1234567") }  
+      it { should_not accept_attribute_value(:out_of_state_pac_id, "C123456789") }      
+    end
+  end
+  
+  describe "#date" do
+    it { should require_attribute(:date) }    
+    it { should accept_attribute_value(:date, Date.new(2010, 1, 1)) }
+    it { should_not accept_attribute_value(:date, "cupcakes") }
+  end
+  
+  describe "#amount" do
+    it { should require_attribute(:amount) }
+    it { should_not accept_attribute_value(:amount, -1.00) }
+    it { should_not accept_attribute_value(:amount, 0.00) }
+    it { should accept_attribute_value(:amount, 0.01) }
+    it { should accept_attribute_value(:amount, 999999999.99) }
+    it { should_not accept_attribute_value(:amount, 1000000000.00) }
+    it { should_not accept_attribute_value(:amount, "cupcakes") }
+  end
+  
+  describe "#in_kind_description" do
+    it { should_not require_attribute(:in_kind_description) }
+    it { should accept_attribute_length(:in_kind_description, 100) }
+    it { should_not accept_attribute_length(:in_kind_description, 100+1) }
+  end
+  
+  describe "#employer" do
+    it { should_not require_attribute(:employer) }
+    it { should accept_attribute_length(:employer, 60) }
+    it { should_not accept_attribute_length(:employer, 60+1) }
+    it "is required for FormType::AJ" do
+      @c.form_type = FormType::AJ
+      @c.employer = "self"
+      @c.occupation = "ditchdigger"
+      should require_attribute(:employer)
+    end
+    it "must be blank for FormType::AL" do
+      @c.form_type = FormType::AL
+      should_not accept_attribute_value(:employer, "x")
+    end
+    it "must be blank for FormType::C" do
+      @c.form_type = FormType::C
+      @c.contributor_type = ContributorType::ENTITY
+      should_not accept_attribute_value(:employer, "x")
+    end
+  end
+  
+  describe "#occupation" do
+    it { should_not require_attribute(:occupation) }
+    it { should accept_attribute_length(:occupation, 60) }
+    it { should_not accept_attribute_length(:occupation, 60+1) }
+  end
+
 end

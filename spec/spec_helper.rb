@@ -36,3 +36,13 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 end
+
+# Initialize tables if we are using an in-memory database.
+load_schema = lambda {  
+  load "#{Rails.root.to_s}/db/schema.rb" # use db agnostic schema by default  
+  # ActiveRecord::Migrator.up('db/migrate') # use migrations  
+}
+if ActiveRecord::Base.connection.instance_variable_get(:@config)[:database] == ":memory:"
+  $stderr.puts "Initializing in-memory database ..."
+  silence_stream(STDOUT, &load_schema)   
+end
