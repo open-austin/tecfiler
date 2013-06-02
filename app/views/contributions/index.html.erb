@@ -9,7 +9,7 @@
   review and edit the records before submitting your report.
 </p>
 
-<% unless @contributions.present? %>
+<% if @contributions.blank? %>
   <%= form_for [@user, @filer, @report], :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
     <fieldset>
       <legend>Contribution File</legend>
@@ -39,7 +39,6 @@
         <p>You haven't added a contribution file, yet.</p>
       <% end %>
 
-
       <% if @report.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
@@ -62,36 +61,36 @@
       </div>
 
     </fieldset>
+
+    <hr />
   <% end %>
-<% end %>
-
-<hr />
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Name</th>
-      <th>Date</th>
-      <th>Amount</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @contributions.each do |contribution| %>
+<% else %>
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td><%= contribution.contributor_type.capitalize! %> <%= contribution.rec_type.capitalize! %></td>
-        <td><%= contribution.name_title %> <%= contribution.name_first %> <%= contribution.name_last %> <%= contribution.name_suffix %></td>
-        <td><%= contribution.date %></td>
-        <td><%= number_to_currency(contribution.amount) %></td>
-        <td>
-          <%= link_to 'Details', user_filer_report_contribution_path(@user, @filer, @report, contribution) %>
-        </td>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @contributions.each do |contribution| %>
+        <tr>
+          <td><%= contribution.contributor_type.capitalize! %> <%= contribution.rec_type.capitalize! %></td>
+          <td><%= contribution.name_title %> <%= contribution.name_first %> <%= contribution.name_last %> <%= contribution.name_suffix %></td>
+          <td><%= contribution.date %></td>
+          <td><%= number_to_currency(contribution.amount) %></td>
+          <td>
+            <%= link_to 'Details', user_filer_report_contribution_path(@user, @filer, @report, contribution) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 
 <p>
   <%= link_to "Add a contribution",
