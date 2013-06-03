@@ -7,7 +7,10 @@
       <%= @filer.name_mi %>
       <%= @filer.name_last %>
       <%= @filer.name_suffix %>
-      (<%= @filer.name_nick %>)</strong><br />
+      <% unless @filer.name_nick.blank? %>
+        (<%= @filer.name_nick %>)</strong>
+      <% end %>
+      <br />
 
       <%= @filer.address_street %>
       <%= @filer.address_suite %><br />

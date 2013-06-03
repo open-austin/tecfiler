@@ -8,7 +8,10 @@
         <%= @treasurer.name_mi %>
         <%= @treasurer.name_last %>
         <%= @treasurer.name_suffix %>
-        (<%= @treasurer.name_nick %>)</strong><br />
+        <% unless @treasurer.name_nick.blank? %>
+          (<%= @treasurer.name_nick %>)</strong>
+        <% end %>
+        <br />
 
         <%= @treasurer.address_street %>
         <%= @treasurer.address_suite %><br />
