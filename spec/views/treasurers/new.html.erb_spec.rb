@@ -14,7 +14,6 @@ describe "treasurers/new" do
       :address_city => "MyString",
       :address_state => "MyString",
       :address_zip => "MyString",
-      :address_changed => false,
       :phone => "MyString"
     ).as_new_record)
   end
@@ -35,7 +34,6 @@ describe "treasurers/new" do
       assert_select "input#treasurer_address_city[name=?]", "treasurer[address_city]"
       assert_select "input#treasurer_address_state[name=?]", "treasurer[address_state]"
       assert_select "input#treasurer_address_zip[name=?]", "treasurer[address_zip]"
-      assert_select "input#treasurer_address_changed[name=?]", "treasurer[address_changed]"
       assert_select "input#treasurer_phone[name=?]", "treasurer[phone]"
     end
   end

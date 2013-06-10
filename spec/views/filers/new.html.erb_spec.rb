@@ -14,7 +14,6 @@ describe "filers/new" do
       :address_city => "MyString",
       :address_state => "MyString",
       :address_zip => "MyString",
-      :address_changed => false,
       :phone => "MyString"
     ).as_new_record)
   end
@@ -35,7 +34,6 @@ describe "filers/new" do
       assert_select "input#filer_address_city[name=?]", "filer[address_city]"
       assert_select "input#filer_address_state[name=?]", "filer[address_state]"
       assert_select "input#filer_address_zip[name=?]", "filer[address_zip]"
-      assert_select "input#filer_address_changed[name=?]", "filer[address_changed]"
       assert_select "input#filer_phone[name=?]", "filer[phone]"
     end
   end

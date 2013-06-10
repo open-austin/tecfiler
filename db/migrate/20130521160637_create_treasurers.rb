@@ -14,7 +14,6 @@ class CreateTreasurers < ActiveRecord::Migration
       t.string :address_city
       t.string :address_state
       t.string :address_zip
-      t.boolean :address_changed
       t.string :phone
 
       t.timestamps

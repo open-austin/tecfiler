@@ -8,8 +8,9 @@
       <%= @filer.name_last %>
       <%= @filer.name_suffix %>
       <% unless @filer.name_nick.blank? %>
-        (<%= @filer.name_nick %>)</strong>
+        (<%= @filer.name_nick %>)
       <% end %>
+      </strong>
       <br />
 
       <%= @filer.address_street %>
@@ -20,10 +21,6 @@
       <%= @filer.phone %>
     </address> 
     
-    <% if @filer.address_changed == true %>
-      <p>Change of address marked.</p>
-    <% end %>
-
     <div class="form-actions">
       <%= link_to 'Edit Filer', edit_user_filer_path(@user, @filer), :class => 'btn' %>
     </div>

@@ -2,7 +2,7 @@ class Treasurer < ActiveRecord::Base
 
  	belongs_to :filer 
 
-  attr_accessible :address_changed, :address_city, :address_state, :address_street, :address_suite, 
+  attr_accessible :address_city, :address_state, :address_street, :address_suite, 
     :address_zip, :name_first, :name_last, :name_mi, :name_nick, :name_prefix, :name_suffix, :phone
 
   validates_format_of :phone, :with => /(^$)|(^(\d\d\d-)?\d\d\d-\d\d\d\d(x\d+)?$)/,

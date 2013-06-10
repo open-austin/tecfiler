@@ -9,8 +9,9 @@
         <%= @treasurer.name_last %>
         <%= @treasurer.name_suffix %>
         <% unless @treasurer.name_nick.blank? %>
-          (<%= @treasurer.name_nick %>)</strong>
+          (<%= @treasurer.name_nick %>)
         <% end %>
+        </strong>
         <br />
 
         <%= @treasurer.address_street %>
@@ -20,10 +21,6 @@
         <%= @treasurer.address_zip %><br />
         <%= @treasurer.phone %>
       </address> 
-
-      <% if @treasurer.address_changed == true %>
-        <p>Change of address marked.</p>
-      <% end %>
 
       <div class="form-actions">
         <%= link_to 'Edit Treasurer', 

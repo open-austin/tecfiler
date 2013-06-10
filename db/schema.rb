@@ -93,10 +93,9 @@ ActiveRecord::Schema.define(:version => 20130521181138) do
     t.string   "address_city"
     t.string   "address_state"
     t.string   "address_zip"
-    t.boolean  "address_changed"
     t.string   "phone"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   add_index "filers", ["user_id"], :name => "index_filers_on_user_id"
@@ -165,10 +164,9 @@ ActiveRecord::Schema.define(:version => 20130521181138) do
     t.string   "address_city"
     t.string   "address_state"
     t.string   "address_zip"
-    t.boolean  "address_changed"
     t.string   "phone"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   add_index "treasurers", ["filer_id"], :name => "index_treasurers_on_filer_id"

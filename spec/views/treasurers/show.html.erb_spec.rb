@@ -14,7 +14,6 @@ describe "treasurers/show" do
       :address_city => "Address City",
       :address_state => "Address State",
       :address_zip => "Address Zip",
-      :address_changed => false,
       :phone => "Phone"
     ))
   end
