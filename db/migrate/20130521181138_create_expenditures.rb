@@ -2,6 +2,7 @@ class CreateExpenditures < ActiveRecord::Migration
   def change
     create_table :expenditures do |t|
       t.integer :report_id
+      t.integer :filer_id
 
       t.string :rec_type
       t.string :form_type

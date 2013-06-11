@@ -1,6 +1,7 @@
 class Expenditure < ActiveRecord::Base
 
   belongs_to :report
+  belongs_to :filer
 
   attr_accessible :amount, :backreference_id, :candidate_name_first, :candidate_name_last, 
     :candidate_name_suffix, :candidate_name_title, :date, :description, :form_type, :is_corp_contrib, 

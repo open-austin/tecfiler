@@ -13,18 +13,21 @@
     </div>
   <% end %>
 
+
  <div class="control-group">
     <%= f.label :rec_type, :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :rec_type, :class => 'text_field' %>
     </div>
   </div>
+
   <div class="control-group">
     <%= f.label :form_type, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :form_type, :class => 'text_field' %>
+      <%= f.select(:form_type, FormType.values) %> 
     </div>
   </div>
+
   <div class="control-group">
     <%= f.label :item_id, :class => 'control-label' %>
     <div class="controls">
@@ -40,7 +43,7 @@
   <div class="control-group">
     <%= f.label :payee_name_title, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :payee_name_title, :class => 'text_field' %>
+      <%= f.select(:payee_name_title, name_prefixes, { :include_blank => true }) %> 
     </div>
   </div>
   <div class="control-group">
@@ -58,7 +61,7 @@
   <div class="control-group">
     <%= f.label :payee_name_suffix, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :payee_name_suffix, :class => 'text_field' %>
+      <%= f.select(:payee_name_suffix, name_suffixes, { :include_blank => true }) %> 
     </div>
   </div>
   <div class="control-group">
@@ -82,7 +85,7 @@
   <div class="control-group">
     <%= f.label :payee_state, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :payee_state, :class => 'text_field' %>
+      <%= f.select(:payee_state, us_states, :selected => "TX") %>
     </div>
   </div>
   <div class="control-group">
@@ -121,7 +124,7 @@
   <div class="control-group">
     <%= f.label :candidate_name_title, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :candidate_name_title, :class => 'text_field' %>
+      <%= f.select(:candidate_name_title, name_prefixes, { :include_blank => true }) %> 
     </div>
   </div>
   <div class="control-group">
@@ -139,7 +142,7 @@
   <div class="control-group">
     <%= f.label :candidate_name_suffix, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :candidate_name_suffix, :class => 'text_field' %>
+      <%= f.select(:candidate_name_suffix, name_suffixes, { :include_blank => true }) %> 
     </div>
   </div>
   <div class="control-group">
@@ -197,3 +200,9 @@
                 user_filer_report_expenditures_path(@user, @filer, @report), :class => 'btn' %>
   </div>
 <% end %>
+
+<% content_for(:sidebar) do %>
+    <h2>Expenditure details</h2>
+    <p>Please use this page to manage your expenditure details.</p>
+<% end %>
+

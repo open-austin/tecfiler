@@ -16,7 +16,10 @@ class ExpendituresController < ApplicationController
   # GET /expenditures/1
   # GET /expenditures/1.json
   def show
-    @expenditure = Expenditure.get(params[:id])
+    @user = current_user
+    @filer = Filer.find(params[:filer_id])
+    @report = Report.find(params[:report_id])
+    @expenditure = Expenditure.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -40,7 +43,10 @@ class ExpendituresController < ApplicationController
 
   # GET /expenditures/1/edit
   def edit
-    @expenditure = Expenditure.get(params[:id])
+    @user = current_user
+    @filer = Filer.find(params[:filer_id])
+    @report = Report.find(params[:report_id])
+    @expenditure = Expenditure.find(params[:id])
   end
 
   # POST /expenditures
@@ -51,6 +57,7 @@ class ExpendituresController < ApplicationController
     @report = Report.find(params[:report_id])
     @expenditure = Expenditure.new(params[:expenditure])
     @expenditure.report_id = @report.id
+    @expenditure.filer_id = @filer.id
 
     respond_to do |format|
       if @expenditure.save
@@ -66,11 +73,14 @@ class ExpendituresController < ApplicationController
   # PUT /expenditures/1
   # PUT /expenditures/1.json
   def update
-    @expenditure = Expenditure.get(params[:id])
+    @user = current_user
+    @filer = Filer.find(params[:filer_id])
+    @report = Report.find(params[:report_id])
+    @expenditure = Expenditure.find(params[:id])
 
     respond_to do |format|
-      if @expenditure.update(params[:expenditure])
-        format.html { redirect_to @expenditure, notice: 'Expenditure was successfully updated.' }
+      if @expenditure.update_attributes(params[:expenditure])
+        format.html { redirect_to user_filer_report_expenditures_path(@user, @filer, @report), notice: 'Expenditure was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -82,11 +92,14 @@ class ExpendituresController < ApplicationController
   # DELETE /expenditures/1
   # DELETE /expenditures/1.json
   def destroy
-    @expenditure = Expenditure.get(params[:id])
-    @expenditure.destroy
+    @user = current_user
+    @filer = Filer.find(params[:filer_id])
+    @report = Report.find(params[:report_id])
+    @expenditure = Expenditure.find(params[:id])
+    @expenditure.destroy unless ! @expenditure.filer.user_id == @user.id
 
     respond_to do |format|
-      format.html { redirect_to expenditures_url }
+      format.html { redirect_to user_filer_report_expenditures_path(@user, @filer, @report), notice: 'Expenditure was deleted.' }
       format.json { head :no_content }
     end
   end

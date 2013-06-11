@@ -1,79 +1,161 @@
-<%- model_class = Expenditure -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+  <h1>Expenditure Details</h1>
 </div>
 
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:version) %>:</strong></dt>
-  <dd><%= @expenditure.version %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:rec_type) %>:</strong></dt>
-  <dd><%= @expenditure.rec_type %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:form_type) %>:</strong></dt>
-  <dd><%= @expenditure.form_type %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:item_id) %>:</strong></dt>
-  <dd><%= @expenditure.item_id %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:payee_type) %>:</strong></dt>
-  <dd><%= @expenditure.payee_type %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:payee_name_title) %>:</strong></dt>
-  <dd><%= @expenditure.payee_name_title %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:payee_name_first) %>:</strong></dt>
-  <dd><%= @expenditure.payee_name_first %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:payee_name_last) %>:</strong></dt>
-  <dd><%= @expenditure.payee_name_last %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:payee_name_suffix) %>:</strong></dt>
-  <dd><%= @expenditure.payee_name_suffix %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:payee_address) %>:</strong></dt>
-  <dd><%= @expenditure.payee_address %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:payee_address2) %>:</strong></dt>
-  <dd><%= @expenditure.payee_address2 %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:payee_city) %>:</strong></dt>
-  <dd><%= @expenditure.payee_city %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:payee_state) %>:</strong></dt>
-  <dd><%= @expenditure.payee_state %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:payee_zip) %>:</strong></dt>
-  <dd><%= @expenditure.payee_zip %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:date) %>:</strong></dt>
-  <dd><%= @expenditure.date %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:amount) %>:</strong></dt>
-  <dd><%= @expenditure.amount %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
-  <dd><%= @expenditure.description %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:reimbursement_expected) %>:</strong></dt>
-  <dd><%= @expenditure.reimbursement_expected %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:candidate_name_title) %>:</strong></dt>
-  <dd><%= @expenditure.candidate_name_title %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:candidate_name_first) %>:</strong></dt>
-  <dd><%= @expenditure.candidate_name_first %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:candidate_name_last) %>:</strong></dt>
-  <dd><%= @expenditure.candidate_name_last %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:candidate_name_suffix) %>:</strong></dt>
-  <dd><%= @expenditure.candidate_name_suffix %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:office_held_code) %>:</strong></dt>
-  <dd><%= @expenditure.office_held_code %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:office_held_description) %>:</strong></dt>
-  <dd><%= @expenditure.office_held_description %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:office_held_district) %>:</strong></dt>
-  <dd><%= @expenditure.office_held_district %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:office_sought_code) %>:</strong></dt>
-  <dd><%= @expenditure.office_sought_code %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:office_sought_description) %>:</strong></dt>
-  <dd><%= @expenditure.office_sought_description %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:office_sought_district) %>:</strong></dt>
-  <dd><%= @expenditure.office_sought_district %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:backreference_id) %>:</strong></dt>
-  <dd><%= @expenditure.backreference_id %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:is_corp_contrib) %>:</strong></dt>
-  <dd><%= @expenditure.is_corp_contrib %></dd>
-</dl>
+<p>
+  <strong>Record type:</strong>
+  <%= @expenditure.rec_type %>
+</p>
+
+<p>
+  <strong>Form type:</strong>
+  <%= @expenditure.form_type %>
+</p>
+
+<p>
+  <strong>Item ID:</strong>
+  <%= @expenditure.item_id %>
+</p>
+
+<p>
+  <strong>Payee type:</strong>
+  <%= @expenditure.payee_type %>
+</p>
+
+<p>
+  <strong>Payee title:</strong>
+  <%= @expenditure.payee_name_title %>
+</p>
+
+<p>
+  <strong>Payee first name:</strong>
+  <%= @expenditure.payee_name_first %>
+</p>
+
+<p>
+  <strong>Payee last name:</strong>
+  <%= @expenditure.payee_name_last %>
+</p>
+
+<p>
+  <strong>Payee name suffix:</strong>
+  <%= @expenditure.payee_name_suffix %>
+</p>
+
+<p>
+  <strong>Payee address:</strong>
+  <%= @expenditure.payee_address %>
+</p>
+
+<p>
+  <strong>Payee address 2:</strong>
+  <%= @expenditure.payee_address2 %>
+</p>
+
+<p>
+  <strong>Payee city:</strong>
+  <%= @expenditure.payee_city %>
+</p>
+
+<p>
+  <strong>Payee state:</strong>
+  <%= @expenditure.payee_state %>
+</p>
+
+<p>
+  <strong>Payee zip:</strong>
+  <%= @expenditure.payee_zip %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @expenditure.date %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @expenditure.amount %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @expenditure.description %>
+</p>
+
+<p>
+  <strong>Reimbusement expected:</strong>
+  <%= @expenditure.reimbursement_expected %>
+</p>
+
+<p>
+  <strong>Candidate title:</strong>
+  <%= @expenditure.candidate_name_title %>
+</p>
+
+<p>
+  <strong>Candidate first name:</strong>
+  <%= @expenditure.candidate_name_first %>
+</p>
+
+<p>
+  <strong>Candidate last name:</strong>
+  <%= @expenditure.candidate_name_last %>
+</p>
+
+<p>
+  <strong>Candidate name suffix:</strong>
+  <%= @expenditure.candidate_name_suffix %>
+</p>
+
+<p>
+  <strong>Office held code:</strong>
+  <%= @expenditure.office_held_code %>
+</p>
+
+<p>
+  <strong>Office held description:</strong>
+  <%= @expenditure.office_held_description %>
+</p>
+
+<p>
+  <strong>Office held district:</strong>
+  <%= @expenditure.office_held_district %>
+</p>
+
+<p>
+  <strong>Office sought code:</strong>
+  <%= @expenditure.office_sought_code %>
+</p>
+
+<p>
+  <strong>Office sought description:</strong>
+  <%= @expenditure.office_sought_description %>
+</p>
+
+<p>
+  <strong>Office sought district:</strong>
+  <%= @expenditure.office_sought_district %>
+</p>
+
+<p>
+  <strong>Back reference ID:</strong>
+  <%= @expenditure.backreference_id %>
+</p>
+
+<p>
+  <strong>Corporate contribution?:</strong>
+  <%= @expenditure.is_corp_contrib %>
+</p>
+
 
 <div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              expenditures_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_expenditure_path(@expenditure), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              expenditure_path(@expenditure),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
+   <%= link_to t('.back', :default => t("helpers.links.back")),
+              user_filer_report_expenditures_path(@user, @filer, @report), :class => 'btn'  %>
+   <%= link_to "Edit",
+              edit_user_filer_report_expenditure_path(@user, @filer, @report, @expenditure), :class => 'btn' %>
+   <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              user_filer_report_expenditure_path(@user, @filer, @report, @expenditure),
+                :method => :delete,
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-danger' %>
 </div>

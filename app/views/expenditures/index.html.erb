@@ -1,149 +1,101 @@
-<%= form_for [@user, @filer, @report], :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
-  <fieldset>
-    <legend>Expenditure File</legend>
-
-    <% if @report.expenditure_csv_file_name.present? %>
-      <p>Your expenditure file details are below. Uploading a new file will replace this one.</p>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>File name</th>
-            <th>Content type</th>
-            <th>File size</th>
-            <th>Uploaded</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr>
-            <td><%= link_to @report.expenditure_csv_file_name, @report.expenditure_csv.url %></td>
-            <td><%= @report.expenditure_csv_content_type %></td>
-            <td><%= @report.expenditure_csv_file_size %></td>
-            <td><%= @report.expenditure_csv_updated_at %></td>
-          </tr>
-        </tbody>
-      </table>
-    <% else %>
-      <p>You haven't added an expenditure file, yet.</p>
-    <% end %>
-
-
-    <% if @report.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
-
-        <ul>
-        <% @report.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <div class="control-group">
-      <%= f.label "Expenditure File", :class => 'control-label' %>
-      <div class="controls">
-   			<%= f.file_field :expenditure_csv %>
-        <%= f.submit "Upload", :class => 'btn btn-primary' %>
-        <%= link_to 'Cancel', root_path, :class => 'btn' %>
-      </div>
-    </div>
-
-  </fieldset>
-<% end %>
-
-<hr />
-
 <%- model_class = Expenditure -%>
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 </div>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:version) %></th>
-      <th><%= model_class.human_attribute_name(:rec_type) %></th>
-      <th><%= model_class.human_attribute_name(:form_type) %></th>
-      <th><%= model_class.human_attribute_name(:item_id) %></th>
-      <th><%= model_class.human_attribute_name(:payee_type) %></th>
-      <th><%= model_class.human_attribute_name(:payee_name_title) %></th>
-      <th><%= model_class.human_attribute_name(:payee_name_first) %></th>
-      <th><%= model_class.human_attribute_name(:payee_name_last) %></th>
-      <th><%= model_class.human_attribute_name(:payee_name_suffix) %></th>
-      <th><%= model_class.human_attribute_name(:payee_address) %></th>
-      <th><%= model_class.human_attribute_name(:payee_address2) %></th>
-      <th><%= model_class.human_attribute_name(:payee_city) %></th>
-      <th><%= model_class.human_attribute_name(:payee_state) %></th>
-      <th><%= model_class.human_attribute_name(:payee_zip) %></th>
-      <th><%= model_class.human_attribute_name(:date) %></th>
-      <th><%= model_class.human_attribute_name(:amount) %></th>
-      <th><%= model_class.human_attribute_name(:description) %></th>
-      <th><%= model_class.human_attribute_name(:reimbursement_expected) %></th>
-      <th><%= model_class.human_attribute_name(:candidate_name_title) %></th>
-      <th><%= model_class.human_attribute_name(:candidate_name_first) %></th>
-      <th><%= model_class.human_attribute_name(:candidate_name_last) %></th>
-      <th><%= model_class.human_attribute_name(:candidate_name_suffix) %></th>
-      <th><%= model_class.human_attribute_name(:office_held_code) %></th>
-      <th><%= model_class.human_attribute_name(:office_held_description) %></th>
-      <th><%= model_class.human_attribute_name(:office_held_district) %></th>
-      <th><%= model_class.human_attribute_name(:office_sought_code) %></th>
-      <th><%= model_class.human_attribute_name(:office_sought_description) %></th>
-      <th><%= model_class.human_attribute_name(:office_sought_district) %></th>
-      <th><%= model_class.human_attribute_name(:backreference_id) %></th>
-      <th><%= model_class.human_attribute_name(:is_corp_contrib) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @expenditures.each do |expenditure| %>
-      <tr>
-        <td><%= expenditure.id %></td>
-        <td><%= expenditure.rec_type %></td>
-        <td><%= expenditure.form_type %></td>
-        <td><%= expenditure.item_id %></td>
-        <td><%= expenditure.payee_type %></td>
-        <td><%= expenditure.payee_name_title %></td>
-        <td><%= expenditure.payee_name_first %></td>
-        <td><%= expenditure.payee_name_last %></td>
-        <td><%= expenditure.payee_name_suffix %></td>
-        <td><%= expenditure.payee_address %></td>
-        <td><%= expenditure.payee_address2 %></td>
-        <td><%= expenditure.payee_city %></td>
-        <td><%= expenditure.payee_state %></td>
-        <td><%= expenditure.payee_zip %></td>
-        <td><%= expenditure.date %></td>
-        <td><%= expenditure.amount %></td>
-        <td><%= expenditure.description %></td>
-        <td><%= expenditure.reimbursement_expected %></td>
-        <td><%= expenditure.candidate_name_title %></td>
-        <td><%= expenditure.candidate_name_first %></td>
-        <td><%= expenditure.candidate_name_last %></td>
-        <td><%= expenditure.candidate_name_suffix %></td>
-        <td><%= expenditure.office_held_code %></td>
-        <td><%= expenditure.office_held_description %></td>
-        <td><%= expenditure.office_held_district %></td>
-        <td><%= expenditure.office_sought_code %></td>
-        <td><%= expenditure.office_sought_description %></td>
-        <td><%= expenditure.office_sought_district %></td>
-        <td><%= expenditure.backreference_id %></td>
-        <td><%= expenditure.is_corp_contrib %></td>
-        <td><%=l expenditure.created_at %></td>
-        <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_user_filer_report_contribution_path(@user, @filer, @report, expenditure), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      user_filer_report_contribution_path(@user, @filer, @report, expenditure),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_user_filer_report_expenditure_path,
-            :class => 'btn btn-primary' %>
+<p>
+  Expenditure details can be added by uploading a CSV (comma-separated values) file for import, 
+  or by manually typing in the records. If you import a CSV file, you will have the opportunity to
+  review and edit the records before submitting your report.
+</p>
+
+<% if @expenditures.blank? %>
+  <%= form_for [@user, @filer, @report], :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
+    <fieldset>
+      <legend>Expenditure File</legend>
+
+      <% if @report.expenditure_csv_file_name.present? %>
+        <p>Your expenditure file details are below. Uploading a new file will replace this one.</p>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>File name</th>
+              <th>Content type</th>
+              <th>File size</th>
+              <th>Uploaded</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td><%= link_to @report.expenditure_csv_file_name, @report.expenditure_csv.url %></td>
+              <td><%= @report.expenditure_csv_content_type %></td>
+              <td><%= @report.expenditure_csv_file_size %></td>
+              <td><%= @report.expenditure_csv_updated_at %></td>
+            </tr>
+          </tbody>
+        </table>
+      <% else %>
+        <p>You haven't added a expenditure file, yet.</p>
+      <% end %>
+
+      <% if @report.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
+
+          <ul>
+          <% @report.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="control-group">
+        <%= f.label "Expenditure File", :class => 'control-label' %>
+        <div class="controls">
+          <%= f.file_field :expenditure_csv %>
+          <%= f.submit "Upload", :class => 'btn btn-primary' %>
+          <%= link_to 'Cancel', root_path, :class => 'btn' %>
+        </div>
+      </div>
+
+    </fieldset>
+
+    <hr />
+  <% end %>
+<% else %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @expenditures.each do |expenditure| %>
+        <tr>
+          <td><%= expenditure.payee_type.capitalize! %> <%= expenditure.rec_type.capitalize! %></td>
+          <td><%= expenditure.payee_name_title %> <%= expenditure.payee_name_first %> 
+              <%= expenditure.payee_name_last %> <%= expenditure.payee_name_suffix %></td>
+          <td><%= expenditure.date %></td>
+          <td><%= number_to_currency(expenditure.amount) %></td>
+          <td>
+            <%= link_to 'Details', user_filer_report_expenditure_path(@user, @filer, @report, expenditure) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<p>
+  <%= link_to "Add an expenditure",
+              new_user_filer_report_expenditure_path,
+              :class => 'btn btn-primary' %>
+  <%= link_to 'Back', root_path, :class => 'btn' %>
+</p>

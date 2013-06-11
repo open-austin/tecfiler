@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(:version => 20130521181138) do
 
   create_table "expenditures", :force => true do |t|
     t.integer  "report_id"
+    t.integer  "filer_id"
     t.string   "rec_type"
     t.string   "form_type"
     t.string   "item_id"
