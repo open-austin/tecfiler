@@ -46,7 +46,8 @@ gem "paperclip", "~> 3.0"
 # twitter bootstrap:
 gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
-gem "twitter-bootstrap-rails"
+# twitter-bootstrap-rails versioning appears brittle, lock to last known working version
+gem "twitter-bootstrap-rails", "= 2.2.8"
 
 group :test do
   # Pretty printed test output

@@ -43,6 +43,3 @@ coverage
 coverage/.resultset.json
 *.db
 
-# removed Gemfile.lock for early development, it will be added back in for production
-Gemfile.lock
-
