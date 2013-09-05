@@ -103,4 +103,15 @@ class ContributionsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # copy contribution to a new record
+  def clone_contribution
+    @user = current_user
+    source = Contribution.find(params[:id])
+    @filer = source.filer
+    @report = source.report
+    @contribution = Contribution.new(source.attributes.slice(*Contribution.accessible_attributes))
+    render :new
+  end
+
 end

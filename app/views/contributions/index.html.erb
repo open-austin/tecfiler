@@ -73,6 +73,7 @@
         <th>Date</th>
         <th>Amount</th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
 
@@ -85,6 +86,9 @@
           <td><%= number_to_currency(contribution.amount) %></td>
           <td>
             <%= link_to 'Details', user_filer_report_contribution_path(@user, @filer, @report, contribution) %>
+          </td>
+          <td>
+            <%= link_to 'Copy', clone_contribution_path(contribution) %>
           </td>
         </tr>
       <% end %>

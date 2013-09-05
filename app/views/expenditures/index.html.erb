@@ -73,6 +73,7 @@
         <th>Date</th>
         <th>Amount</th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
 
@@ -86,6 +87,9 @@
           <td><%= number_to_currency(expenditure.amount) %></td>
           <td>
             <%= link_to 'Details', user_filer_report_expenditure_path(@user, @filer, @report, expenditure) %>
+          </td>
+          <td>
+            <%= link_to 'Copy', clone_expenditure_path(expenditure) %>
           </td>
         </tr>
       <% end %>

@@ -8,7 +8,7 @@ class ExpendituresController < ApplicationController
     @expenditures = @report.expenditures.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {render :layout => 'fullwidth'} # index.html.erb
       format.json { render json: @expenditures }
     end
   end
@@ -103,4 +103,15 @@ class ExpendituresController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # copy expenditure to a new record
+  def clone_expenditure
+    @user = current_user
+    source = Expenditure.find(params[:id])
+    @filer = source.filer
+    @report = source.report
+    @expenditure = Expenditure.new(source.attributes.slice(*Expenditure.accessible_attributes))
+    render :new
+  end
+
 end

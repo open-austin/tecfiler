@@ -15,6 +15,8 @@ TecfilerAr::Application.routes.draw do
   end
 
   match 'submit_report/:id' => 'reports#submit_report', :method => :post, :as => :submit_report
+  match 'clone_contribution/:id' => 'contributions#clone_contribution', :as => :clone_contribution
+  match 'clone_expenditure/:id' => 'expenditures#clone_expenditure', :as => :clone_expenditure
 
 
  # The priority is based upon order of creation:
