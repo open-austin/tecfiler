@@ -51,7 +51,7 @@ class CreateReports < ActiveRecord::Migration
       # Other report values
       #
       
-      t.string :status # placeholder for workflow (e.g. draft, filed, accepted, deleted?)
+      t.string :state # placeholder for workflow (e.g. draft, filed, accepted, deleted?)
       t.string :report_type # Enum[:JAN15, :JUL15, :ELECTION_30DAY, :ELECTION_8DAY, :RUNNOFF, :EXCEED_500, :TREASURER_APPT, :FINAL]
       t.date :period_begin
       t.date :period_end

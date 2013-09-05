@@ -14,6 +14,8 @@ TecfilerAr::Application.routes.draw do
     end
   end
 
+  match 'submit_report/:id' => 'reports#submit_report', :method => :post, :as => :submit_report
+
 
  # The priority is based upon order of creation:
   # first created -> highest priority.

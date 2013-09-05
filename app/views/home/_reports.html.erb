@@ -7,31 +7,44 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>Report type</th>
+            <th>Period ending</th>
             <th>Status</th>
             <th>Election date</th>
-            <th colspan=4></th>
+            <th colspan=5></th>
           </tr>
         </thead>
 
         <tbody>
         <% @reports.each do |report| %>
           <tr>
-            <td><%= Report.types.invert[report.report_type] %></td>
-
-
-            <td><%= report.status %></td>
+            <td><%= report.period_end %></td>
+            <td><%= report.state.titleize %></td>
             <td><%= report.election_date %></td>
             <td><%= link_to 'View', user_filer_report_path(@user, @filer, report) %></td>
-            <td><%= link_to 'Edit', edit_user_filer_report_path(@user, @filer, report), :class => 'btn btn-mini' %></td>
-            <td>
-              <%= link_to('Manage Contributions', 
-                          user_filer_report_contributions_path(@user, @filer, report), :class => 'btn btn-mini') %>
-            </td>
-            <td>
-              <%= link_to('Manage Expenditures', 
-                          user_filer_report_expenditures_path(@user, @filer, report), :class => 'btn btn-mini') %>
-            </td>
+            <% if report.modifiable? %>
+              <td><%= link_to 'Edit', edit_user_filer_report_path(@user, @filer, report), :class => 'btn btn-mini' %></td>
+              <td>
+                <%= link_to('Manage Contributions', 
+                            user_filer_report_contributions_path(@user, @filer, report), :class => 'btn btn-mini') %>
+              </td>
+              <td>
+                <%= link_to('Manage Expenditures', 
+                            user_filer_report_expenditures_path(@user, @filer, report), :class => 'btn btn-mini') %>
+              </td>
+              <% if report.submittable? %>
+                <td>
+                  <%= link_to 'Submit',
+                    submit_report_path(report),
+                      :method => 'post',
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-success' %>
+                </td>
+              <% else %>
+                <td> </td>
+              <% end %>
+            <% else %>
+                <td colspan=4> </td>
+            <% end %>
           </tr>
         <% end %>
         </tbody>

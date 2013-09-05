@@ -74,6 +74,7 @@ class ReportsController < ApplicationController
     case params[:commit]
     when "Upload" 
       if @report.update_attributes(params[:report])
+        @report.data_changed
         redirect_to root_path, notice: 'File was successfully uploaded.' 
       else
         render action: "edit"
@@ -81,6 +82,7 @@ class ReportsController < ApplicationController
     else
       respond_to do |format|
         if @report.update_attributes(params[:report])
+          @report.data_changed
           format.html { redirect_to root_path, notice: 'Report was successfully updated.' }
           format.json { head :no_content }
         else
@@ -104,4 +106,18 @@ class ReportsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # POST
+  def submit_report
+    @user = current_user
+    @report = Report.find(params[:id])
+    @filer = @report.filer
+
+    if @report.submitted
+      redirect_to root_path, notice: 'Report was successfully submitted.'
+    else
+      redirect_to root_path, error: 'An error occurred.'
+    end
+  end
+
 end

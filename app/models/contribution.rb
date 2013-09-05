@@ -7,7 +7,9 @@ class Contribution < ActiveRecord::Base
   attr_accessible :address, :address2, :amount, :city, :contributor_type, :date, 
     :employer, :form_type, :in_kind_description, :is_out_of_state_pac, :name_first, 
     :name_last, :name_suffix, :name_title, :occupation, :out_of_state_pac_id, :rec_type, :state, :zip
-      
+
+  after_save :update_report_status
+
   #
   # Validations based on field definitions in "TX/CFS Import Guide"
   # http://www.ethics.state.tx.us/whatsnew/ImportGuide.pdf
@@ -87,5 +89,9 @@ class Contribution < ActiveRecord::Base
     types.include?(form_type)
   end
   private :"form_type_one_of?"
-  
+ 
+  def update_report_status
+    self.report.data_changed
+  end
+
 end

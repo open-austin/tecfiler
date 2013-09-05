@@ -59,3 +59,6 @@ group :development, :test do
   gem "rspec-rails", ">= 2.4.1"
   gem 'factory_girl_rails'
 end
+
+# state_machine for reports workflow
+gem 'state_machine'

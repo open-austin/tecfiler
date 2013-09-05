@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(:version => 20130521181138) do
     t.string   "treasurer_address_zip"
     t.boolean  "treasurer_address_changed"
     t.string   "treasurer_phone"
-    t.string   "status"
+    t.string   "state"
     t.string   "report_type"
     t.date     "period_begin"
     t.date     "period_end"

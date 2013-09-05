@@ -8,6 +8,8 @@ http://railscasts.com/episodes/328-twitter-bootstrap-basics?view=asciicast
 https://github.com/seyhunak/twitter-bootstrap-rails
 http://stackoverflow.com/questions/15155890/styling-form-error-message-bootstrap-rails
 
+state machine:
+https://github.com/pluginaweek/state_machine
 
 rails new tecfiler-ar
 rails generate devise:install

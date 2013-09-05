@@ -19,6 +19,48 @@ class Report < ActiveRecord::Base
 
   validates_presence_of :filer_id
 
+  state_machine :initial => :new do
+    event :data_changed do
+      transition :new => :in_progress, :error => :in_progress
+    end
+
+    event :submitted do
+      transition :in_progress => :submitted
+    end
+
+    event :accepted do
+      transition :submitted => :filed
+    end
+
+    event :denied do
+      transition :submitted => :error
+    end
+
+    state :new, :in_progress, :error do
+      def modifiable?
+        true
+      end
+    end
+
+    state :new, :error, :filed, :denied do
+      def submittable?
+        false
+      end
+    end
+
+    state :in_progress do
+      def submittable?
+        true
+      end
+    end
+
+    state :submitted, :filed do
+      def modifiable?
+        false
+      end
+    end
+  end
+
   def self.types
     { "January 15" => "JAN15", "July 15" => "JUL15", 
       "Election 30 day" => "ELECTION_30DAY", "Election 8 day" => "ELECTION_8DAY", 
