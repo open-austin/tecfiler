@@ -24,6 +24,17 @@ class Treasurer < ActiveRecord::Base
     self.version = VERSION
   end
 
+  def name
+    a = [
+      self.name_prefix,
+      self.name_first,
+      self.name_mi,
+      self.name_nick.blank? ? nil : "(#{self.name_nick})",
+      self.name_last,
+      self.name_suffix,
+    ].reject {|x| x.blank?}.join(" ")        
+  end
+
   def address
     addr = []
     a = self.address_street

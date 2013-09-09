@@ -39,10 +39,10 @@ class Filer < ActiveRecord::Base
       self.name_prefix,
       self.name_first,
       self.name_mi,
-      self.name_nick.empty? ? nil : "(#{self.name_nick})",
+      self.name_nick.blank? ? nil : "(#{self.name_nick})",
       self.name_last,
       self.name_suffix,
-    ].reject {|x| x.empty?}.join(" ")        
+    ].reject {|x| x.blank?}.join(" ")        
   end
       
   def address

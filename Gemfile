@@ -62,3 +62,9 @@ end
 
 # state_machine for reports workflow
 gem 'state_machine'
+
+# active admin:
+gem 'activeadmin'
+# sass-rails is required but already included
+# gem 'sass-rails'
+gem "meta_search", '>= 1.1.0.pre'

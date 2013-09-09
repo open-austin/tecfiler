@@ -19,6 +19,11 @@ class Report < ActiveRecord::Base
 
   validates_presence_of :filer_id
 
+  scope :in_progress, :conditions => ["state = ? or state = ?", "new", "in_progress"]
+  scope :submitted, :conditions => ["state = ?", "submitted"]
+  scope :filed, :conditions => ["state = ?", "filed"]
+  scope :error, :conditions => ["state = ?", "error"]
+
   state_machine :initial => :new do
     event :data_changed do
       transition :new => :in_progress, :error => :in_progress
@@ -74,4 +79,26 @@ class Report < ActiveRecord::Base
       "Other" => "OTHER"} 
   end
 
+  def coh_name
+    a = [
+      self.coh_name_prefix,
+      self.coh_name_first,
+      self.coh_name_mi,
+      self.coh_name_nick.blank? ? nil : "(#{self.coh_name_nick})",
+      self.coh_name_last,
+      self.coh_name_suffix,
+    ].reject {|x| x.blank?}.join(" ")        
+  end
+ 
+  def treasurer_name
+    a = [
+      self.treasurer_name_prefix,
+      self.treasurer_name_first,
+      self.treasurer_name_mi,
+      self.treasurer_name_nick.blank? ? nil : "(#{self.treasurer_name_nick})",
+      self.treasurer_name_last,
+      self.treasurer_name_suffix,
+    ].reject {|x| x.blank?}.join(" ")        
+  end
+ 
 end

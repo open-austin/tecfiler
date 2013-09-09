@@ -11,6 +11,13 @@ http://stackoverflow.com/questions/15155890/styling-form-error-message-bootstrap
 state machine:
 https://github.com/pluginaweek/state_machine
 
+active admin
+http://www.activeadmin.info/
+https://github.com/gregbell/active_admin
+
+
+getting started with the project
+
 rails new tecfiler-ar
 rails generate devise:install
 rails g devise:views

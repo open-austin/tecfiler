@@ -124,6 +124,8 @@ currently lives in the dm-import-engine branch.
 
 - Go to http://localhost:3000/
 
+- Admin interface is at http://localhost:3000/admin (demo account login is "admin@example.com" and password is "password")
+
 
 Production Notes
 ----------------
