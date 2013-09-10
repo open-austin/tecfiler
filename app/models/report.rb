@@ -14,14 +14,18 @@ class Report < ActiveRecord::Base
 
   after_create :initialize_filer_treasurer
 
-  attr_accessible :contribution_csv, :election_date, :election_type, :expenditure_csv, :office_held, 
-    :office_sought, :period_begin, :period_end, :report_type, :status
- 
+  attr_accessible :contribution_csv, :election_30_day, :election_8_day, :election_date, 
+    :election_type, :exceeded_500_limit, :expenditure_csv, :final, :january_15, :july_15,
+    :office_held, :office_sought, :period_begin, :period_end, :report_type, 
+    :run_off, :status, :treasurer_appointment
+
   validates_presence_of :election_type, :if => lambda{|t| ! t.office_sought.empty?}
 
   validates_presence_of :office_sought, :if => lambda{|t| ! t.election_type.nil?}
 
   validates_presence_of :filer_id
+
+  validate :report_type_was_checked
 
   scope :in_progress, :conditions => ["state = ? or state = ?", "new", "in_progress"]
   scope :submitted, :conditions => ["state = ?", "submitted"]
@@ -68,13 +72,6 @@ class Report < ActiveRecord::Base
         false
       end
     end
-  end
-
-  def self.types
-    { "January 15" => "JAN15", "July 15" => "JUL15", 
-      "Election 30 day" => "ELECTION_30DAY", "Election 8 day" => "ELECTION_8DAY", 
-      "Runoff" => "RUNNOFF", "Exceed 500" => "EXCEED_500", 
-      "Treasurer Appointment" => "TREASURER_APPT", "Final" => "FINAL" } 
   end
 
   def self.election_types
@@ -140,4 +137,14 @@ class Report < ActiveRecord::Base
     end
   end
  
+  private
+
+  def report_type_was_checked
+    if self.january_15.blank? and self.july_15.blank? and self.election_30_day.blank? and
+      self.election_8_day.blank? and self.run_off.blank? and self.exceeded_500_limit.blank? and
+      self.treasurer_appointment.blank? and self.final.blank?
+        self.errors.add(:report_type, "must have at least one option selected")
+    end
+  end
+
 end

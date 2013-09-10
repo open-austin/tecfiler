@@ -14,10 +14,50 @@
       </div>
     <% end %>
 
-    <div class="control-group">
-      <%= f.label "Report type", :class => 'control-label' %>
-      <div class="controls">
-        <%= f.select(:report_type, Report.types) %> 
+    <div class="controls">
+      <span class="help-block">Report type</span>
+    </div>
+    <div class="span4">
+      <div class="control-group">
+        <div class="controls">
+          <%= f.label "January 15th", :class => 'checkbox' do %>
+            <%= f.check_box :january_15, :class => 'check_box' %> January 15th
+          <% end %>
+
+          <%= f.label "July 15th", :class => 'checkbox' do %>
+            <%= f.check_box :july_15, :class => 'check_box' %> July 15th
+          <% end %>
+
+          <%= f.label "30th day before election", :class => 'checkbox' do %>
+            <%= f.check_box :election_30_day, :class => 'check_box' %> Election 30 day
+          <% end %>
+
+          <%= f.label "8th day before election", :class => 'checkbox' do %>
+            <%= f.check_box :election_8_day, :class => 'check_box' %> Election 8 day
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="span4">
+      <div class="control-group">
+        <div class="controls">
+          <%= f.label :run_off, :class => 'checkbox' do %>
+            <%= f.check_box :run_off, :class => 'check_box' %> Run off
+          <% end %>
+
+          <%= f.label "Exceeded $500 limit", :class => 'checkbox' do %>
+            <%= f.check_box :exceeded_500_limit, :class => 'check_box' %> Exceeded $500 limit
+          <% end %>
+
+          <%= f.label "15th day after campaign treasurer appointment", :class => 'checkbox' do %>
+            <%= f.check_box :treasurer_appointment, :class => 'check_box' %> Treasurer appointment
+          <% end %>
+
+          <%= f.label :final, :class => 'checkbox' do %>
+            <%= f.check_box :final, :class => 'check_box' %> Final
+          <% end %>
+        </div>
       </div>
     </div>
 
