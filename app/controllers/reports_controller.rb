@@ -31,6 +31,9 @@ class ReportsController < ApplicationController
     @user = current_user
     @filer = Filer.find(params[:filer_id])
     @report = Report.new
+    @report.period_begin = Date.today
+    @report.period_end = Date.today
+    @report.election_date = Date.today
 
     respond_to do |format|
       format.html # new.html.erb

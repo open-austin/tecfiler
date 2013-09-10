@@ -64,36 +64,27 @@
     <div class="control-group">
       <%= f.label "Period begin", :class => 'control-label' %>
       <div class="controls">
-        <%= f.date_select :period_begin, {:prompt => { :day => 'Select day', 
-                                                       :month => 'Select month', 
-                                                       :year => 'Select year' }, 
-                                                       :start_year => Time.now.year - 1,
-                                                       :end_year => Time.now.year + 1},
-                                                       {:class => 'date_select'}  %>
+        <%= f.date_select :period_begin, {:start_year => Time.now.year - 5,
+                                         :end_year => Time.now.year + 1},
+                                         {:class => 'date_select'}  %>
       </div>
     </div>
 
     <div class="control-group">
       <%= f.label "Period end", :class => 'control-label' %>
       <div class="controls">
-        <%= f.date_select :period_end, {:prompt => { :day => 'Select day', 
-                                                       :month => 'Select month', 
-                                                       :year => 'Select year' }, 
-                                                       :start_year => Time.now.year - 1,
-                                                       :end_year => Time.now.year + 1},
-                                                       {:class => 'date_select'}  %>
+        <%= f.date_select :period_end, {:start_year => Time.now.year - 5,
+                                       :end_year => Time.now.year + 1},
+                                       {:class => 'date_select'}  %>
       </div>
     </div>
 
     <div class="control-group">
       <%= f.label "Election date", :class => 'control-label' %>
       <div class="controls">
-        <%= f.date_select :election_date, {:prompt => { :day => 'Select day', 
-                                                       :month => 'Select month', 
-                                                       :year => 'Select year' }, 
-                                                       :start_year => Time.now.year - 1,
-                                                       :end_year => Time.now.year + 1},
-                                                       {:class => 'date_select'}  %>
+        <%= f.date_select :election_date, {:start_year => Time.now.year - 5,
+                                          :end_year => Time.now.year + 1},
+                                          {:class => 'date_select'}  %>
       </div>
     </div>
 
