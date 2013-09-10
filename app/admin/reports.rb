@@ -91,7 +91,6 @@ ActiveAdmin.register Report do
     panel "Report Details" do
       attributes_table_for report do
         row("Status") { status_tag(report_title, report_status) }
-        row("Filer") { link_to report.filer.name, admin_filer_path(report.filer) }
         row("Candidate Office Holder") { report.coh_name }
         row("Treasurer") { report.treasurer_name }
         row("Period begin") { report.period_begin }

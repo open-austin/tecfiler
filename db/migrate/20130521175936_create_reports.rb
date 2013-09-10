@@ -2,7 +2,9 @@ class CreateReports < ActiveRecord::Migration
   def change
     create_table :reports do |t|
       
+      t.integer :user_id
       t.integer :filer_id
+      t.integer :treasurer_id
       
       ###
       #
@@ -73,7 +75,9 @@ class CreateReports < ActiveRecord::Migration
       t.timestamps
     end
         
+    add_index :reports, :user_id
     add_index :reports, :filer_id
+    add_index :reports, :treasurer_id
   end
 
   def self.down

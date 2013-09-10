@@ -51,7 +51,9 @@ class ReportsController < ApplicationController
     @user = current_user
     @filer = Filer.find(params[:filer_id])
     @report = Report.new(params[:report])
+    @report.user_id = @user.id
     @report.filer_id = @filer.id
+    @report.treasurer = @user.treasurer
 
     respond_to do |format|
       if @report.save

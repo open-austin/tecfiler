@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
 
   has_one :filer
+  has_one :treasurer
+  has_many :reports
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,

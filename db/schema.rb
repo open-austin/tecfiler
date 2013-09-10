@@ -135,7 +135,9 @@ ActiveRecord::Schema.define(:version => 20130905232721) do
   add_index "filers", ["user_id"], :name => "index_filers_on_user_id"
 
   create_table "reports", :force => true do |t|
+    t.integer  "user_id"
     t.integer  "filer_id"
+    t.integer  "treasurer_id"
     t.string   "coh_name_prefix"
     t.string   "coh_name_first"
     t.string   "coh_name_mi"
@@ -183,8 +185,11 @@ ActiveRecord::Schema.define(:version => 20130905232721) do
   end
 
   add_index "reports", ["filer_id"], :name => "index_reports_on_filer_id"
+  add_index "reports", ["treasurer_id"], :name => "index_reports_on_treasurer_id"
+  add_index "reports", ["user_id"], :name => "index_reports_on_user_id"
 
   create_table "treasurers", :force => true do |t|
+    t.integer  "user_id"
     t.integer  "filer_id"
     t.string   "version"
     t.string   "name_prefix"
@@ -204,6 +209,7 @@ ActiveRecord::Schema.define(:version => 20130905232721) do
   end
 
   add_index "treasurers", ["filer_id"], :name => "index_treasurers_on_filer_id"
+  add_index "treasurers", ["user_id"], :name => "index_treasurers_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "username"

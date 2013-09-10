@@ -1,6 +1,7 @@
 class CreateTreasurers < ActiveRecord::Migration
   def change
     create_table :treasurers do |t|
+      t.integer :user_id
       t.integer :filer_id
       t.string :version
       t.string :name_prefix
@@ -18,6 +19,7 @@ class CreateTreasurers < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :treasurers, :user_id
     add_index :treasurers, :filer_id
   end
 

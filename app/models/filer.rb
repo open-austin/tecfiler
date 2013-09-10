@@ -7,6 +7,9 @@ class Filer < ActiveRecord::Base
   attr_accessible :address_city, :address_state, :address_street, :address_suite, 
     :address_zip, :filer_type, :name_first, :name_last, :name_mi, :name_nick, :name_prefix, :name_suffix, :phone
 
+  before_save :set_version
+  after_save :update_reports
+
   validates_format_of :phone, :with => /(^$)|(^(\d\d\d-)?\d\d\d-\d\d\d\d(x\d+)?$)/,
     :message => 'Please enter a valid phone number (e.g. "512-555-1234x200")',
     :if => Proc.new { |f| !f.phone.blank? }  
@@ -21,8 +24,6 @@ class Filer < ActiveRecord::Base
   validates_presence_of :address_state
   validates_presence_of :address_zip
   validates_presence_of :phone
-
-  before_save :set_version
 
   def set_version
     self.version = VERSION
@@ -52,6 +53,11 @@ class Filer < ActiveRecord::Base
     addr << a
     addr << self.address_city + ", " + self.address_state + " " + self.address_zip
     return addr        
+  end
+
+  # update unfiled reports with updated filer information
+  def update_reports
+    Report.update_filer_treasurer(self.user)
   end
 
 end

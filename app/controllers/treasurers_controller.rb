@@ -52,6 +52,7 @@ class TreasurersController < ApplicationController
     @user = current_user
     @filer = Filer.find(params[:filer_id])
     @treasurer = Treasurer.new(params[:treasurer])
+    @treasurer.user_id = @user.id
     @treasurer.filer_id = @filer.id
 
     respond_to do |format|
