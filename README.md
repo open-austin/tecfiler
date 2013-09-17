@@ -127,6 +127,29 @@ currently lives in the dm-import-engine branch.
 - Admin interface is at http://localhost:3000/admin (demo account login is "admin@example.com" and password is "password")
 
 
+Unit Tests
+----------
+
+You can run the unit tests by running:
+
+    bundle exec rspec spec/models
+
+At this time, only "models" tests are implemented. You may encounter failures
+if you try to run the entire "spec" suite.
+
+You can perform all tests in a single spec file with a command such as:
+
+    bundle exec rspec spec/models/contribution_spec.rb
+
+or a single test case by including a line number, such as:
+
+    bundle exec rspec spec/models/contribution_spec.rb:14
+
+An in-memory database is used for test mode (RAILS_ENV="test"). This speeds
+up testing a bit. (But not enough, it still takes a painful amount of time
+to bring up the Rails stack for testing.)
+
+
 Production Notes
 ----------------
 
