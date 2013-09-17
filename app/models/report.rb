@@ -103,10 +103,8 @@ class Report < ActiveRecord::Base
   end
 
   def initialize_filer_treasurer
-    f = self.filer
-    self.set_filer_info(f) if f?
-    t = self.treasurer
-    self.set_treasurer_info(t) if t?
+    self.set_filer_info(self.filer) if self.filer
+    self.set_treasurer_info(self.treasurer) if self.treasurer
   end
 
   def set_filer_info(f)
