@@ -26,6 +26,9 @@ RSpec::Matchers.define :require_attribute do |attribute|
   failure_message_for_should_not do |entity|
     "#{entity.class} attribute \"#{attribute}\" should not be required, but undefined value is rejected"
   end
+  description do |entity|
+    "require attribute \"#{attribute}\" value be defined"
+  end
 end
 
 # example: @entity.should accept_attribute_value(:name, "Joe")
@@ -41,6 +44,9 @@ RSpec::Matchers.define :accept_attribute_value do |attribute, value|
   failure_message_for_should_not do |entity|
     "#{entity.class} should reject attribute \"#{attribute}\" value \"#{value}\", but it is accepted"
   end
+  description do |entity|
+    "accept attribute \"#{attribute}\" value \"#{value}\""
+  end
 end
 
 # example: @entity.should accept_attribute_length(:name, 45)
@@ -55,5 +61,8 @@ RSpec::Matchers.define :accept_attribute_length do |attribute, length|
   end
   failure_message_for_should_not do |entity|
     "#{entity.class} should reject an attribute \"#{attribute}\" value of length \"#{length}\", but it is accepted"
+  end
+  description do |entity|
+    "accept attribute \"#{attribute}\" value of length \"#{length}\""
   end
 end
