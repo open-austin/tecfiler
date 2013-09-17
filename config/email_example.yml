@@ -1,14 +1,47 @@
+#
+# Settings for ActionMailer.
+#
+# Good help is available at: http://guides.rubyonrails.org/action_mailer_basics.html
+#
+# For SENDMAIL delivery, set :delivery_method to :sendmail.
+# :smtp_settings are ignored.
+#
+# For SMTP delivery, comment out :delivery_method.
+# Enable and adjust :smtp_settings values.
+#
+# The :default_url_options setting is an extension added
+# by the "Devise" authentication package.
+#
+# The :default_options value is used to set ActionMailer::Base.default().
+#
+
 development:
-  :address: mail.server.com
-  :port: 587
-  :authentication: plain
-  :user_name: xxx
-  :password: yyy
-  :enable_starttls_auto: true
+  :delivery_method: :sendmail
+#  :smtp_settings:
+#    :address: smtp.example.com
+#    :port: 587
+#    :authentication: plain
+#    :user_name: xxx
+#    :password: yyy
+#    :enable_starttls_auto: true
+  :default_options:
+    :from: postmaster@example.com
+  :perform_deliveries: true
+  :raise_delivery_errors: true
+
 production:
-  :address: smtp.gmail.com
-  :port: 587
-  :authentication: plain
-  :user_name: xxx
-  :password: yyy
-  :enable_starttls_auto: true
+  :delivery_method: :sendmail
+#  :smtp_settings:
+#    :address: smtp.example.com
+#    :port: 587
+#    :authentication: plain
+#    :user_name: xxx
+#    :password: yyy
+#    :enable_starttls_auto: true
+  :default_url_options:
+    :host: tec-filer.example.com
+  :default_options:
+    :from: postmaster@example.com
+  :perform_deliveries: true
+  :raise_delivery_errors: true
+
