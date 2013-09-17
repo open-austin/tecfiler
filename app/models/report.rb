@@ -27,10 +27,10 @@ class Report < ActiveRecord::Base
 
   validate :report_type_was_checked
 
-  scope :in_progress, :conditions => ["state = ? or state = ?", "new", "in_progress"]
-  scope :submitted, :conditions => ["state = ?", "submitted"]
-  scope :filed, :conditions => ["state = ?", "filed"]
-  scope :error, :conditions => ["state = ?", "error"]
+  scope :in_progress, :conditions => ["status = ? or status = ?", "new", "in_progress"]
+  scope :submitted, :conditions => ["status = ?", "submitted"]
+  scope :filed, :conditions => ["status = ?", "filed"]
+  scope :error, :conditions => ["status = ?", "error"]
 
   state_machine :initial => :new do
     event :data_changed do
@@ -104,35 +104,43 @@ class Report < ActiveRecord::Base
 
   # populate coh and treasurer info when creating new report or updating filer and treasurer
   def initialize_filer_treasurer
-    self.coh_name_prefix = self.filer.name_prefix
-    self.coh_name_first = self.filer.name_first
-    self.coh_name_mi = self.filer.name_mi
-    self.coh_name_nick = self.filer.name_nick
-    self.coh_name_last = self.filer.name_last
-    self.coh_name_suffix = self.filer.name_suffix
-    self.coh_address_street = self.filer.address_street
-    self.coh_address_suite = self.filer.address_suite
-    self.coh_address_city = self.filer.address_city
-    self.coh_address_state = self.filer.address_state
-    self.coh_address_zip = self.filer.address_zip
-    self.coh_phone = self.filer.phone
-    self.treasurer_name_prefix = self.treasurer.name_prefix
-    self.treasurer_name_first = self.treasurer.name_first
-    self.treasurer_name_mi = self.treasurer.name_mi
-    self.treasurer_name_nick = self.treasurer.name_nick
-    self.treasurer_name_last = self.treasurer.name_last
-    self.treasurer_name_suffix = self.treasurer.name_suffix
-    self.treasurer_address_street = self.treasurer.address_street
-    self.treasurer_address_suite = self.treasurer.address_suite
-    self.treasurer_address_city = self.treasurer.address_city
-    self.treasurer_address_state = self.treasurer.address_state
-    self.treasurer_address_zip = self.treasurer.address_zip
-    self.treasurer_phone = self.treasurer.phone
+    f = self.filer
+    if f?
+      self.coh_name_prefix = f.name_prefix
+      self.coh_name_first = f.name_first
+      self.coh_name_mi = f.name_mi
+      self.coh_name_nick = f.name_nick
+      self.coh_name_last = f.name_last
+      self.coh_name_suffix = f.name_suffix
+      self.coh_address_street = f.address_street
+      self.coh_address_suite = f.address_suite
+      self.coh_address_city = f.address_city
+      self.coh_address_state = f.address_state
+      self.coh_address_zip = f.address_zip
+      self.coh_phone = f.phone
+    end
+
+    t = self.treasurer
+    if t?
+      self.treasurer_name_prefix = t.name_prefix
+      self.treasurer_name_first = t.name_first
+      self.treasurer_name_mi = t.name_mi
+      self.treasurer_name_nick = t.name_nick
+      self.treasurer_name_last = t.name_last
+      self.treasurer_name_suffix = t.name_suffix
+      self.treasurer_address_street = t.address_street
+      self.treasurer_address_suite = t.address_suite
+      self.treasurer_address_city = t.address_city
+      self.treasurer_address_state = t.address_state
+      self.treasurer_address_zip = t.address_zip
+      self.treasurer_phone = t.phone
+    end
+
     self.save!
   end
 
-  def self.update_filer_treasurer(user)
-    Report.where("user_id = ? and state <> ?", user.id, "filed").each do |report|
+  def self.update_filer_treasurer(filer)
+    Report.where("filer_id = ? and status <> ?", filer.id, "filed").each do |report|
       report.initialize_filer_treasurer
     end
   end
