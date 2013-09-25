@@ -1,4 +1,5 @@
 class ReportsController < ApplicationController
+
   # GET /reports
   # GET /reports.json
   def index
@@ -76,26 +77,16 @@ class ReportsController < ApplicationController
     @filer = Filer.find(params[:filer_id])
     @report = Report.find(params[:id])
 
-    case params[:commit]
-    when "Upload" 
+    respond_to do |format|
       if @report.update_attributes(params[:report])
-        @report.data_changed
-        redirect_to root_path, notice: 'File was successfully uploaded.' 
+	@report.data_changed
+	format.html { redirect_to root_path, notice: 'Report was successfully updated.' }
+	format.json { head :no_content }
       else
-        render action: "edit"
+	format.html { render action: "edit" }
+	format.json { render json: @report.errors, status: :unprocessable_entity }
       end
-    else
-      respond_to do |format|
-        if @report.update_attributes(params[:report])
-          @report.data_changed
-          format.html { redirect_to root_path, notice: 'Report was successfully updated.' }
-          format.json { head :no_content }
-        else
-          format.html { render action: "edit" }
-          format.json { render json: @report.errors, status: :unprocessable_entity }
-        end
-      end # respond_to do |format|
-    end # case params[:commit]
+    end # respond_to do |format|
   end
 
   # DELETE /reports/1

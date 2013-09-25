@@ -3,102 +3,45 @@
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 </div>
 
-<p>
-  Contribution details can be added by uploading a CSV (comma-separated values) file for import, 
-  or by manually typing in the records. If you import a CSV file, you will have the opportunity to
-  review and edit the records before submitting your report.
-</p>
-
-<% if @contributions.blank? %>
-  <%= form_for [@user, @filer, @report], :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
-    <fieldset>
-      <legend>Contribution File</legend>
-
-      <% if @report.contribution_csv_file_name.present? %>
-        <p>Your contribution file details are below. Uploading a new file will replace this one.</p>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>File name</th>
-              <th>Content type</th>
-              <th>File size</th>
-              <th>Uploaded</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td><%= link_to @report.contribution_csv_file_name, @report.contribution_csv.url %></td>
-              <td><%= @report.contribution_csv_content_type %></td>
-              <td><%= @report.contribution_csv_file_size %></td>
-              <td><%= @report.contribution_csv_updated_at %></td>
-            </tr>
-          </tbody>
-        </table>
-      <% else %>
-        <p>You haven't added a contribution file, yet.</p>
-      <% end %>
-
-      <% if @report.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
-
-          <ul>
-          <% @report.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-          </ul>
-        </div>
-      <% end %>
-
-      <div class="control-group">
-        <%= f.label "Contribution File", :class => 'control-label' %>
-        <div class="controls">
-          <%= f.file_field :contribution_csv %>
-          <%= f.submit "Upload", :class => 'btn btn-primary' %>
-          <%= link_to 'Cancel', root_path, :class => 'btn' %>
-        </div>
-      </div>
-
-    </fieldset>
-
-    <hr />
-  <% end %>
+<% if @contributions.empty? %>
+  <p>No contributions have been entered for this report.</p>
 <% else %>
+
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Date</th>
-        <th>Amount</th>
-        <th></th>
-        <th></th>
+	<th>Type</th>
+	<th>Name</th>
+	<th>Date</th>
+	<th>Amount</th>
+	<th></th>
+	<th></th>
       </tr>
     </thead>
 
     <tbody>
       <% @contributions.each do |contribution| %>
-        <tr>
-          <td><%= contribution.contributor_type.capitalize! %> <%= contribution.rec_type.capitalize! %></td>
-          <td><%= contribution.name_title %> <%= contribution.name_first %> <%= contribution.name_last %> <%= contribution.name_suffix %></td>
-          <td><%= contribution.date %></td>
-          <td><%= number_to_currency(contribution.amount) %></td>
-          <td>
-            <%= link_to 'Details', user_filer_report_contribution_path(@user, @filer, @report, contribution) %>
-          </td>
-          <td>
-            <%= link_to 'Copy', clone_contribution_path(contribution) %>
-          </td>
-        </tr>
+	<tr>
+	  <td><%= contribution.contributor_type.capitalize! %> <%= contribution.rec_type.capitalize! %></td>
+	  <td><%= contribution.name_title %> <%= contribution.name_first %> <%= contribution.name_last %> <%= contribution.name_suffix %></td>
+	  <td><%= contribution.date %></td>
+	  <td><%= number_to_currency(contribution.amount) %></td>
+	  <td>
+	    <%= link_to 'Details', user_filer_report_contribution_path(@user, @filer, @report, contribution) %>
+	  </td>
+	  <td>
+	    <%= link_to 'Copy', clone_contribution_path(contribution) %>
+	  </td>
+	</tr>
       <% end %>
     </tbody>
   </table>
+
 <% end %>
 
 <p>
-  <%= link_to "Add a contribution",
-              new_user_filer_report_contribution_path,
-              :class => 'btn btn-primary' %>
-  <%= link_to 'Back', root_path, :class => 'btn' %>
+<%= link_to "Add a contribution",
+	    new_user_filer_report_contribution_path,
+	    :class => 'btn btn-primary' %>
+<%= link_to 'Back', root_path, :class => 'btn' %>
 </p>

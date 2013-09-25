@@ -39,9 +39,6 @@ gem 'jquery-rails', '~> 2.0.1'
 # devise user authentication:
 gem 'devise'
 
-# paperclip for file uploads:
-gem "paperclip", "~> 3.0"
-
 gem "prawn", "~> 0.12.0"
 
 # twitter bootstrap:

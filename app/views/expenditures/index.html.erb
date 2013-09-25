@@ -3,103 +3,46 @@
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 </div>
 
-<p>
-  Expenditure details can be added by uploading a CSV (comma-separated values) file for import, 
-  or by manually typing in the records. If you import a CSV file, you will have the opportunity to
-  review and edit the records before submitting your report.
-</p>
-
-<% if @expenditures.blank? %>
-  <%= form_for [@user, @filer, @report], :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
-    <fieldset>
-      <legend>Expenditure File</legend>
-
-      <% if @report.expenditure_csv_file_name.present? %>
-        <p>Your expenditure file details are below. Uploading a new file will replace this one.</p>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>File name</th>
-              <th>Content type</th>
-              <th>File size</th>
-              <th>Uploaded</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td><%= link_to @report.expenditure_csv_file_name, @report.expenditure_csv.url %></td>
-              <td><%= @report.expenditure_csv_content_type %></td>
-              <td><%= @report.expenditure_csv_file_size %></td>
-              <td><%= @report.expenditure_csv_updated_at %></td>
-            </tr>
-          </tbody>
-        </table>
-      <% else %>
-        <p>You haven't added a expenditure file, yet.</p>
-      <% end %>
-
-      <% if @report.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
-
-          <ul>
-          <% @report.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-          </ul>
-        </div>
-      <% end %>
-
-      <div class="control-group">
-        <%= f.label "Expenditure File", :class => 'control-label' %>
-        <div class="controls">
-          <%= f.file_field :expenditure_csv %>
-          <%= f.submit "Upload", :class => 'btn btn-primary' %>
-          <%= link_to 'Cancel', root_path, :class => 'btn' %>
-        </div>
-      </div>
-
-    </fieldset>
-
-    <hr />
-  <% end %>
+<% if @expenditures.empty? %>
+  <p>No expenditures have been entered for this report.</p>
 <% else %>
+
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Date</th>
-        <th>Amount</th>
-        <th></th>
-        <th></th>
+	<th>Type</th>
+	<th>Name</th>
+	<th>Date</th>
+	<th>Amount</th>
+	<th></th>
+	<th></th>
       </tr>
     </thead>
 
     <tbody>
       <% @expenditures.each do |expenditure| %>
-        <tr>
-          <td><%= expenditure.payee_type.capitalize! %> <%= expenditure.rec_type.capitalize! %></td>
-          <td><%= expenditure.payee_name_title %> <%= expenditure.payee_name_first %> 
-              <%= expenditure.payee_name_last %> <%= expenditure.payee_name_suffix %></td>
-          <td><%= expenditure.date %></td>
-          <td><%= number_to_currency(expenditure.amount) %></td>
-          <td>
-            <%= link_to 'Details', user_filer_report_expenditure_path(@user, @filer, @report, expenditure) %>
-          </td>
-          <td>
-            <%= link_to 'Copy', clone_expenditure_path(expenditure) %>
-          </td>
-        </tr>
+	<tr>
+	  <td><%= expenditure.payee_type.capitalize! %> <%= expenditure.rec_type.capitalize! %></td>
+	  <td><%= expenditure.payee_name_title %> <%= expenditure.payee_name_first %> 
+	      <%= expenditure.payee_name_last %> <%= expenditure.payee_name_suffix %></td>
+	  <td><%= expenditure.date %></td>
+	  <td><%= number_to_currency(expenditure.amount) %></td>
+	  <td>
+	    <%= link_to 'Details', user_filer_report_expenditure_path(@user, @filer, @report, expenditure) %>
+	  </td>
+	  <td>
+	    <%= link_to 'Copy', clone_expenditure_path(expenditure) %>
+	  </td>
+	</tr>
       <% end %>
     </tbody>
   </table>
+
 <% end %>
 
 <p>
-  <%= link_to "Add an expenditure",
-              new_user_filer_report_expenditure_path,
-              :class => 'btn btn-primary' %>
-  <%= link_to 'Back', root_path, :class => 'btn' %>
+<%= link_to "Add an expenditure",
+	    new_user_filer_report_expenditure_path,
+	    :class => 'btn btn-primary' %>
+<%= link_to 'Back', root_path, :class => 'btn' %>
 </p>
