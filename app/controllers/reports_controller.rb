@@ -112,7 +112,7 @@ class ReportsController < ApplicationController
     if @report.submitted
       redirect_to root_path, notice: 'Report was successfully submitted.'
     else
-      redirect_to root_path, error: 'An error occurred.'
+      redirect_to root_path, alert: 'An error occurred.'
     end
   end
 
