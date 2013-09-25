@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130905232721) do
+ActiveRecord::Schema.define(:version => 20130925191011) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -179,16 +179,8 @@ ActiveRecord::Schema.define(:version => 20130905232721) do
     t.string   "election_type"
     t.string   "office_held"
     t.string   "office_sought"
-    t.string   "contribution_csv_file_name"
-    t.string   "contribution_csv_content_type"
-    t.integer  "contribution_csv_file_size"
-    t.datetime "contribution_csv_updated_at"
-    t.string   "expenditure_csv_file_name"
-    t.string   "expenditure_csv_content_type"
-    t.integer  "expenditure_csv_file_size"
-    t.datetime "expenditure_csv_updated_at"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   add_index "reports", ["filer_id"], :name => "index_reports_on_filer_id"
