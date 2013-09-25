@@ -116,4 +116,14 @@ class ReportsController < ApplicationController
     end
   end
 
+  # GET /reports/1/print
+  # GET /reports/1/print.json
+  def print
+    @user = current_user
+    @filer = Filer.find(params[:filer_id])
+    @report = Report.find(params[:id])
+
+    redirect_to :back, alert: "Sorry ... \"print\" is not implemented yet."
+  end
+
 end

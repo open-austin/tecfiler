@@ -12,6 +12,7 @@ TecfilerAr::Application.routes.draw do
     resources :filers do
       resources :treasurers
       resources :reports do
+        get :print, :on => :member
         resources :expenditures
         resources :contributions
       end

@@ -21,6 +21,7 @@
             <td><%= report.state.titleize %></td>
             <td><%= report.election_date %></td>
             <td><%= link_to 'View', user_filer_report_path(@user, @filer, report) %></td>
+            <td><%= link_to 'Print', print_user_filer_report_path(@user, @filer, report) %></td>
             <% if report.modifiable? %>
               <td><%= link_to 'Edit', edit_user_filer_report_path(@user, @filer, report), :class => 'btn btn-mini' %></td>
               <td>

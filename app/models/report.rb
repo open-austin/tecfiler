@@ -6,16 +6,10 @@ class Report < ActiveRecord::Base
   has_many :contributions
   has_many :expenditures
 
-  has_attached_file :contribution_csv
-  validates_attachment :contribution_csv, :content_type => { content_type: "text/csv"}
-
-  has_attached_file :expenditure_csv
-  validates_attachment :expenditure_csv, :content_type => { content_type: "text/csv"}
-
   before_create :initialize_filer_treasurer
 
-  attr_accessible :contribution_csv, :election_30_day, :election_8_day, :election_date, 
-    :election_type, :exceeded_500_limit, :expenditure_csv, :final, :january_15, :july_15,
+  attr_accessible :election_30_day, :election_8_day, :election_date, 
+    :election_type, :exceeded_500_limit, :final, :january_15, :july_15,
     :office_held, :office_sought, :period_begin, :period_end, :report_type, 
     :run_off, :state, :treasurer_appointment
 
