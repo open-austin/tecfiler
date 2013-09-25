@@ -7,7 +7,6 @@ gem 'rails', '3.2.13'
 
 gem 'sqlite3'
 
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -42,6 +41,8 @@ gem 'devise'
 
 # paperclip for file uploads:
 gem "paperclip", "~> 3.0"
+
+gem "prawn", "~> 0.12.0"
 
 # twitter bootstrap:
 gem "therubyracer"
